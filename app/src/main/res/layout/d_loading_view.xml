@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="#000000ff"
+             android:padding="8dp">
+
+    <!-- glide gif loader must use fixed image size and container, -->
+    <!-- using wrap_content will start small then fill entire page -->
+    <ImageView
+        android:id="@+id/imgLoading"
+        android:layout_width="128dp"
+        android:layout_height="128dp"/>
+
+</FrameLayout>
