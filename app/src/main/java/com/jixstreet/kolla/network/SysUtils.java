@@ -219,7 +219,7 @@ public class SysUtils {
                                                                  @Nullable PendingIntent pi) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 //        builder.setSmallIcon(R.drawable.ic_stat_notification);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+//        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
         builder.setContentTitle(line1);
         builder.setContentText(line2);
         builder.setAutoCancel(true); // dismiss notification when clicked

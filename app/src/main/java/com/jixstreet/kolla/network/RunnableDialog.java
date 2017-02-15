@@ -11,7 +11,7 @@ import com.jixstreet.kolla.utility.Log;
 /**
  * A scheduler for dialog that can be added into or removed from Handler's {@link android.os.MessageQueue}.
  *
- * @author Dwi on 02-Aug-16.
+ * @author satryaway@gmail.com
  */
 public class RunnableDialog<R, T> implements Runnable {
     @NonNull

@@ -3,7 +3,7 @@ package com.jixstreet.kolla.network;
 /**
  * Internal result type.
  *
- * @author Dwi C.
+ * @author satryaway@gmail.com
  */
 public enum ResultType {
     /**

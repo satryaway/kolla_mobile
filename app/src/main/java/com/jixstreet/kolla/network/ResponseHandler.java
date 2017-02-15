@@ -16,23 +16,17 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 /**
- * Response handler to be used by http client callback.
- *
- * @param <R> Type of object that will be returned by GSON serializer. For
- *            example: Object, Item[], LinkedTreeMap, LoginJson.Response, etc.
- * @param <T> Type of tag that can be included.
- * @author Dwi on 02-Aug-16.
+ * @author satryaway@gmail.com
  */
 public class ResponseHandler<R, T> implements Callback {
+    private static final String NET = "Net";
+    private static final String SOURCE_URL_NOT_AVAILABLE = "Source Url Not Available";
+
     public long dispatchTime = System.nanoTime();
 
     @NonNull
     protected final BaseHttp<R, T> parent;
 
-    /**
-     * NOTE: For some reason we cannot set this as weak reference, otherwise most of time will
-     * become null.
-     */
     @Nullable
     protected final T tag;
 
@@ -67,20 +61,20 @@ public class ResponseHandler<R, T> implements Callback {
                                            @NonNull String errorMsg) {
         if (response != null) {
             try {
-                Log.d("Net", "Getting response from: " + response.request().url().toString());
+                Log.d(NET, "Response from: " + response.request().url().toString());
             } catch (Exception e) {
-                Log.d("Net", "Source url is not available");
+                Log.d(NET, SOURCE_URL_NOT_AVAILABLE);
             }
         }
 
         cleanupDialog(parent.mHandler);
 
         if (parent.mTimeSinceEnabled < 0) {
-            Log.w("Net", "Http Client is disabled");
+            Log.w(NET, "Http Client is disabled");
             return;
         }
         if (dispatchTime < parent.mTimeSinceEnabled) {
-            Log.e("Net", "Encountered old ResponseHandler from previous dispatcher");
+            Log.e(NET, "Encountered old ResponseHandler from previous dispatcher");
             return;
         }
 
@@ -119,7 +113,7 @@ public class ResponseHandler<R, T> implements Callback {
             } catch (Exception e) {
                 // don't show internal error to user
                 Log.printStackTrace(e);
-                Log.d("Net", "Response= " + strResult);
+                Log.d(NET, "Response = " + strResult);
             }
         }
 
@@ -160,12 +154,12 @@ public class ResponseHandler<R, T> implements Callback {
         try {
             response = new Gson().fromJson(strResult, RDefault.class);
         } catch (JsonSyntaxException e) {
-            Log.d("Net", "This API response doesn't have 'status' field.");
+            Log.d(NET, "This API response doesn't have 'status' field.");
             return false;
         }
 
         if (response != null && RStatus.SESSION_EXPIRED.equals(response.status)) {
-            Log.d("Net", "Encountered expired token, returned to Login.");
+            Log.d(NET, "Encountered expired token, returned to Login.");
 
             Context context = parent.contextWR.get();
             if (context != null) {

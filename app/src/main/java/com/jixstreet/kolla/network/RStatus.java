@@ -3,7 +3,7 @@ package com.jixstreet.kolla.network;
 /**
  * List of allowed REST API response 'status'.
  *
- * @author Dwi C.
+ * @author satryaway@gmail.com
  */
 public class RStatus {
     public static final String OK = "OK";

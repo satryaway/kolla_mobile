@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.jixstreet.kolla.utility.Log;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
@@ -19,34 +18,23 @@ import java.util.ArrayList;
  * Http call to REST API with optional progress dialog. <br />
  *
  * @param <T> Type of tag that can be included on each call.
- * @author Dwi C.
+ * @author satryaway@gmail.com
  */
 public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
 
-    /**
-     * Only used by internalCallback.
-     */
+    private static final String RETRY = "Retry";
+
     @Nullable
     private OnFinishedCallback2<R, T> mCallback;
 
     @Nullable
     private ResponseHandler<R, T> mResponseHandler;
 
-    /**
-     * Previous request, can be POST or GET.
-     */
     @Nullable
     private Request mPrevRequest;
 
     public ProgressOkHttp(@NonNull Context context, @NonNull Class<R> type) {
         super(context, type);
-    }
-
-    /**
-     * This allow some callers to provide their own OkHttpClient, like the one on
-     */
-    public ProgressOkHttp(@NonNull Context context, @NonNull Class<R> type, OkHttpClient client) {
-        super(context, type, client);
     }
 
     @Override
@@ -64,7 +52,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
         if (mResponseHandler == null || mPrevRequest == null)
             return;
         mClient.newCall(mPrevRequest).enqueue(mResponseHandler);
-        Log.d("RETRY", mPrevRequest.toString());
+        Log.d(RETRY, mPrevRequest.toString());
     }
 
     /**
@@ -155,7 +143,6 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
                 .url(url)
                 .post(requestBody)
                 .tag(this)
-//                .cacheControl(CacheControl.FORCE_NETWORK) // disable cache
                 .build();
 
         if (mTimeSinceEnabled < 0)
@@ -220,7 +207,6 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
             mClient.cancel(this);
 
             String errorMsg = "Dibatalkan oleh user";
-            Context context = contextWR.get();
 
             if (mResponseHandler != null) {
                 mResponseHandler.cleanupDialog(mHandler);
