@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 
 import com.jixstreet.kolla.Seeder;
 
@@ -13,11 +12,11 @@ import com.jixstreet.kolla.Seeder;
  * satryaway@gmail.com
  */
 
-public class LoginPagerAdapter extends FragmentPagerAdapter {
+public class IntroPagerAdapter extends FragmentPagerAdapter {
     private final Context context;
     private final FragmentManager fm;
 
-    public LoginPagerAdapter(Context context, FragmentManager fm) {
+    public IntroPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
         this.fm = fm;
@@ -25,7 +24,7 @@ public class LoginPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return LoginBackgroundFragment.newInstance(position);
+        return IntroBackgroundFragment.newInstance(position);
     }
 
     @Override

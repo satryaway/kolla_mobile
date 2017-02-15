@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    tools:context="com.jixstreet.kolla.login.LoginActivity">
+    tools:context="com.jixstreet.kolla.login.IntroActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/background_vp"

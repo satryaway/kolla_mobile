@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -19,7 +18,7 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EFragment(R.layout.login_background_fragment)
-public class LoginBackgroundFragment extends Fragment {
+public class IntroBackgroundFragment extends Fragment {
 
     @ViewById(R.id.background_iv)
     protected ImageView backgroundIv;
@@ -29,8 +28,8 @@ public class LoginBackgroundFragment extends Fragment {
 
     private static final String POSITION = "position";
 
-    public static LoginBackgroundFragment newInstance(int position) {
-        LoginBackgroundFragment fragment = new LoginBackgroundFragment_();
+    public static IntroBackgroundFragment newInstance(int position) {
+        IntroBackgroundFragment fragment = new IntroBackgroundFragment_();
         Bundle bundle = new Bundle();
         bundle.putInt(POSITION, position);
         fragment.setArguments(bundle);
@@ -41,7 +40,7 @@ public class LoginBackgroundFragment extends Fragment {
     @AfterViews
     void OnViewsCreated() {
         int position = getArguments().getInt(POSITION);
-        LoginBackground loginBackground = Seeder.getLoginBackgroundList().get(position);
+        IntroBackground loginBackground = Seeder.getLoginBackgroundList().get(position);
         backgroundIv.setImageResource(loginBackground.image);
         backgroundTextTv.setText(loginBackground.text);
     }

@@ -5,7 +5,6 @@ import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.jixstreet.kolla.R;
@@ -14,8 +13,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_login)
-public class LoginActivity extends AppCompatActivity {
+@EActivity(R.layout.activity_intro)
+public class IntroActivity extends AppCompatActivity {
 
     @ViewById(R.id.background_vp)
     protected ViewPager backgroundVp;
@@ -23,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.tabs)
     protected TabLayout tabLayout;
 
-    private LoginPagerAdapter loginPagerAdapter;
+    private IntroPagerAdapter loginPagerAdapter;
 
     @AfterViews
     void onViewsCreated() {
@@ -41,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initPager() {
-        loginPagerAdapter = new LoginPagerAdapter(this, getSupportFragmentManager());
+        loginPagerAdapter = new IntroPagerAdapter(this, getSupportFragmentManager());
         backgroundVp.setAdapter(loginPagerAdapter);
         tabLayout.setupWithViewPager(backgroundVp);
     }

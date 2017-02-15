@@ -5,11 +5,11 @@ package com.jixstreet.kolla.login;
  * satryaway@gmail.com
  */
 
-public class LoginBackground {
+public class IntroBackground {
     public String text;
     public int image;
 
-    public LoginBackground(String text, int image) {
+    public IntroBackground(String text, int image) {
         this.text = text;
         this.image = image;
     }
