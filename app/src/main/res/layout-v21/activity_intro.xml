@@ -5,7 +5,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/dummy_bg"
+    android:background="@android:color/background_dark"
     tools:context="com.jixstreet.kolla.login.IntroActivity">
 
     <android.support.v4.view.ViewPager
@@ -45,7 +45,7 @@
                 android:id="@+id/login_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/ripple_effect"
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="16dp"
@@ -66,7 +66,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@drawable/ripple_effect"
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="16dp"
