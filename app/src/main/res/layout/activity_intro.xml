@@ -42,6 +42,7 @@
             android:background="@android:color/white">
 
             <TextView
+                android:id="@+id/login_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple_effect"
@@ -85,10 +86,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:padding="16dp"
-        android:clickable="true"
         android:background="?attr/selectableItemBackground"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
             android:layout_width="wrap_content"

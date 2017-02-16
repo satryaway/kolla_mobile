@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
@@ -7,9 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.jixstreet.kolla.MainActivity;
+import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -43,5 +47,11 @@ public class IntroActivity extends AppCompatActivity {
         loginPagerAdapter = new IntroPagerAdapter(this, getSupportFragmentManager());
         backgroundVp.setAdapter(loginPagerAdapter);
         tabLayout.setupWithViewPager(backgroundVp);
+    }
+
+    @Click(R.id.login_tv)
+    void goToLoginPage() {
+        //TODO go to login page
+        startActivity(new Intent(this, MainActivity_.class));
     }
 }

@@ -1,47 +1,74 @@
 package com.jixstreet.kolla;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
-import com.jixstreet.kolla.model.LoginJson;
-import com.jixstreet.kolla.network.OnFinishedCallback2;
-import com.jixstreet.kolla.network.ProgressOkHttp;
-import com.jixstreet.kolla.network.RStatus;
-import com.jixstreet.kolla.network.ResultType;
-import com.jixstreet.kolla.utility.Log;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by satryaway on 2/15/2017.
  * satryaway@gmail.com
  */
 
+@EActivity(R.layout.activity_home)
 public class MainActivity extends AppCompatActivity {
 
-    private ProgressOkHttp<LoginJson.Response, Void> http;
+    @ViewById(R.id.drawer)
+    protected DrawerLayout drawerLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    @ViewById(R.id.toolbar)
+    protected Toolbar toolbar;
 
+    @ViewById(R.id.navigation_view)
+    protected NavigationView navigationView;
 
-        http = new ProgressOkHttp<>(this, LoginJson.Response.class);
-
-        LoginJson.Request req = new LoginJson.Request();
-        http.post(LoginJson.API, req.createParams(), null, onLoginDone, "Login", true);
+    @AfterViews
+    void onViewsCreated() {
+        setSupportActionBar(toolbar);
+        initNavigationDrawer();
     }
 
-    private OnFinishedCallback2<LoginJson.Response, Void> onLoginDone
-            = new OnFinishedCallback2<LoginJson.Response, Void>() {
-        @Override
-        public void handle(@NonNull ResultType type, LoginJson.Response response, Void tag, String errorMsg) {
-            if (type == ResultType.Success && response != null) {
+    public void initNavigationDrawer() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
 
-                boolean isLoginOk = RStatus.OK.equals(response.status);
-                Log.d(getString(R.string.app_name), String.valueOf(isLoginOk));
+                switch (id) {
+                    case R.id.category_1:
+                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
+                        drawerLayout.closeDrawers();
+                        break;
+                }
+                return true;
             }
-        }
-    };
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.drawer_open, R.string.drawer_close) {
+
+            @Override
+            public void onDrawerClosed(View v) {
+                super.onDrawerClosed(v);
+            }
+
+            @Override
+            public void onDrawerOpened(View v) {
+                super.onDrawerOpened(v);
+            }
+        };
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+    }
 
 }
