@@ -17,7 +17,7 @@ import org.androidannotations.annotations.ViewById;
  * satryaway@gmail.com
  */
 
-@EFragment(R.layout.login_background_fragment)
+@EFragment(R.layout.fragment_login_background)
 public class IntroBackgroundFragment extends Fragment {
 
     @ViewById(R.id.background_iv)
@@ -40,7 +40,7 @@ public class IntroBackgroundFragment extends Fragment {
     @AfterViews
     void OnViewsCreated() {
         int position = getArguments().getInt(POSITION);
-        IntroBackground loginBackground = Seeder.getLoginBackgroundList().get(position);
+        IntroBackgroundItem loginBackground = Seeder.getLoginBackgroundList().get(position);
         backgroundIv.setImageResource(loginBackground.image);
         backgroundTextTv.setText(loginBackground.text);
     }

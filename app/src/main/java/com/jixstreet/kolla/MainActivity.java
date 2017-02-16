@@ -2,13 +2,17 @@ package com.jixstreet.kolla;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.jixstreet.kolla.news.NewsFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -31,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
     @ViewById(R.id.navigation_view)
     protected NavigationView navigationView;
 
+    @ViewById(R.id.content_wrapper)
+    protected FrameLayout contentWrapper;
+
     @AfterViews
     void onViewsCreated() {
         setSupportActionBar(toolbar);
         initNavigationDrawer();
+        initContent();
     }
 
     public void initNavigationDrawer() {
@@ -69,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+    }
+
+    private void initContent() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.content_wrapper, NewsFragment.newInstance(), "news")
+                .commit();
     }
 
 }
