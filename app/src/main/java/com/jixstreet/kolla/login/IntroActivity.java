@@ -1,16 +1,18 @@
 package com.jixstreet.kolla.login;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-import com.jixstreet.kolla.MainActivity;
-import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -26,10 +28,18 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.tabs)
     protected TabLayout tabLayout;
 
+    @ViewById(R.id.login_wrapper)
+    protected ViewGroup loginWrapper;
+
     private IntroPagerAdapter loginPagerAdapter;
+    private Animation fadeInAnimation;
+    private Animation fadeOutAnimation;
 
     @AfterViews
     void onViewsCreated() {
+        fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in_effect);
+        fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out_effect);
+
         modifyStatusBar();
         initPager();
     }
@@ -49,9 +59,28 @@ public class IntroActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(backgroundVp);
     }
 
-    @Click(R.id.login_tv)
-    void goToLoginPage() {
-        //TODO go to login page
-        startActivity(new Intent(this, MainActivity_.class));
+    private void changeLoginPageVisibility() {
+        if (loginWrapper.getVisibility() == View.VISIBLE) {
+            ViewUtils.hideSoftKeyboard(this);
+            loginWrapper.startAnimation(fadeOutAnimation);
+            loginWrapper.setVisibility(View.INVISIBLE);
+        } else {
+            loginWrapper.startAnimation(fadeInAnimation);
+            loginWrapper.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Click(R.id.login_wrapper)
+    void doNothing() {
+    }
+
+    @Click(R.id.show_login_page_tv)
+    void openLoginPage() {
+        changeLoginPageVisibility();
+    }
+
+    @Click(R.id.close_login_page_iv)
+    void closeLoginPage() {
+        changeLoginPageVisibility();
     }
 }

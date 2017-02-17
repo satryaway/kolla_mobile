@@ -21,7 +21,7 @@
         android:gravity="center"
         android:padding="36dp"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/extra_large_text"
+        android:textSize="@dimen/large_text"
         tools:text="Dapatkan Koneksi Baru dan Kawan Baru" />
 
 </RelativeLayout>
