@@ -64,6 +64,7 @@
             android:background="@android:color/white">
 
             <TextView
+                android:id="@+id/show_register_page_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple_effect"
@@ -109,5 +110,7 @@
     </LinearLayout>
 
     <include layout="@layout/view_login" />
+
+    <include layout="@layout/view_register" />
 
 </RelativeLayout>

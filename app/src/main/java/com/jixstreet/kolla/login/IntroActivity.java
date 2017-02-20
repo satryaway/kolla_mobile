@@ -7,9 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -31,6 +31,12 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.login_wrapper)
     protected ViewGroup loginWrapper;
 
+    @ViewById(R.id.register_wrapper)
+    protected ViewGroup registerWrapper;
+
+    @ViewById(R.id.forgot_password_tv)
+    protected TextView forgotPasswordTv;
+
     private IntroPagerAdapter loginPagerAdapter;
     private Animation fadeInAnimation;
     private Animation fadeOutAnimation;
@@ -40,8 +46,12 @@ public class IntroActivity extends AppCompatActivity {
         fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in_effect);
         fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out_effect);
 
+        initUI();
         modifyStatusBar();
         initPager();
+    }
+
+    private void initUI() {
     }
 
     private void modifyStatusBar() {
@@ -70,6 +80,32 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
+    private void changeRegisterPageVisibility() {
+        if (registerWrapper.getVisibility() == View.VISIBLE) {
+            ViewUtils.hideSoftKeyboard(this);
+            registerWrapper.startAnimation(fadeOutAnimation);
+            registerWrapper.setVisibility(View.INVISIBLE);
+        } else {
+            registerWrapper.startAnimation(fadeInAnimation);
+            registerWrapper.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(loginWrapper.getVisibility() == View.VISIBLE) {
+            changeLoginPageVisibility();
+            return;
+        }
+
+        if(registerWrapper.getVisibility() == View.VISIBLE) {
+            changeRegisterPageVisibility();
+            return;
+        }
+
+        super.onBackPressed();
+    }
+
     @Click(R.id.login_wrapper)
     void doNothing() {
     }
@@ -82,5 +118,27 @@ public class IntroActivity extends AppCompatActivity {
     @Click(R.id.close_login_page_iv)
     void closeLoginPage() {
         changeLoginPageVisibility();
+    }
+
+    @Click(R.id.show_register_page_tv)
+    void openRegisterPasge() {
+        changeRegisterPageVisibility();
+    }
+
+    @Click(R.id.close_register_page_iv)
+    void closeRegisterPage() {
+        changeRegisterPageVisibility();
+    }
+
+    @Click(R.id.register_here_tv)
+    void showRegisterPage() {
+        changeLoginPageVisibility();
+        changeRegisterPageVisibility();
+    }
+
+    @Click(R.id.login_here_tv)
+    void showLoginPage() {
+        changeLoginPageVisibility();
+        changeRegisterPageVisibility();
     }
 }

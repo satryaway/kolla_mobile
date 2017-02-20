@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_wrapper"
+    android:id="@+id/register_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent_bg_90"
-    tools:visibility="visible"
-    android:visibility="invisible">
+    android:visibility="invisible"
+    tools:visibility="visible">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/close_login_page_iv"
+            android:id="@+id/close_register_page_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/login"
+            android:text="@string/register"
             android:textColor="@android:color/white"
             android:textSize="@dimen/large_text" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@drawable/form_white_border"
-            android:hint="@string/email"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:lines="1"
             android:padding="12dp"
@@ -64,16 +64,17 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/medium_text" />
 
-        <TextView
-            android:id="@+id/forgot_password_tv"
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="12dp"
-            android:text="@string/forgot_password"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/medium_text"
-            android:textStyle="bold" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/form_white_border"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/medium_text" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -82,14 +83,14 @@
             android:background="@android:color/white">
 
             <TextView
-                android:id="@+id/login_tv"
+                android:id="@+id/register_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="@string/login"
+                android:text="@string/register"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/medium_text" />
@@ -109,7 +110,7 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/fb_login_tv"
+                    android:id="@+id/fb_register_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/com_facebook_blue"
@@ -134,16 +135,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="@string/don_t_have_account"
+                android:text="@string/already_have_account"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/register_here_tv"
+                android:id="@+id/login_here_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_here"
+                android:text="@string/login_here"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold" />
