@@ -8,9 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
+    <style name="CustomActionBar" parent="AppTheme">
+        <item name="android:windowActionBarOverlay">@null</item>
         <!-- Support library compatibility -->
+        <item name="colorPrimary">@android:color/transparent</item>
         <item name="windowActionBarOverlay">true</item>
     </style>
 
