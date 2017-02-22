@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.login;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.jixstreet.kolla.Main2Activity;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -104,6 +106,11 @@ public class IntroActivity extends AppCompatActivity {
         }
 
         super.onBackPressed();
+    }
+
+    @Click(R.id.login_tv)
+    void doLogin() {
+        startActivity(new Intent(this, Main2Activity.class));
     }
 
     @Click(R.id.login_wrapper)
