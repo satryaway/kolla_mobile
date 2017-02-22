@@ -89,7 +89,7 @@ public abstract class BaseHttp<R, T> {
         if (route.startsWith("http://") || route.startsWith("https://"))
             return route;
         else
-            return StringUtils.combineUrl(DynamicConfig.getBaseUrlWithPort(context), route);
+            return StringUtils.combineUrl(DynamicConfig.getBaseUrl(context), route);
     }
 
     /**

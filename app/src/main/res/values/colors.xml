@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#ffe100</color>
     <color name="colorAccent">#f57c00</color>
 
+    <color name="color_failure">#f57c00</color>
+    <color name="color_success">#00c853</color>
+
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
     <color name="transparent_orange_90">#E6f57c00</color>

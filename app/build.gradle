@@ -44,14 +44,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", '"http://103.43.66.163/"'
+            buildConfigField "String", "BASE_URL", '"http://139.59.108.121/api"'
             buildConfigField "int", "API_PORT", "3000"
         }
 
         debug {
             minifyEnabled false
             buildConfigField "boolean", "showDebugLog", "true"
-            buildConfigField "String", "BASE_URL", '"http://103.43.66.163/"'
+            buildConfigField "String", "BASE_URL", '"http://139.59.108.121/api"'
             buildConfigField "int", "API_PORT", "3000"
         }
     }

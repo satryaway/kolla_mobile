@@ -27,7 +27,6 @@ public class DynamicConfig {
         // TODO: remove this quick hack later.
         if (!BuildConfig.DEBUG)
             return BuildConfig.BASE_URL;
-
         else
             return BuildConfig.BASE_URL;
     }

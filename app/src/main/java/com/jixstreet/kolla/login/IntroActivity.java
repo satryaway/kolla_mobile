@@ -1,6 +1,5 @@
 package com.jixstreet.kolla.login;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
@@ -10,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jixstreet.kolla.Main2Activity;
+import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.LoginJson;
+import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.TextUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -39,9 +42,15 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.forgot_password_tv)
     protected TextView forgotPasswordTv;
 
-    private IntroPagerAdapter loginPagerAdapter;
+    @ViewById(R.id.email_et)
+    protected EditText emailEt;
+
+    @ViewById(R.id.password_et)
+    protected EditText passwordEt;
+
     private Animation fadeInAnimation;
     private Animation fadeOutAnimation;
+    private LoginJson loginJson;
 
     @AfterViews
     void onViewsCreated() {
@@ -54,6 +63,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        loginJson = new LoginJson(this);
     }
 
     private void modifyStatusBar() {
@@ -66,7 +76,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initPager() {
-        loginPagerAdapter = new IntroPagerAdapter(this, getSupportFragmentManager());
+        IntroPagerAdapter loginPagerAdapter = new IntroPagerAdapter(this, getSupportFragmentManager());
         backgroundVp.setAdapter(loginPagerAdapter);
         tabLayout.setupWithViewPager(backgroundVp);
     }
@@ -93,14 +103,51 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isValidated() {
+        int count = 0;
+        if (emailEt.getText().toString().isEmpty())
+            emailEt.setError(getString(R.string.field_required));
+        else {
+            if (!TextUtils.isEmailValid(emailEt.getText().toString()))
+                emailEt.setError(getString(R.string.email_not_valid));
+            else count++;
+        }
+
+        if (passwordEt.getText().toString().isEmpty())
+            passwordEt.setError(getString(R.string.field_required));
+        else count++;
+
+        return count == 2;
+    }
+
+    private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
+        @Override
+        public void onSuccess(LoginJson.Response response) {
+            DialogUtils.makeSnackBar(CommonConstant.success, IntroActivity.this,
+                    getWindow().getDecorView(), response.message);
+        }
+
+        @Override
+        public void onFailure(String text) {
+            DialogUtils.makeSnackBar(CommonConstant.failed, IntroActivity.this,
+                    getWindow().getDecorView(), text);
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        loginJson.cancel();
+    }
+
     @Override
     public void onBackPressed() {
-        if(loginWrapper.getVisibility() == View.VISIBLE) {
+        if (loginWrapper.getVisibility() == View.VISIBLE) {
             changeLoginPageVisibility();
             return;
         }
 
-        if(registerWrapper.getVisibility() == View.VISIBLE) {
+        if (registerWrapper.getVisibility() == View.VISIBLE) {
             changeRegisterPageVisibility();
             return;
         }
@@ -110,7 +157,14 @@ public class IntroActivity extends AppCompatActivity {
 
     @Click(R.id.login_tv)
     void doLogin() {
-        startActivity(new Intent(this, Main2Activity.class));
+        ViewUtils.hideSoftKeyboard(this);
+        if (isValidated()) {
+            LoginJson.Request request = new LoginJson.Request();
+            request.email = emailEt.getText().toString();
+            request.password = passwordEt.getText().toString();
+
+            loginJson.post(request, onLogin);
+        }
     }
 
     @Click(R.id.login_wrapper)

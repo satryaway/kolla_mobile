@@ -1,7 +1,7 @@
 package com.jixstreet.kolla.network;
 
 /**
- * List of allowed REST API response 'status'.
+ * List of allowed REST API response 'success'.
  *
  * @author satryaway@gmail.com
  */
