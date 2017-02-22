@@ -8,25 +8,46 @@ import android.view.ViewGroup;
  * satryaway@gmail.com
  */
 
-public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsViewHolder> {
-    @Override
-    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        NewsItemView newsItemView = NewsItemView_.build(parent.getContext());
+public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
-        return new NewsViewHolder(newsItemView);
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_ITEM) {
+            return new NewsViewHolder(NewsItemView_.build(parent.getContext()));
+        } else{
+            return new NewsHeaderViewHolder(NewsHeaderView_.build(parent.getContext()));
+        }
     }
 
     @Override
-    public void onBindViewHolder(NewsViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof NewsViewHolder) {
+            ((NewsViewHolder) holder).getView();
+        } else if (holder instanceof NewsHeaderViewHolder) {
+            ((NewsHeaderViewHolder) holder).getView().setView();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 16;
+        return 16 + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPositionHeader(position))
+            return TYPE_HEADER;
+
+        return TYPE_ITEM;
+    }
+
+    private boolean isPositionHeader(int position) {
+        return position == 0;
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
-
         private NewsItemView newsItemView;
 
         public NewsViewHolder(NewsItemView itemView) {
@@ -36,6 +57,19 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
         public NewsItemView getView() {
             return this.newsItemView;
+        }
+    }
+
+    public class NewsHeaderViewHolder extends RecyclerView.ViewHolder {
+        private NewsHeaderView newsHeaderView;
+
+        public NewsHeaderViewHolder(NewsHeaderView itemView) {
+            super(itemView);
+            this.newsHeaderView = itemView;
+        }
+
+        public NewsHeaderView getView() {
+            return this.newsHeaderView;
         }
     }
 }

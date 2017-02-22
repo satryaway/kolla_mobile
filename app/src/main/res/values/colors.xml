@@ -6,4 +6,6 @@
 
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
+    <color name="transparent_orange_90">#E6f57c00</color>
+    <color name="black_alpha_40">#66000000</color>
 </resources>

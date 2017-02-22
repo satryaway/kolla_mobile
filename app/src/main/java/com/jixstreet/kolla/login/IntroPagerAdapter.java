@@ -14,12 +14,10 @@ import com.jixstreet.kolla.Seeder;
 
 public class IntroPagerAdapter extends FragmentPagerAdapter {
     private final Context context;
-    private final FragmentManager fm;
 
     public IntroPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
-        this.fm = fm;
     }
 
     @Override

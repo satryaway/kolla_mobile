@@ -1,6 +1,7 @@
 package com.jixstreet.kolla;
 
 import com.jixstreet.kolla.login.IntroBackgroundItem;
+import com.jixstreet.kolla.news.NewsHeaderItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,5 +21,15 @@ public class Seeder {
         loginBackgrounds.add(new IntroBackgroundItem("Dapatkan Koneksi Baru dan Kawan Baru", R.drawable.dummy_bg));
 
         return loginBackgrounds;
+    }
+
+    public static List<NewsHeaderItem> getNewsHeaderList() {
+        List<NewsHeaderItem> newsHeaderItems = new ArrayList<>();
+        newsHeaderItems.add(new NewsHeaderItem("Coworking Space Nyaman di Jakarta", "23 January 2016", R.drawable.dummy_bg));
+        newsHeaderItems.add(new NewsHeaderItem("Event Teknologi Seru Setiap Bulan", "23 January 2016", R.drawable.dummy_bg));
+        newsHeaderItems.add(new NewsHeaderItem("Update Berita Terbaru Seputar Teknologi", "23 January 2016", R.drawable.dummy_bg));
+        newsHeaderItems.add(new NewsHeaderItem("Dapatkan Koneksi Baru dan Kawan Baru", "23 January 2016", R.drawable.dummy_bg));
+
+        return newsHeaderItems;
     }
 }
