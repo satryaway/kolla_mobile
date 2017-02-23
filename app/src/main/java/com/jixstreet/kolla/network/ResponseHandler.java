@@ -155,10 +155,11 @@ public class ResponseHandler<R, T> implements Callback {
             response = new Gson().fromJson(strResult, RDefault.class);
         } catch (JsonSyntaxException e) {
             Log.d(NET, "This API response doesn't have 'success' field.");
+            Log.d(NET, "This API response doesn't have 'status' field.");
             return false;
         }
 
-        if (response != null && RStatus.SESSION_EXPIRED.equals(response.success)) {
+        if (response != null && RStatus.SESSION_EXPIRED.equals(response.status)) {
             Log.d(NET, "Encountered expired token, returned to Login.");
 
             Context context = parent.contextWR.get();
@@ -175,7 +176,7 @@ public class ResponseHandler<R, T> implements Callback {
 
 
     protected static class ConvertResult<S> {
-        public boolean success; // true if conversion is a success
+        public boolean success; // true if conversion is a status
         public S result;
     }
 

@@ -12,7 +12,7 @@ public enum ResultType {
     Fail,
 
     /**
-     * Method call success. For REST API call need further check.
+     * Method call status. For REST API call need further check.
      */
     Success,
 
