@@ -48,6 +48,15 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.password_et)
     protected EditText passwordEt;
 
+    @ViewById(R.id.email_register_et)
+    protected EditText emailRegisterEt;
+
+    @ViewById(R.id.password_register_et)
+    protected EditText passwordRegisterEt;
+
+    @ViewById(R.id.password_confirmation_register_et)
+    protected EditText passwordConfirmationRegisterEt;
+
     private Animation fadeInAnimation;
     private Animation fadeOutAnimation;
     private LoginJson loginJson;
@@ -103,7 +112,7 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidated() {
+    private boolean isLoginFormValidated() {
         int count = 0;
         if (emailEt.getText().toString().isEmpty())
             emailEt.setError(getString(R.string.field_required));
@@ -118,6 +127,30 @@ public class IntroActivity extends AppCompatActivity {
         else count++;
 
         return count == 2;
+    }
+
+    private boolean isRegisterFormValidated() {
+        int count = 0;
+        String email = emailRegisterEt.getText().toString();
+        if (email.isEmpty())
+            emailRegisterEt.setError(getString(R.string.field_required));
+        else {
+            if (!TextUtils.isEmailValid(email))
+                emailRegisterEt.setError(getString(R.string.email_not_valid));
+            else count++;
+        }
+
+        String password = passwordRegisterEt.getText().toString();
+        String passwordConfirmation = passwordConfirmationRegisterEt.getText().toString();
+        if (passwordRegisterEt.getText().toString().isEmpty())
+            passwordRegisterEt.setError(getString(R.string.field_required));
+        else count++;
+
+        if (!password.equals(passwordConfirmation))
+            passwordConfirmationRegisterEt.setError(getString(R.string.password_not_match));
+        else count ++;
+
+        return count == 3;
     }
 
     private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
@@ -157,8 +190,8 @@ public class IntroActivity extends AppCompatActivity {
 
     @Click(R.id.login_tv)
     void doLogin() {
-        ViewUtils.hideSoftKeyboard(this);
-        if (isValidated()) {
+        if (isLoginFormValidated()) {
+            ViewUtils.hideSoftKeyboard(this);
             LoginJson.Request request = new LoginJson.Request();
             request.email = emailEt.getText().toString();
             request.password = passwordEt.getText().toString();
@@ -167,8 +200,20 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
+    @Click(R.id.register_tv)
+    void doRegister() {
+        if (isRegisterFormValidated()) {
+            ViewUtils.hideSoftKeyboard(this);
+
+        }
+    }
+
     @Click(R.id.login_wrapper)
     void doNothing() {
+    }
+
+    @Click(R.id.register_wrapper)
+    void doNotDoAnything() {
     }
 
     @Click(R.id.show_login_page_tv)
