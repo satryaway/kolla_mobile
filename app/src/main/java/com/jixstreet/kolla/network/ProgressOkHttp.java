@@ -25,7 +25,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
     private static final String RETRY = "Retry";
 
     @Nullable
-    private OnFinishedCallback2<R, T> mCallback;
+    private OnFinishedCallback<R, T> mCallback;
 
     @Nullable
     private ResponseHandler<R, T> mResponseHandler;
@@ -64,7 +64,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
     }
 
     private void initResponseHandler(@Nullable T tag,
-                                     @Nullable OnFinishedCallback2<R, T> callback,
+                                     @Nullable OnFinishedCallback<R, T> callback,
                                      @Nullable String msg,
                                      boolean cancelable) {
         mCallback = callback;
@@ -91,7 +91,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
     public void post(@NonNull String route,
                      @Nullable ArrayList<Pair<String, String>> params,
                      @Nullable T tag,
-                     @Nullable OnFinishedCallback2<R, T> callback,
+                     @Nullable OnFinishedCallback<R, T> callback,
                      @Nullable String msg,
                      boolean cancelable) {
         if (!isOnline(tag, callback))
@@ -118,7 +118,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
     public void postF(@NonNull String route,
                       @Nullable ArrayList<? extends Pair<String, ?>> params,
                       @Nullable T tag,
-                      @Nullable OnFinishedCallback2<R, T> callback,
+                      @Nullable OnFinishedCallback<R, T> callback,
                       @Nullable String msg,
                       boolean cancelable) {
         if (!isOnline(tag, callback))
@@ -163,7 +163,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
     public void get(@NonNull String route,
                     @Nullable ArrayList<Pair<String, String>> params,
                     @Nullable T tag,
-                    @Nullable OnFinishedCallback2<R, T> callback,
+                    @Nullable OnFinishedCallback<R, T> callback,
                     @Nullable String msg,
                     boolean cancelable) {
         if (!isOnline(tag, callback))
@@ -189,7 +189,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
      * Callback is redirected here first to do proper cleanup for mResponseHandler.
      * NOTE that this method will run from handler.post(Runnable()).
      */
-    protected OnFinishedCallback2<R, T> internalCallback = new OnFinishedCallback2<R, T>() {
+    protected OnFinishedCallback<R, T> internalCallback = new OnFinishedCallback<R, T>() {
         @Override
         public void handle(@NonNull ResultType type, R response, T tag, String errorMsg) {
             // TODO CRITICAL: check ResultType, handle when fail

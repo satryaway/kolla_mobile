@@ -63,7 +63,7 @@ public abstract class BaseHttp<R, T> {
 
     public abstract void retry();
 
-    protected boolean isOnline(@Nullable T tag, @Nullable OnFinishedCallback2<R, T> callback) {
+    protected boolean isOnline(@Nullable T tag, @Nullable OnFinishedCallback<R, T> callback) {
         Context context = contextWR.get();
         if (context == null) {
             Log.d(BASE_HTTP, CONTEXT_NULL); // could cause subtle bug later, just log it here

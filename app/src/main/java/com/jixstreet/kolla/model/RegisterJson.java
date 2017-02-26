@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
-import com.jixstreet.kolla.network.OnFinishedCallback2;
+import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
 import com.jixstreet.kolla.network.RStatus;
@@ -62,8 +62,8 @@ public class RegisterJson {
                 "Registering...", true);
     }
 
-    private OnFinishedCallback2<RegisterJson.Response, Void> onRegisterDone
-            = new OnFinishedCallback2<RegisterJson.Response, Void>() {
+    private OnFinishedCallback<Response, Void> onRegisterDone
+            = new OnFinishedCallback<Response, Void>() {
         @Override
         public void handle(@NonNull ResultType type, @Nullable RegisterJson.Response response, @Nullable Void tag, @Nullable String errorMsg) {
             if (type == ResultType.Success && response != null) {

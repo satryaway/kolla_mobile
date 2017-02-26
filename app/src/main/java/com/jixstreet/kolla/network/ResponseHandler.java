@@ -31,14 +31,14 @@ public class ResponseHandler<R, T> implements Callback {
     protected final T tag;
 
     @Nullable
-    protected final OnFinishedCallback2<R, T> callback;
+    protected final OnFinishedCallback<R, T> callback;
 
     @Nullable
     protected final RunnableDialog<R, T> runnableDialog;
 
     public ResponseHandler(@NonNull BaseHttp<R, T> parent,
                            @Nullable T tag,
-                           @Nullable OnFinishedCallback2<R, T> callback,
+                           @Nullable OnFinishedCallback<R, T> callback,
                            @Nullable RunnableDialog<R, T> runnableDialog) {
         this.parent = parent;
         this.tag = tag;

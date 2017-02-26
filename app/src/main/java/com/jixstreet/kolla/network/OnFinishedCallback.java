@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 /**
  * @author satryaway@gmail.com
  */
-public interface OnFinishedCallback2<R, T> {
+public interface OnFinishedCallback<R, T> {
     void handle(@NonNull ResultType type,
                 @Nullable R response,
                 @Nullable T tag,

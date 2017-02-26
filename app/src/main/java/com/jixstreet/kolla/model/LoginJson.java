@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
-import com.jixstreet.kolla.network.OnFinishedCallback2;
+import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
 import com.jixstreet.kolla.network.RStatus;
@@ -68,8 +68,8 @@ public class LoginJson {
                 "Logging in...", true);
     }
 
-    private OnFinishedCallback2<Response, Void> onLoginDone
-            = new OnFinishedCallback2<Response, Void>() {
+    private OnFinishedCallback<Response, Void> onLoginDone
+            = new OnFinishedCallback<Response, Void>() {
         @Override
         public void handle(@NonNull ResultType type, Response response, Void tag, String errorMsg) {
             if (type == ResultType.Success && response != null) {
