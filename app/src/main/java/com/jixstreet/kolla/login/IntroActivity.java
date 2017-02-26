@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.LoginJson;
+import com.jixstreet.kolla.model.RegisterJson;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.TextUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -42,6 +43,9 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.forgot_password_tv)
     protected TextView forgotPasswordTv;
 
+    @ViewById(R.id.name_register_et)
+    protected EditText nameRegisterEt;
+
     @ViewById(R.id.email_et)
     protected EditText emailEt;
 
@@ -60,6 +64,7 @@ public class IntroActivity extends AppCompatActivity {
     private Animation fadeInAnimation;
     private Animation fadeOutAnimation;
     private LoginJson loginJson;
+    private RegisterJson registerJson;
 
     @AfterViews
     void onViewsCreated() {
@@ -73,6 +78,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private void initUI() {
         loginJson = new LoginJson(this);
+        registerJson = new RegisterJson(this);
     }
 
     private void modifyStatusBar() {
@@ -131,6 +137,10 @@ public class IntroActivity extends AppCompatActivity {
 
     private boolean isRegisterFormValidated() {
         int count = 0;
+        if (nameRegisterEt.getText().toString().isEmpty())
+            nameRegisterEt.setError(getString(R.string.field_required));
+        else count++;
+
         String email = emailRegisterEt.getText().toString();
         if (email.isEmpty())
             emailRegisterEt.setError(getString(R.string.field_required));
@@ -148,9 +158,9 @@ public class IntroActivity extends AppCompatActivity {
 
         if (!password.equals(passwordConfirmation))
             passwordConfirmationRegisterEt.setError(getString(R.string.password_not_match));
-        else count ++;
+        else count++;
 
-        return count == 3;
+        return count == 4;
     }
 
     private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
@@ -167,10 +177,25 @@ public class IntroActivity extends AppCompatActivity {
         }
     };
 
+    private RegisterJson.OnRegister onRegister = new RegisterJson.OnRegister() {
+        @Override
+        public void onSuccess(RegisterJson.Response response) {
+            DialogUtils.makeSnackBar(CommonConstant.success, IntroActivity.this,
+                    getWindow().getDecorView(), response.message);
+        }
+
+        @Override
+        public void onFailure(String text) {
+            DialogUtils.makeSnackBar(CommonConstant.failed, IntroActivity.this,
+                    getWindow().getDecorView(), text);
+        }
+    };
+
     @Override
     protected void onPause() {
         super.onPause();
         loginJson.cancel();
+        registerJson.cancel();
     }
 
     @Override
@@ -204,7 +229,13 @@ public class IntroActivity extends AppCompatActivity {
     void doRegister() {
         if (isRegisterFormValidated()) {
             ViewUtils.hideSoftKeyboard(this);
+            RegisterJson.Request request = new RegisterJson.Request();
+            request.name = nameRegisterEt.getText().toString();
+            request.email = emailRegisterEt.getText().toString();
+            request.password = passwordRegisterEt.getText().toString();
+            request.password_confirmation = passwordConfirmationRegisterEt.getText().toString();
 
+            registerJson.post(request, onRegister);
         }
     }
 

@@ -27,4 +27,5 @@
     <string name="field_required">This field is required</string>
     <string name="email_not_valid">Email is not valid</string>
     <string name="password_not_match">Password does not match</string>
+    <string name="name">Name</string>
 </resources>
