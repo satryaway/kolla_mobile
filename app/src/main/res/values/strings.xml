@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Kolla</string>
+    <string name="facebook_app_id">263985664006850</string>
+
     <string name="text_favorites">Favorite</string>
     <string name="text_schedules">Schedules</string>
     <string name="login">Login</string>

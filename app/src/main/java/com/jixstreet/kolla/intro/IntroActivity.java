@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.login;
+package com.jixstreet.kolla.intro;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -10,11 +10,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.model.LoginJson;
+import com.jixstreet.kolla.login.LoginView;
 import com.jixstreet.kolla.model.RegisterJson;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.TextUtils;
@@ -27,6 +28,9 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_intro)
 public class IntroActivity extends AppCompatActivity {
+
+    @ViewById(R.id.activity_login)
+    protected RelativeLayout activityLogin;
 
     @ViewById(R.id.background_vp)
     protected ViewPager backgroundVp;
@@ -46,12 +50,6 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.name_register_et)
     protected EditText nameRegisterEt;
 
-    @ViewById(R.id.email_et)
-    protected EditText emailEt;
-
-    @ViewById(R.id.password_et)
-    protected EditText passwordEt;
-
     @ViewById(R.id.email_register_et)
     protected EditText emailRegisterEt;
 
@@ -61,9 +59,11 @@ public class IntroActivity extends AppCompatActivity {
     @ViewById(R.id.password_confirmation_register_et)
     protected EditText passwordConfirmationRegisterEt;
 
+    @ViewById(R.id.login_view)
+    protected LoginView loginView;
+
     private Animation fadeInAnimation;
     private Animation fadeOutAnimation;
-    private LoginJson loginJson;
     private RegisterJson registerJson;
 
     @AfterViews
@@ -77,8 +77,6 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        loginJson = new LoginJson(this);
-        registerJson = new RegisterJson(this);
     }
 
     private void modifyStatusBar() {
@@ -96,7 +94,7 @@ public class IntroActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(backgroundVp);
     }
 
-    private void changeLoginPageVisibility() {
+    /*private void changeLoginPageVisibility() {
         if (loginWrapper.getVisibility() == View.VISIBLE) {
             ViewUtils.hideSoftKeyboard(this);
             loginWrapper.startAnimation(fadeOutAnimation);
@@ -105,7 +103,7 @@ public class IntroActivity extends AppCompatActivity {
             loginWrapper.startAnimation(fadeInAnimation);
             loginWrapper.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 
     private void changeRegisterPageVisibility() {
         if (registerWrapper.getVisibility() == View.VISIBLE) {
@@ -116,23 +114,6 @@ public class IntroActivity extends AppCompatActivity {
             registerWrapper.startAnimation(fadeInAnimation);
             registerWrapper.setVisibility(View.VISIBLE);
         }
-    }
-
-    private boolean isLoginFormValidated() {
-        int count = 0;
-        if (emailEt.getText().toString().isEmpty())
-            emailEt.setError(getString(R.string.field_required));
-        else {
-            if (!TextUtils.isEmailValid(emailEt.getText().toString()))
-                emailEt.setError(getString(R.string.email_not_valid));
-            else count++;
-        }
-
-        if (passwordEt.getText().toString().isEmpty())
-            passwordEt.setError(getString(R.string.field_required));
-        else count++;
-
-        return count == 2;
     }
 
     private boolean isRegisterFormValidated() {
@@ -163,20 +144,6 @@ public class IntroActivity extends AppCompatActivity {
         return count == 4;
     }
 
-    private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
-        @Override
-        public void onSuccess(LoginJson.Response response) {
-            DialogUtils.makeSnackBar(CommonConstant.success, IntroActivity.this,
-                    getWindow().getDecorView(), response.message);
-        }
-
-        @Override
-        public void onFailure(String text) {
-            DialogUtils.makeSnackBar(CommonConstant.failed, IntroActivity.this,
-                    getWindow().getDecorView(), text);
-        }
-    };
-
     private RegisterJson.OnRegister onRegister = new RegisterJson.OnRegister() {
         @Override
         public void onSuccess(RegisterJson.Response response) {
@@ -194,35 +161,21 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        loginJson.cancel();
-        registerJson.cancel();
     }
 
     @Override
     public void onBackPressed() {
-        if (loginWrapper.getVisibility() == View.VISIBLE) {
-            changeLoginPageVisibility();
+        if (loginView.getVisibility() == View.VISIBLE) {
+            loginView.changeVisibilityState();
             return;
         }
 
-        if (registerWrapper.getVisibility() == View.VISIBLE) {
+        /*if (registerWrapper.getVisibility() == View.VISIBLE) {
             changeRegisterPageVisibility();
             return;
-        }
+        }*/
 
         super.onBackPressed();
-    }
-
-    @Click(R.id.login_tv)
-    void doLogin() {
-        if (isLoginFormValidated()) {
-            ViewUtils.hideSoftKeyboard(this);
-            LoginJson.Request request = new LoginJson.Request();
-            request.email = emailEt.getText().toString();
-            request.password = passwordEt.getText().toString();
-
-            loginJson.post(request, onLogin);
-        }
     }
 
     @Click(R.id.register_tv)
@@ -249,12 +202,7 @@ public class IntroActivity extends AppCompatActivity {
 
     @Click(R.id.show_login_page_tv)
     void openLoginPage() {
-        changeLoginPageVisibility();
-    }
-
-    @Click(R.id.close_login_page_iv)
-    void closeLoginPage() {
-        changeLoginPageVisibility();
+        loginView.changeVisibilityState();
     }
 
     @Click(R.id.show_register_page_tv)
@@ -269,13 +217,13 @@ public class IntroActivity extends AppCompatActivity {
 
     @Click(R.id.register_here_tv)
     void showRegisterPage() {
-        changeLoginPageVisibility();
+        loginView.changeVisibilityState();
         changeRegisterPageVisibility();
     }
 
     @Click(R.id.login_here_tv)
     void showLoginPage() {
-        changeLoginPageVisibility();
+        loginView.changeVisibilityState();
         changeRegisterPageVisibility();
     }
 }

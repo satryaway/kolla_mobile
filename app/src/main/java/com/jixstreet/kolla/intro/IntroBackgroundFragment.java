@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.login;
+package com.jixstreet.kolla.intro;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

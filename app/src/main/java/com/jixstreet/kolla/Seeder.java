@@ -1,6 +1,6 @@
 package com.jixstreet.kolla;
 
-import com.jixstreet.kolla.login.IntroBackgroundItem;
+import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
 import java.util.ArrayList;

@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.login.IntroBackgroundItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

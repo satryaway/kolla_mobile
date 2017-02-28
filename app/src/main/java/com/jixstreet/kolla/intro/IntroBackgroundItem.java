@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.login;
+package com.jixstreet.kolla.intro;
 
 /**
  * Created by satryaway on 2/15/2017.
