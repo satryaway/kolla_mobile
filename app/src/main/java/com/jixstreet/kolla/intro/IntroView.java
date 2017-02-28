@@ -31,6 +31,25 @@ public abstract class IntroView extends LinearLayout {
     @AnimationRes(R.anim.fade_out_effect)
     protected Animation fadeOut;
 
+    public OnRegisterHereClicked onRegisterHereClicked;
+    public OnLoginHereClicked onLoginHereClicked;
+
+    public interface OnRegisterHereClicked {
+        void onRegister();
+    }
+
+    public interface OnLoginHereClicked {
+        void onLogin();
+    }
+
+    public void setOnRegisterHereClicked(OnRegisterHereClicked onRegisterHereClicked) {
+        this.onRegisterHereClicked = onRegisterHereClicked;
+    }
+
+    public void setOnLoginHereClicked(OnLoginHereClicked onLoginHereClicked) {
+        this.onLoginHereClicked = onLoginHereClicked;
+    }
+
     public IntroView(Context context) {
         super(context);
     }

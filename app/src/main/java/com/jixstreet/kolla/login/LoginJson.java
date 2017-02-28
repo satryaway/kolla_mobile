@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.model;
+package com.jixstreet.kolla.login;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

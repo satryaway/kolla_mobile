@@ -4,9 +4,7 @@
     android:id="@+id/register_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent_bg_90"
-    android:visibility="invisible"
-    tools:visibility="visible">
+    android:background="@color/transparent_bg_90">
 
     <RelativeLayout
         android:layout_width="match_parent"

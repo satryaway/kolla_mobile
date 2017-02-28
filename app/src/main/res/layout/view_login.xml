@@ -4,8 +4,7 @@
     android:id="@+id/login_wrapper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent_bg_90"
-    tools:visibility="visible">
+    android:background="@color/transparent_bg_90">
 
     <RelativeLayout
         android:layout_width="match_parent"

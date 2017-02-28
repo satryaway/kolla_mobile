@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
-import com.jixstreet.kolla.model.LoginJson;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -28,6 +28,9 @@ public class LoginView extends IntroView {
 
     @ViewById(R.id.password_et)
     protected EditText passwordEt;
+
+    @ViewById(R.id.forgot_password_tv)
+    protected TextView forgotPasswordTv;
 
     private LoginJson loginJson;
 
@@ -71,6 +74,12 @@ public class LoginView extends IntroView {
     @Click(R.id.close_login_page_iv)
     void closeLoginPage() {
         super.changeVisibilityState(this);
+    }
+
+    @Click(R.id.register_here_tv)
+    void showRegisterPage() {
+        super.changeVisibilityState(this);
+        onRegisterHereClicked.onRegister();
     }
 
     @Click(R.id.login_tv)
