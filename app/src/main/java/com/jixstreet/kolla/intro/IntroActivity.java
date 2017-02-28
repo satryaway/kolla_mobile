@@ -10,7 +10,6 @@ import android.view.View;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.login.LoginView;
 import com.jixstreet.kolla.register.RegisterView;
-import com.jixstreet.kolla.utility.TextUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;

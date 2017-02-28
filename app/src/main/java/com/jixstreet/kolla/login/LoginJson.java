@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class LoginJson {
     public static final transient String API = "/auth/login";
-    private static final transient String PrefKey = LoginJson.class.getName().concat("1");
+    public static final transient String PrefKey = LoginJson.class.getName().concat("1");
     private final Context context;
     private OnLogin onLogin;
     private ProgressOkHttp<Response, Void> req;

@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.register;
+package com.jixstreet.kolla.login;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,39 +14,35 @@ import com.jixstreet.kolla.network.ResultType;
 import java.util.ArrayList;
 
 /**
- * Created by satryaway on 2/23/2017.
+ * Created by satryaway on 2/28/2017.
  * satryaway@gmail.com
  */
 
-public class RegisterJson {
-    public static final transient String API = "/users";
+public class FacebookLoginJson {
+    public static final transient String API = "/auth/login/facebook";
     private final Context context;
     private final ProgressOkHttp<Response, Void> req;
-    private OnRegister onRegister;
+    public OnFacebookLogin onFacebookLogin;
 
-    public RegisterJson(Context context) {
+    public FacebookLoginJson(Context context) {
         this.context = context;
         req = new ProgressOkHttp<>(context, Response.class);
     }
 
-    public interface OnRegister {
-        void onSuccess(RegisterJson.Response response);
+    public interface OnFacebookLogin {
+        void onSuccess(Response response);
 
-        void onFailure(String text);
+        void onFailure(String message);
     }
 
     public static class Request {
-        public String name;
         public String email;
-        public String password;
-        public String password_confirmation;
+        public String user_token;
 
         public ArrayList<Pair<String, String>> createParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
-            params.add(new Pair<>("name", name));
             params.add(new Pair<>("email", email));
-            params.add(new Pair<>("password", password));
-            params.add(new Pair<>("password_confirmation", password_confirmation));
+            params.add(new Pair<>("password", user_token));
             return params;
         }
     }
@@ -55,28 +51,26 @@ public class RegisterJson {
         public String access_token;
     }
 
-    public void post(Request request, OnRegister onRegister) {
-        this.onRegister = onRegister;
-        req.post(API, request.createParams(), null, onRegisterDone,
-                "Registering...", true);
+    public void post(Request request, OnFacebookLogin onFacebookLogin) {
+        this.onFacebookLogin = onFacebookLogin;
+        req.post(API, request.createParams(), null, onFacebookLoginDone,
+                "Logging in...", true);
     }
 
-    private OnFinishedCallback<Response, Void> onRegisterDone
+    private OnFinishedCallback<Response, Void> onFacebookLoginDone
             = new OnFinishedCallback<Response, Void>() {
         @Override
-        public void handle(@NonNull ResultType type, @Nullable RegisterJson.Response response, @Nullable Void tag, @Nullable String errorMsg) {
+        public void handle(@NonNull ResultType type,
+                           @Nullable Response response,
+                           @Nullable Void tag, @Nullable String errorMsg) {
             if (type == ResultType.Success && response != null) {
                 if (RStatus.OK.equals(response.status))
-                    onRegister.onSuccess(response);
+                    onFacebookLogin.onSuccess(response);
                 else
-                    onRegister.onFailure(response.message);
+                    onFacebookLogin.onFailure(response.message);
             } else {
-                onRegister.onFailure(errorMsg);
+                onFacebookLogin.onFailure(errorMsg);
             }
         }
     };
-
-    public void cancel() {
-        req.cancel();
-    }
 }
