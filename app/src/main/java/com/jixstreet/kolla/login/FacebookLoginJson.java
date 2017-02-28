@@ -42,7 +42,7 @@ public class FacebookLoginJson {
         public ArrayList<Pair<String, String>> createParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
             params.add(new Pair<>("email", email));
-            params.add(new Pair<>("password", user_token));
+            params.add(new Pair<>("user_token", user_token));
             return params;
         }
     }

@@ -31,23 +31,25 @@ public abstract class IntroView extends LinearLayout {
     @AnimationRes(R.anim.fade_out_effect)
     protected Animation fadeOut;
 
-    public OnRegisterHereClicked onRegisterHereClicked;
-    public OnLoginHereClicked onLoginHereClicked;
+    public LoginInterface loginInterface;
+    public RegisterInterface registerInterface;
 
-    public interface OnRegisterHereClicked {
-        void onRegister();
+    public interface LoginInterface {
+        void onRegisterHereClicked();
+
+        void onFacebookLoginClicked();
     }
 
-    public interface OnLoginHereClicked {
+    public interface RegisterInterface {
         void onLogin();
     }
 
-    public void setOnRegisterHereClicked(OnRegisterHereClicked onRegisterHereClicked) {
-        this.onRegisterHereClicked = onRegisterHereClicked;
+    public void setLoginInterface(LoginInterface LoginInterface) {
+        this.loginInterface = LoginInterface;
     }
 
-    public void setOnLoginHereClicked(OnLoginHereClicked onLoginHereClicked) {
-        this.onLoginHereClicked = onLoginHereClicked;
+    public void setRegisterInterface(RegisterInterface registerInterface) {
+        this.registerInterface = registerInterface;
     }
 
     public IntroView(Context context) {

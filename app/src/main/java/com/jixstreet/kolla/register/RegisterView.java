@@ -105,6 +105,6 @@ public class RegisterView extends IntroView {
     @Click(R.id.login_here_tv)
     void showLoginPage() {
         super.changeVisibilityState(this);
-        onLoginHereClicked.onLogin();
+        registerInterface.onLogin();
     }
 }
