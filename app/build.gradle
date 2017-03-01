@@ -32,7 +32,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField "int", "STANDARD_PORT", "80"
@@ -53,6 +53,13 @@ android {
             buildConfigField "boolean", "showDebugLog", "true"
             buildConfigField "String", "BASE_URL", '"http://139.59.108.121/api"'
             buildConfigField "int", "API_PORT", "3000"
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def newApkName = "Kolla-${variant.buildType.name}-${variant.versionName}.apk";
+                output.outputFile = new File(output.outputFile.parent, newApkName);
+            }
         }
     }
 }

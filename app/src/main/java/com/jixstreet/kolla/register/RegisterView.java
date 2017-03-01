@@ -107,4 +107,9 @@ public class RegisterView extends IntroView {
         super.changeVisibilityState(this);
         registerInterface.onLogin();
     }
+
+    @Click(R.id.fb_register_tv)
+    void registerUserByFacebook() {
+        registerInterface.onFacebookLoginClicked();
+    }
 }

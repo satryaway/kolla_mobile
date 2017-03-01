@@ -42,6 +42,8 @@ public abstract class IntroView extends LinearLayout {
 
     public interface RegisterInterface {
         void onLogin();
+
+        void onFacebookLoginClicked();
     }
 
     public void setLoginInterface(LoginInterface LoginInterface) {
