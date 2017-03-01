@@ -62,6 +62,7 @@ public class LoginView extends IntroView {
     private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
         @Override
         public void onSuccess(LoginJson.Response response) {
+            LoginJson.Response.saveData(getContext(), response.access_token, response.data);
             DialogUtils.makeSnackBar(CommonConstant.success, getContext(),
                     ((Activity) getContext()).getWindow().getDecorView(), response.message);
         }
@@ -80,6 +81,7 @@ public class LoginView extends IntroView {
         facebookLoginJson.post(request, new FacebookLoginJson.OnFacebookLogin() {
             @Override
             public void onSuccess(FacebookLoginJson.Response response) {
+                LoginJson.Response.saveData(getContext(), response.access_token, response.data);
                 DialogUtils.makeSnackBar(CommonConstant.success, getContext(),
                         ((Activity) getContext()).getWindow().getDecorView(), response.message);
             }

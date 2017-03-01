@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
+import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
@@ -49,6 +50,7 @@ public class FacebookLoginJson {
 
     public static class Response extends RDefault {
         public String access_token;
+        public UserData data;
     }
 
     public void post(Request request, OnFacebookLogin onFacebookLogin) {

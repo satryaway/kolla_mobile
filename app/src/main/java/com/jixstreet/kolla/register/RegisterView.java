@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -72,6 +73,7 @@ public class RegisterView extends IntroView {
     private RegisterJson.OnRegister onRegister = new RegisterJson.OnRegister() {
         @Override
         public void onSuccess(RegisterJson.Response response) {
+            LoginJson.Response.saveData(getContext(), response.access_token, response.data);
             DialogUtils.makeSnackBar(CommonConstant.success, getContext(),
                     ((Activity) getContext()).getWindow().getDecorView(), response.message);
         }

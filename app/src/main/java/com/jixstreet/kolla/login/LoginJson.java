@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
+import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
@@ -48,9 +49,15 @@ public class LoginJson {
 
     public static class Response extends RDefault {
         public String access_token;
+        public UserData data;
 
-        public static void saveAccessToken(Context ctx, Response resp) {
-            CPrefs.write(ctx, PrefKey, resp.access_token, String.class);
+        public static void saveData(Context ctx, String access_token, UserData data) {
+            saveAccessToken(ctx, access_token);
+            saveUserData(ctx, data);
+        }
+
+        public static void saveAccessToken(Context ctx, String accessToken) {
+            CPrefs.write(ctx, PrefKey, accessToken, String.class);
         }
 
         public static void clearAccessToken(Context ctx) {
@@ -59,6 +66,10 @@ public class LoginJson {
 
         public static String getAccessToken(Context ctx) {
             return CPrefs.read(ctx, PrefKey, String.class);
+        }
+
+        public static void saveUserData(Context ctx, UserData data) {
+            CPrefs.write(ctx, UserData.PrefKey, data, UserData.class);
         }
     }
 
