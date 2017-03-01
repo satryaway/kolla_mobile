@@ -3,13 +3,16 @@ package com.jixstreet.kolla.register;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.Main2Activity;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
 import com.jixstreet.kolla.login.LoginJson;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -76,6 +79,13 @@ public class RegisterView extends IntroView {
             LoginJson.Response.saveData(getContext(), response.access_token, response.data);
             DialogUtils.makeSnackBar(CommonConstant.success, getContext(),
                     ((Activity) getContext()).getWindow().getDecorView(), response.message);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ActivityUtils.startActivity((Activity)getContext(), Main2Activity.class);
+                }
+            }, 1500);
         }
 
         @Override
