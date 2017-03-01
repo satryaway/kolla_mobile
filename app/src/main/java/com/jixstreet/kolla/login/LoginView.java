@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
-import com.jixstreet.kolla.Main2Activity;
+import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
 import com.jixstreet.kolla.utility.ActivityUtils;
@@ -72,7 +72,7 @@ public class LoginView extends IntroView {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ActivityUtils.startActivity((Activity)getContext(), Main2Activity.class);
+                    ActivityUtils.startActivity((Activity) getContext(), MainActivity_.class);
                 }
             }, 1500);
         }
@@ -98,7 +98,7 @@ public class LoginView extends IntroView {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ActivityUtils.startActivity((Activity)getContext(), Main2Activity.class);
+                        ActivityUtils.startActivity((Activity) getContext(), MainActivity_.class);
                     }
                 }, 1500);
             }

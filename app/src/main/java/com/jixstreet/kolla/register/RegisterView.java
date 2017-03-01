@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.jixstreet.kolla.CommonConstant;
-import com.jixstreet.kolla.Main2Activity;
+import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
 import com.jixstreet.kolla.login.LoginJson;
@@ -83,7 +83,7 @@ public class RegisterView extends IntroView {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    ActivityUtils.startActivity((Activity)getContext(), Main2Activity.class);
+                    ActivityUtils.startActivity((Activity)getContext(), MainActivity_.class);
                 }
             }, 1500);
         }
