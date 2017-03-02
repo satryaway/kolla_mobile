@@ -2,6 +2,7 @@ package com.jixstreet.kolla.news;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -31,6 +32,7 @@ public class NewsFragment extends Fragment {
     void onViewsCreated() {
         NewsListAdapter newsListAdapter = new NewsListAdapter();
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
+        ViewUtils.setRecyclerViewDivider(newsRv, layoutManager);
         newsRv.setNestedScrollingEnabled(true);
         newsRv.setClipToPadding(true);
         newsRv.setLayoutManager(layoutManager);
