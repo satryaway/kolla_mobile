@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroActivity;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.parent.DefaultResponse;
@@ -88,7 +89,8 @@ public class ResponseHandler<R, T> implements Callback {
             handleResult(rt, cr.result, errorMsg);
         else
             // conversion failure should return fail, null object, and appropriate message
-            handleResult(ResultType.Fail, null, "Gangguan server, response tidak dikenal.");
+            handleResult(ResultType.Fail, null, parent.contextWR.get().getResources().getString(
+        com.jixstreet.kolla.R.string.unknown_error_occured));
     }
 
     /**
@@ -159,7 +161,6 @@ public class ResponseHandler<R, T> implements Callback {
         try {
             response = new Gson().fromJson(strResult, DefaultResponse.class);
         } catch (JsonSyntaxException e) {
-            Log.d(NET, "This API response doesn't have 'success' field.");
             Log.d(NET, "This API response doesn't have 'status' field.");
             return false;
         }
@@ -176,7 +177,7 @@ public class ResponseHandler<R, T> implements Callback {
                 Log.d("ResponseHandler", "Context is null");
             }
 
-            return true;
+            return false;
         }
         return false;
     }

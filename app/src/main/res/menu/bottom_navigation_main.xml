@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_news"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"
         android:title="@string/text_favorites"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_booking"
         android:enabled="true"
         android:icon="@drawable/ic_action_name"
         android:title="@string/text_schedules"

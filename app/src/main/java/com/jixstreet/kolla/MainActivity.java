@@ -1,7 +1,9 @@
 package com.jixstreet.kolla;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.jixstreet.kolla.booking.BookingFragment;
 import com.jixstreet.kolla.news.NewsFragment;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -20,8 +23,10 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
+    private static final String BOOKING = "booking";
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -31,12 +36,17 @@ public class MainActivity extends AppCompatActivity
     @ViewById(R.id.nav_view)
     protected NavigationView navigationView;
 
+    @ViewById(R.id.bottom_navigation)
+    protected BottomNavigationView bottomNavigationView;
+
+    private static final String NEWS = "news";
+
     @AfterViews
     void onViewsCreated() {
         ViewUtils.makeStatusBarTransparent(this);
         modifyActionBar();
         initDrawer();
-        initContent();
+        initContent(NewsFragment.newInstance(), NEWS);
     }
 
     private void modifyActionBar() {
@@ -53,12 +63,14 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
-    private void initContent() {
+    private void initContent(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.content_wrapper, NewsFragment.newInstance(), "news")
+                .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
+                .replace(R.id.content_wrapper, fragment, tag)
                 .commit();
     }
 
@@ -99,6 +111,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = null;
+        String tag = "";
+
         if (id == R.id.nav_camera) {
         } else if (id == R.id.nav_gallery) {
 
@@ -110,7 +125,16 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.action_news) {
+            fragment = NewsFragment.newInstance();
+            tag = NEWS;
+        } else if (id == R.id.action_booking) {
+            fragment = BookingFragment.newInstance();
+            tag = BOOKING;
         }
+
+        if (fragment != null)
+            initContent(fragment, tag);
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

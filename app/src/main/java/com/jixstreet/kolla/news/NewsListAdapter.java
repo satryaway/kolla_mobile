@@ -1,7 +1,11 @@
 package com.jixstreet.kolla.news;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.jixstreet.kolla.model.NewsDetail;
 
@@ -15,14 +19,21 @@ import java.util.ArrayList;
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private final Context context;
+    private int lastPosition = -1;
 
     private ArrayList<NewsDetail> news = new ArrayList<>();
+
+    public NewsListAdapter(Context context) {
+        this.context = context;
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             return new NewsViewHolder(NewsItemView_.build(parent.getContext()));
-        } else{
+        } else {
             return new NewsHeaderViewHolder(NewsHeaderView_.build(parent.getContext()));
         }
     }
@@ -30,7 +41,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsViewHolder) {
-            ((NewsViewHolder) holder).getView().setNewsDetail(news.get(position-1));
+            ((NewsViewHolder) holder).getView().setNewsDetail(news.get(position - 1));
+            setAnimation(holder.itemView, position);
         } else if (holder instanceof NewsHeaderViewHolder) {
             ((NewsHeaderViewHolder) holder).getView().setView();
         }
@@ -47,6 +59,22 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return TYPE_HEADER;
 
         return TYPE_ITEM;
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        if (holder instanceof NewsViewHolder) {
+            ((NewsViewHolder) holder).getView().clearAnimation();
+        }
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     public void setNews(ArrayList<NewsDetail> news) {

@@ -32,4 +32,10 @@
     <string name="name">Name</string>
     <string name="check_your_facebook_privacy">Facebook Registration Failed. Check your Facebook privacy.</string>
     <string name="session_expired">Your session expired. Please log in again.</string>
+    <string name="your_kolla_credits">Your Kolla Credits</string>
+    <string name="last_update_s">Last update %s</string>
+    <string name="add_credit">Add Credit</string>
+    <string name="history">History</string>
+    <string name="hot_desk">Hot Desk</string>
+    <string name="unknown_error_occured">Unknown Error Occured</string>
 </resources>
