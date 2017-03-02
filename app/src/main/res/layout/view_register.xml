@@ -9,14 +9,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:padding="8dp">
+        android:layout_marginTop="24dp">
 
         <ImageView
             android:id="@+id/close_register_page_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:contentDescription="@null"
             android:src="@drawable/ic_chevron_left" />
 
@@ -101,7 +103,7 @@
                 android:id="@+id/register_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:gravity="center"
                 android:padding="16dp"
@@ -122,13 +124,13 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white">
+                android:background="@color/com_facebook_blue">
 
                 <TextView
                     android:id="@+id/fb_register_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/com_facebook_blue"
+                    android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:gravity="center"
                     android:padding="16dp"
