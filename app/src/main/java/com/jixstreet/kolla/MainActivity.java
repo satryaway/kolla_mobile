@@ -40,13 +40,14 @@ public class MainActivity extends AppCompatActivity
     protected BottomNavigationView bottomNavigationView;
 
     private static final String NEWS = "news";
+    private Fragment previousFragment;
 
     @AfterViews
     void onViewsCreated() {
         ViewUtils.makeStatusBarTransparent(this);
         modifyActionBar();
         initDrawer();
-        initContent(NewsFragment.newInstance(), NEWS);
+        setContent(NewsFragment.newInstance(), NEWS, false);
     }
 
     private void modifyActionBar() {
@@ -66,12 +67,33 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
-    private void initContent(Fragment fragment, String tag) {
+    private void setContent(Fragment fragment, String tag, boolean addToBackStack) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
-                .replace(R.id.content_wrapper, fragment, tag)
-                .commit();
+        Fragment savedFragment = fragmentManager.findFragmentByTag(tag);
+
+        if (savedFragment == null) {
+            if (addToBackStack) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
+                        .add(R.id.content_wrapper, fragment, tag)
+                        .addToBackStack(tag)
+                        .commit();
+            } else {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
+                        .add(R.id.content_wrapper, fragment, tag)
+                        .commit();
+            }
+            previousFragment = fragment;
+        } else {
+            if (!previousFragment.getTag().equals(tag)) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
+                        .replace(R.id.content_wrapper, fragment, tag)
+                        .commit();
+                previousFragment = fragment;
+            }
+        }
     }
 
     @Override
@@ -134,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment != null)
-            initContent(fragment, tag);
+            setContent(fragment, tag, true);
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
