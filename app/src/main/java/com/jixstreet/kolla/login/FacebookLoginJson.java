@@ -11,6 +11,8 @@ import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
+import com.jixstreet.kolla.parent.DefaultRequest;
+import com.jixstreet.kolla.parent.ModelJson;
 
 import java.util.ArrayList;
 
@@ -19,14 +21,27 @@ import java.util.ArrayList;
  * satryaway@gmail.com
  */
 
-public class FacebookLoginJson {
-    public static final transient String API = "/auth/login/facebook";
-    private final Context context;
+public class FacebookLoginJson extends ModelJson {
     private final ProgressOkHttp<Response, Void> req;
     public OnFacebookLogin onFacebookLogin;
 
+    @Override
+    public String getRoute() {
+        return "/auth/login/facebook";
+    }
+
+    @Override
+    public Class getChildClass() {
+        return FacebookLoginJson.class;
+    }
+
+    @Override
+    public void cancel() {
+        req.cancel();
+    }
+
     public FacebookLoginJson(Context context) {
-        this.context = context;
+        super(context);
         req = new ProgressOkHttp<>(context, Response.class);
     }
 
@@ -36,11 +51,12 @@ public class FacebookLoginJson {
         void onFailure(String message);
     }
 
-    public static class Request {
+    public static class Request extends DefaultRequest {
         public String email;
         public String user_token;
 
-        public ArrayList<Pair<String, String>> createParams() {
+        @Override
+        public ArrayList<Pair<String, String>> getParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
             params.add(new Pair<>("email", email));
             params.add(new Pair<>("user_token", user_token));
@@ -55,7 +71,7 @@ public class FacebookLoginJson {
 
     public void post(Request request, OnFacebookLogin onFacebookLogin) {
         this.onFacebookLogin = onFacebookLogin;
-        req.post(API, request.createParams(), null, onFacebookLoginDone,
+        req.post(ROUTE, request.getParams(), null, onFacebookLoginDone,
                 "Logging in...", true);
     }
 

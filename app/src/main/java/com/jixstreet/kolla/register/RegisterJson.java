@@ -11,6 +11,8 @@ import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RDefault;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
+import com.jixstreet.kolla.parent.DefaultRequest;
+import com.jixstreet.kolla.parent.ModelJson;
 
 import java.util.ArrayList;
 
@@ -19,14 +21,27 @@ import java.util.ArrayList;
  * satryaway@gmail.com
  */
 
-public class RegisterJson {
-    public static final transient String API = "/users";
-    private final Context context;
+public class RegisterJson extends ModelJson {
     private final ProgressOkHttp<Response, Void> req;
     private OnRegister onRegister;
 
+    @Override
+    public String getRoute() {
+        return "/users";
+    }
+
+    @Override
+    public Class getChildClass() {
+        return RegisterJson.class;
+    }
+
+    @Override
+    public void cancel() {
+        req.cancel();
+    }
+
     public RegisterJson(Context context) {
-        this.context = context;
+        super(context);
         req = new ProgressOkHttp<>(context, Response.class);
     }
 
@@ -36,13 +51,14 @@ public class RegisterJson {
         void onFailure(String text);
     }
 
-    public static class Request {
+    public static class Request extends DefaultRequest {
         public String name;
         public String email;
         public String password;
         public String password_confirmation;
 
-        public ArrayList<Pair<String, String>> createParams() {
+        @Override
+        public ArrayList<Pair<String, String>> getParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
             params.add(new Pair<>("name", name));
             params.add(new Pair<>("email", email));
@@ -59,7 +75,7 @@ public class RegisterJson {
 
     public void post(Request request, OnRegister onRegister) {
         this.onRegister = onRegister;
-        req.post(API, request.createParams(), null, onRegisterDone,
+        req.post(ROUTE, request.getParams(), null, onRegisterDone,
                 "Registering...", true);
     }
 
@@ -77,8 +93,4 @@ public class RegisterJson {
             }
         }
     };
-
-    public void cancel() {
-        req.cancel();
-    }
 }
