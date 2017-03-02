@@ -3,6 +3,10 @@ package com.jixstreet.kolla.news;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.jixstreet.kolla.model.NewsDetail;
+
+import java.util.ArrayList;
+
 /**
  * Created by satryaway on 2/16/2017.
  * satryaway@gmail.com
@@ -11,6 +15,8 @@ import android.view.ViewGroup;
 public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+
+    private ArrayList<NewsDetail> news = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -24,7 +30,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsViewHolder) {
-            ((NewsViewHolder) holder).getView();
+            ((NewsViewHolder) holder).getView().setNewsDetail(news.get(position-1));
         } else if (holder instanceof NewsHeaderViewHolder) {
             ((NewsHeaderViewHolder) holder).getView().setView();
         }
@@ -32,7 +38,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return 16 + 1;
+        return news.size() + 1;
     }
 
     @Override
@@ -41,6 +47,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return TYPE_HEADER;
 
         return TYPE_ITEM;
+    }
+
+    public void setNews(ArrayList<NewsDetail> news) {
+        this.news = news;
+        notifyDataSetChanged();
     }
 
     private boolean isPositionHeader(int position) {

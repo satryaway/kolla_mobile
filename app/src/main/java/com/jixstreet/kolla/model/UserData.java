@@ -1,6 +1,9 @@
 package com.jixstreet.kolla.model;
 
+import android.content.Context;
+
 import com.jixstreet.kolla.login.LoginJson;
+import com.jixstreet.kolla.parent.ModelJson;
 
 /**
  * Created by satryaway on 3/1/2017.
@@ -8,8 +11,7 @@ import com.jixstreet.kolla.login.LoginJson;
  */
 
 public class UserData {
-    public static final transient String PrefKey = UserData.class.getName().concat("1");
-
+    public static String PrefKey = UserData.class.getName().concat("1");
     public String id;
     public String name;
     public String email;

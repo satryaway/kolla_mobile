@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.NewsDetail;
+import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -26,7 +28,20 @@ public class NewsItemView extends LinearLayout {
     @ViewById(R.id.news_date_tv)
     protected TextView newsDateTv;
 
+    public NewsDetail newsDetail;
+
     public NewsItemView(Context context) {
         super(context);
+    }
+
+    public void setNewsDetail(NewsDetail newsDetail) {
+        this.newsDetail = newsDetail;
+        setValue();
+    }
+
+    private void setValue() {
+        newsTitleTv.setText(newsDetail.title);
+        newsDateTv.setText(newsDetail.created_at);
+        ImageUtils.loadImage(getContext(), newsDetail.cover_image, newsImageIv);
     }
 }

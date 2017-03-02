@@ -12,18 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".intro.IntroActivity_"
-            android:windowSoftInputMode="adjustPan">
+            android:name=".MainActivity_"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity_" />
         <activity
-            android:name=".Main2Activity_"
-            android:theme="@style/AppTheme" />
+            android:name=".intro.IntroActivity_"
+            android:windowSoftInputMode="adjustPan" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

@@ -20,7 +20,9 @@ import com.facebook.login.LoginResult;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.login.LoginView;
+import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.register.RegisterView;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.Log;
 
@@ -36,6 +38,8 @@ import java.util.Arrays;
 public class IntroActivity extends AppCompatActivity implements IntroView.LoginInterface,
         IntroView.RegisterInterface {
 
+    public static String paramsCode = IntroActivity.class.getName().concat("1");
+
     @ViewById(R.id.background_vp)
     protected ViewPager backgroundVp;
 
@@ -49,13 +53,21 @@ public class IntroActivity extends AppCompatActivity implements IntroView.LoginI
     protected RegisterView registerView;
 
     private CallbackManager callbackManager;
-    private LoginManager loginManager;
 
     @AfterViews
     void onViewsCreated() {
+        collectIntent();
         modifyStatusBar();
         initUI();
         initPager();
+    }
+
+    private void collectIntent() {
+        String param = ActivityUtils.getParam(this, paramsCode, String.class);
+        if (param != null && param.equals(RStatus.SESSION_EXPIRED)) {
+            DialogUtils.makeSnackBar(CommonConstant.failed, this, getWindow().getDecorView(),
+                    getString(R.string.session_expired));
+        }
     }
 
     private void initUI() {
@@ -80,7 +92,7 @@ public class IntroActivity extends AppCompatActivity implements IntroView.LoginI
 
     private void initFacebook() {
         callbackManager = CallbackManager.Factory.create();
-        loginManager = LoginManager.getInstance();
+        LoginManager loginManager = LoginManager.getInstance();
         loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
         loginManager.registerCallback(callbackManager, facebookCallback);
     }

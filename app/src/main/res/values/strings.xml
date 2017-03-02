@@ -31,4 +31,5 @@
     <string name="password_not_match">Password does not match</string>
     <string name="name">Name</string>
     <string name="check_your_facebook_privacy">Facebook Registration Failed. Check your Facebook privacy.</string>
+    <string name="session_expired">Your session expired. Please log in again.</string>
 </resources>

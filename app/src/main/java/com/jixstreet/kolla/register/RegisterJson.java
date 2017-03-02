@@ -8,7 +8,7 @@ import android.util.Pair;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
-import com.jixstreet.kolla.network.RDefault;
+import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
 import com.jixstreet.kolla.parent.DefaultRequest;
@@ -28,11 +28,6 @@ public class RegisterJson extends ModelJson {
     @Override
     public String getRoute() {
         return "/users";
-    }
-
-    @Override
-    public Class getChildClass() {
-        return RegisterJson.class;
     }
 
     @Override
@@ -68,8 +63,7 @@ public class RegisterJson extends ModelJson {
         }
     }
 
-    public static class Response extends RDefault {
-        public String access_token;
+    public static class Response extends DefaultResponse {
         public UserData data;
     }
 

@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.utility.Log;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -139,9 +141,14 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
         if (mResponseHandler == null)
             return;
 
+        String authorization = LoginJson.Response.getAccessToken(contextWR.get());
+        if (authorization == null)
+            authorization = "";
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
+                .addHeader(CommonConstant.AUTHORIZATION, authorization)
                 .tag(this)
                 .build();
 

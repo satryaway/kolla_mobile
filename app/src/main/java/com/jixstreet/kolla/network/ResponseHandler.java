@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.network;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -8,6 +9,10 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.jixstreet.kolla.intro.IntroActivity;
+import com.jixstreet.kolla.intro.IntroActivity_;
+import com.jixstreet.kolla.parent.DefaultResponse;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.Log;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -150,9 +155,9 @@ public class ResponseHandler<R, T> implements Callback {
         if (TextUtils.isEmpty(strResult))
             return false;
 
-        RDefault response;
+        DefaultResponse response;
         try {
-            response = new Gson().fromJson(strResult, RDefault.class);
+            response = new Gson().fromJson(strResult, DefaultResponse.class);
         } catch (JsonSyntaxException e) {
             Log.d(NET, "This API response doesn't have 'success' field.");
             Log.d(NET, "This API response doesn't have 'status' field.");
@@ -164,7 +169,9 @@ public class ResponseHandler<R, T> implements Callback {
 
             Context context = parent.contextWR.get();
             if (context != null) {
-                //Return to login page
+                ActivityUtils.startActivityWParam((Activity) context, IntroActivity_.class,
+                        IntroActivity.paramsCode, RStatus.SESSION_EXPIRED);
+                ((Activity) context).finish();
             } else {
                 Log.d("ResponseHandler", "Context is null");
             }

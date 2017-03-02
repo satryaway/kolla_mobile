@@ -8,7 +8,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
+import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.DynamicConfig;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.utility.Convert;
 import com.jixstreet.kolla.utility.StringUtils;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -177,8 +179,11 @@ public abstract class BaseHttp<R, T> {
         if (httpUrl == null)
             return null;
 
+        String authorization = LoginJson.Response.getAccessToken(contextWR.get());
+
         return new Request.Builder()
                 .url(httpUrl)
+                .addHeader(CommonConstant.AUTHORIZATION, authorization)
                 .tag(this)
                 .build();
     }

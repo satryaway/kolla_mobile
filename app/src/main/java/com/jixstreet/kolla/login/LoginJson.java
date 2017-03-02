@@ -9,7 +9,7 @@ import com.jixstreet.kolla.parent.ModelJson;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
-import com.jixstreet.kolla.network.RDefault;
+import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
 import com.jixstreet.kolla.prefs.CPrefs;
@@ -20,17 +20,13 @@ import java.util.ArrayList;
  *
  */
 public class LoginJson extends ModelJson {
+    private static String PrefKey = LoginJson.class.getName().concat("1");
     private OnLogin onLogin;
     private ProgressOkHttp<Response, Void> req;
 
     @Override
     public String getRoute() {
         return "/auth/login";
-    }
-
-    @Override
-    public Class getChildClass() {
-        return LoginJson.class;
     }
 
     @Override
@@ -56,8 +52,7 @@ public class LoginJson extends ModelJson {
         }
     }
 
-    public static class Response extends RDefault {
-        public String access_token;
+    public static class Response extends DefaultResponse {
         public UserData data;
 
         public static void saveData(Context ctx, String access_token, UserData data) {
@@ -66,7 +61,7 @@ public class LoginJson extends ModelJson {
         }
 
         public static void saveAccessToken(Context ctx, String accessToken) {
-            CPrefs.write(ctx, PrefKey, accessToken, String.class);
+            CPrefs.write(ctx, LoginJson.PrefKey, accessToken, String.class);
         }
 
         public static void clearAccessToken(Context ctx) {
