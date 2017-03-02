@@ -1,20 +1,21 @@
 package com.jixstreet.kolla.news;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
  * Created by satryaway on 2/16/2017.
  * satryaway@gmail.com
  */
 
 public class NewsItem {
+    public String id;
     public String title;
-    public String date;
-    public String imageUrl;
+    public String content;
+    public String cover_image;
+    public String created_at;
+    public String updated_at;
 
-    public NewsItem(String title, String date, String imageUrl) {
+    public NewsItem(String title, String created_at, String cover_image) {
         this.title = title;
-        this.date = date;
-        this.imageUrl = imageUrl;
+        this.created_at = created_at;
+        this.cover_image = cover_image;
     }
 }
