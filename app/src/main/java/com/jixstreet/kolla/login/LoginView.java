@@ -62,7 +62,7 @@ public class LoginView extends IntroView {
         return count == 2;
     }
 
-    private LoginJson.OnLogin onLogin = new LoginJson.OnLogin() {
+    private OnLogin onLogin = new OnLogin() {
         @Override
         public void onSuccess(LoginJson.Response response) {
             LoginJson.Response.saveData(getContext(), response.access_token, response.data);

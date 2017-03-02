@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
+import com.jixstreet.kolla.parent.DefaultRequest;
+import com.jixstreet.kolla.parent.ModelJson;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
@@ -17,29 +19,36 @@ import java.util.ArrayList;
 /**
  *
  */
-public class LoginJson {
-    public static final transient String API = "/auth/login";
-    public static final transient String PrefKey = LoginJson.class.getName().concat("1");
-    private final Context context;
+public class LoginJson extends ModelJson {
     private OnLogin onLogin;
     private ProgressOkHttp<Response, Void> req;
 
+    @Override
+    public String getRoute() {
+        return "/auth/login";
+    }
+
+    @Override
+    public Class getChildClass() {
+        return LoginJson.class;
+    }
+
+    @Override
+    public void cancel() {
+        req.cancel();
+    }
+
     public LoginJson(Context context) {
-        this.context = context;
+        super(context);
         req = new ProgressOkHttp<>(context, Response.class);
     }
 
-    public interface OnLogin {
-        void onSuccess(Response response);
-
-        void onFailure(String text);
-    }
-
-    public static class Request {
+    public static class Request extends DefaultRequest {
         public String email;
         public String password;
 
-        public ArrayList<Pair<String, String>> createParams() {
+        @Override
+        public ArrayList<Pair<String, String>> getParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
             params.add(new Pair<>("email", email));
             params.add(new Pair<>("password", password));
@@ -75,7 +84,7 @@ public class LoginJson {
 
     public void post(Request request, OnLogin onLogin) {
         this.onLogin = onLogin;
-        req.post(API, request.createParams(), null, onLoginDone,
+        req.post(ROUTE, request.getParams(), null, onLoginDone,
                 "Logging in...", true);
     }
 
@@ -93,9 +102,4 @@ public class LoginJson {
             }
         }
     };
-
-    public void cancel() {
-        req.cancel();
-    }
-
 }
