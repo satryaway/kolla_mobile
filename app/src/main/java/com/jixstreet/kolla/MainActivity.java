@@ -1,5 +1,6 @@
 package com.jixstreet.kolla;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -13,9 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.jixstreet.kolla.booking.BookingFragment;
+import com.jixstreet.kolla.booking.BookingFragment_;
 import com.jixstreet.kolla.news.NewsFragment;
-import com.jixstreet.kolla.utility.ViewUtils;
+import com.jixstreet.kolla.news.NewsFragment_;
+import com.jixstreet.kolla.utility.DialogUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity
 
     @AfterViews
     void onViewsCreated() {
-        ViewUtils.makeStatusBarTransparent(this);
+//        ViewUtils.makeStatusBarTransparent(this);
         modifyActionBar();
         initDrawer();
-        setContent(NewsFragment.newInstance(), NEWS, false);
+        setContent(NewsFragment.newInstance(), NEWS);
     }
 
     private void modifyActionBar() {
@@ -67,23 +69,16 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
-    private void setContent(Fragment fragment, String tag, boolean addToBackStack) {
+    private void setContent(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment savedFragment = fragmentManager.findFragmentByTag(tag);
 
         if (savedFragment == null) {
-            if (addToBackStack) {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
-                        .add(R.id.content_wrapper, fragment, tag)
-                        .addToBackStack(tag)
-                        .commit();
-            } else {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
-                        .add(R.id.content_wrapper, fragment, tag)
-                        .commit();
-            }
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
+                    .add(R.id.content_wrapper, fragment, tag)
+                    .commit();
+
             previousFragment = fragment;
         } else {
             if (!previousFragment.getTag().equals(tag)) {
@@ -96,12 +91,28 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            DialogUtils.makeToast(this, getString(R.string.tap_twice_to_exit));
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -148,15 +159,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.action_news) {
-            fragment = NewsFragment.newInstance();
+            fragment = new NewsFragment_();
             tag = NEWS;
         } else if (id == R.id.action_booking) {
-            fragment = BookingFragment.newInstance();
+            fragment = new BookingFragment_();
             tag = BOOKING;
         }
 
         if (fragment != null)
-            setContent(fragment, tag, true);
+            setContent(fragment, tag);
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

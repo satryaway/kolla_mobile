@@ -180,6 +180,8 @@ public abstract class BaseHttp<R, T> {
             return null;
 
         String authorization = LoginJson.Response.getAccessToken(contextWR.get());
+        if (authorization == null)
+            authorization = "";
 
         return new Request.Builder()
                 .url(httpUrl)

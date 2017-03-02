@@ -84,6 +84,7 @@ public class RegisterView extends IntroView {
                 @Override
                 public void run() {
                     ActivityUtils.startActivity((Activity)getContext(), MainActivity_.class);
+                    ((Activity)getContext()).finish();
                 }
             }, 1500);
         }

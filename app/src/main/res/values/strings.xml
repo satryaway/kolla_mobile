@@ -38,4 +38,5 @@
     <string name="history">History</string>
     <string name="hot_desk">Hot Desk</string>
     <string name="unknown_error_occured">Unknown Error Occured</string>
+    <string name="tap_twice_to_exit">Tap once again to exit!</string>
 </resources>
