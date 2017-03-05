@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:showIn="@layout/fragment_booking">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/item_1_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1">
+
+            <com.jixstreet.kolla.view.SquareImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent_navy_blue_90"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/hot_desk"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item_2_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <com.jixstreet.kolla.view.SquareImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent_navy_blue_90"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/hot_desk"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:id="@+id/item_3_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <com.jixstreet.kolla.view.SquareImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent_navy_blue_90"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/hot_desk"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/item_4_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <com.jixstreet.kolla.view.SquareImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/dummy_bg" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent_navy_blue_90"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/hot_desk"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

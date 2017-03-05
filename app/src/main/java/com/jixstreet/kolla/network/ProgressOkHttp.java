@@ -213,7 +213,7 @@ public class ProgressOkHttp<R, T> extends BaseHttp<R, T> {
         public void onCancel(DialogInterface dialog) {
             mClient.cancel(this);
 
-            String errorMsg = "Dibatalkan oleh user";
+            String errorMsg = contextWR.get().getString(com.jixstreet.kolla.R.string.cancelled_by_user);
 
             if (mResponseHandler != null) {
                 mResponseHandler.cleanupDialog(mHandler);

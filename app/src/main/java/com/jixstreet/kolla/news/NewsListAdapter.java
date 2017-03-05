@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.NewsDetail;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private final Context context;
-    private int lastPosition = -1;
 
     private ArrayList<NewsDetail> news = new ArrayList<>();
 
@@ -42,10 +42,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsViewHolder) {
             ((NewsViewHolder) holder).getView().setNewsDetail(news.get(position - 1));
-            setAnimation(holder.itemView, position);
         } else if (holder instanceof NewsHeaderViewHolder) {
             ((NewsHeaderViewHolder) holder).getView().setView();
         }
+        setAnimation(holder.itemView);
     }
 
     @Override
@@ -65,16 +65,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
         if (holder instanceof NewsViewHolder) {
             ((NewsViewHolder) holder).getView().clearAnimation();
+        } else {
+            ((NewsHeaderViewHolder) holder).getView().clearAnimation();
         }
     }
 
-    private void setAnimation(View viewToAnimate, int position) {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
-        }
+    private void setAnimation(View viewToAnimate) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
+        viewToAnimate.startAnimation(animation);
     }
 
     public void setNews(ArrayList<NewsDetail> news) {

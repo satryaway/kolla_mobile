@@ -14,9 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginResult;
 import com.jixstreet.kolla.booking.BookingFragment_;
+import com.jixstreet.kolla.intro.IntroActivity_;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
 import com.jixstreet.kolla.news.NewsFragment_;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -46,7 +50,11 @@ public class MainActivity extends AppCompatActivity
 
     @AfterViews
     void onViewsCreated() {
-//        ViewUtils.makeStatusBarTransparent(this);
+        if (LoginJson.Response.getAccessToken(this) == null) {
+            ActivityUtils.startActivity(this, IntroActivity_.class);
+            finish();
+            return;
+        }
         modifyActionBar();
         initDrawer();
         setContent(NewsFragment.newInstance(), NEWS);
