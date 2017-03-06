@@ -1,5 +1,8 @@
 package com.jixstreet.kolla;
 
+import android.content.Context;
+
+import com.jixstreet.kolla.booking.BookingCategory;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
@@ -31,5 +34,14 @@ public class Seeder {
         newsHeaderItems.add(new NewsHeaderItem("Dapatkan Koneksi Baru dan Kawan Baru", "23 January 2016", R.drawable.dummy_bg));
 
         return newsHeaderItems;
+    }
+
+    public static List<BookingCategory> getBookingCategories(Context context) {
+        List<BookingCategory> bookingCategories = new ArrayList<>();
+        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Hot Desk"));
+        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Cold Desk"));
+        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Warm Desk"));
+        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Normal Desk"));
+        return bookingCategories;
     }
 }

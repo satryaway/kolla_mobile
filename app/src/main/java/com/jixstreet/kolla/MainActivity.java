@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.facebook.login.LoginResult;
 import com.jixstreet.kolla.booking.BookingFragment_;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity
 
     @ViewById(R.id.bottom_navigation)
     protected BottomNavigationView bottomNavigationView;
+
+    @ViewById(R.id.toolbar_title_tv)
+    protected TextView toolbarTitleTv;
 
     private static final String NEWS = "news";
     private Fragment previousFragment;
@@ -97,6 +101,10 @@ public class MainActivity extends AppCompatActivity
                 previousFragment = fragment;
             }
         }
+    }
+
+    private void setToolbarTitle(String toolbarTitle) {
+        toolbarTitleTv.setText(toolbarTitle);
     }
 
     boolean doubleBackToExitPressedOnce = false;
@@ -155,6 +163,8 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         String tag = "";
 
+        String toolbarTitle = "";
+
         if (id == R.id.nav_camera) {
         } else if (id == R.id.nav_gallery) {
 
@@ -168,14 +178,18 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.action_news) {
             fragment = new NewsFragment_();
+            toolbarTitle = "";
             tag = NEWS;
         } else if (id == R.id.action_booking) {
             fragment = new BookingFragment_();
+            toolbarTitle = getString(R.string.your_kolla_credits);
             tag = BOOKING;
         }
 
-        if (fragment != null)
+        if (fragment != null) {
             setContent(fragment, tag);
+            setToolbarTitle(toolbarTitle);
+        }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

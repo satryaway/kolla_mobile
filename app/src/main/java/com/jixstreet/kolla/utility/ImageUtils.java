@@ -72,6 +72,22 @@ public class ImageUtils {
     }
 
     /**
+     * Load local mage into ImageView, scale down as necessary .
+     */
+    public static final void loadLocalImage(@NonNull Context context,
+                                               @Nullable ImageView imageView,
+                                               @DrawableRes int imageResId) {
+        if (imageView == null)
+            return;
+
+        Glide.with(context)
+                .load(imageResId)
+                .skipMemoryCache(false)
+                .centerCrop()
+                .into(imageView);
+    }
+
+    /**
      * Load local gif image into ImageView with placeholder
      */
     public static final void loadLocalGifImage(@NonNull Context context,

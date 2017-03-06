@@ -9,7 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+
+import com.jixstreet.kolla.R;
 
 /**
  * Created by satryaway on 2/16/2017.
@@ -49,5 +53,10 @@ public class ViewUtils {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    public static void setAnimation(Context context, View viewToAnimate) {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
+        viewToAnimate.startAnimation(animation);
     }
 }

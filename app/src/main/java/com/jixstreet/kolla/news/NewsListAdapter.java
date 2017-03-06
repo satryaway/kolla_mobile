@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.NewsDetail;
+import com.jixstreet.kolla.utility.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else if (holder instanceof NewsHeaderViewHolder) {
             ((NewsHeaderViewHolder) holder).getView().setView();
         }
-        setAnimation(holder.itemView);
+        ViewUtils.setAnimation(context, holder.itemView);
     }
 
     @Override
@@ -68,11 +69,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             ((NewsHeaderViewHolder) holder).getView().clearAnimation();
         }
-    }
-
-    private void setAnimation(View viewToAnimate) {
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
-        viewToAnimate.startAnimation(animation);
     }
 
     public void setNews(ArrayList<NewsDetail> news) {
