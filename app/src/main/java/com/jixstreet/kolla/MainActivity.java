@@ -1,12 +1,15 @@
 package com.jixstreet.kolla;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     @ViewById(R.id.toolbar_title_tv)
     protected TextView toolbarTitleTv;
 
+    @ViewById(R.id.appbar)
+    protected AppBarLayout appBarLayout;
+
     private static final String NEWS = "news";
     private Fragment previousFragment;
     private BookingFragment bookingFragment;
@@ -68,9 +74,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void modifyActionBar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     private void initDrawer() {
@@ -104,6 +108,14 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 previousFragment = fragment;
             }
+        }
+    }
+
+    private void setToolbarColorTransparent(boolean isTransparent) {
+        if (isTransparent) {
+            appBarLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent));
+        } else {
+            appBarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
         }
     }
 
@@ -168,6 +180,7 @@ public class MainActivity extends AppCompatActivity
         String tag = "";
 
         String toolbarTitle = "";
+        boolean isTransparent = false;
 
         if (id == R.id.nav_camera) {
         } else if (id == R.id.nav_gallery) {
@@ -192,12 +205,14 @@ public class MainActivity extends AppCompatActivity
 
             fragment = bookingFragment;
             toolbarTitle = getString(R.string.your_kolla_credits);
+            isTransparent = true;
             tag = BOOKING;
         }
 
         if (fragment != null) {
             setContent(fragment, tag);
             setToolbarTitle(toolbarTitle);
+            setToolbarColorTransparent(isTransparent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

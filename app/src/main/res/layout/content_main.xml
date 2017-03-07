@@ -4,7 +4,6 @@
     android:id="@+id/content_main2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/toolbar_wrapper"
     android:layout_above="@+id/divider_view"
     tools:context="com.jixstreet.kolla.MainActivity"
     tools:showIn="@layout/app_bar_main">
