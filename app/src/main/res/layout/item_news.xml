@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:clickable="true"
     android:background="?attr/selectableItemBackground"
@@ -9,7 +10,7 @@
 
     <com.jixstreet.kolla.view.SquareImageView
         android:id="@+id/news_image_iv"
-        android:layout_width="100dp"
+        android:layout_width="@dimen/news_item_width"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/dummy_bg" />
@@ -18,13 +19,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/news_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+            tools:text="@string/dummy_long_text"
+            android:lines="3"
+            android:textSize="@dimen/medium_text"
             android:textStyle="bold" />
 
         <TextView
@@ -32,8 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="25 Agustus 2016" />
-
+            tools:text="25 Agustus 2016" />
     </LinearLayout>
 
 </LinearLayout>

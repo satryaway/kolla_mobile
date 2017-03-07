@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:padding="32dp"
-        android:id="@+id/linearLayout">
+        android:padding="32dp">
 
         <EditText
             android:id="@+id/email_et"
@@ -136,10 +135,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="19dp">
+        android:layout_marginTop="24dp">
 
         <ImageView
             android:id="@+id/close_login_page_iv"
