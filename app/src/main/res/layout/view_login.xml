@@ -6,38 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/transparent_bg_90">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
-
-        <ImageView
-            android:id="@+id/close_login_page_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_chevron_left" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/login"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/large_text" />
-
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:padding="32dp">
+        android:padding="32dp"
+        android:id="@+id/linearLayout">
 
         <EditText
             android:id="@+id/email_et"
@@ -157,5 +132,35 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="19dp">
+
+        <ImageView
+            android:id="@+id/close_login_page_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:tint="@android:color/white"
+            android:src="@drawable/ic_chevron_left" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/large_text" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/large_text" />
+                    android:textSize="@dimen/medium_text" />
                 </android.support.v7.widget.Toolbar>
 
 

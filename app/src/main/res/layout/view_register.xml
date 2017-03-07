@@ -20,7 +20,8 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:contentDescription="@null"
-            android:src="@drawable/ic_chevron_left" />
+            android:src="@drawable/ic_chevron_left"
+            android:tint="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,0 +1,50 @@
+package com.jixstreet.kolla.booking.room;
+
+import android.content.Context;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.utility.ImageUtils;
+
+import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.ViewById;
+
+/**
+ * Created by satryaway on 3/7/2017.
+ * satryaway@gmail.com
+ */
+
+@EViewGroup(R.layout.item_room)
+public class RoomView extends RelativeLayout {
+    @ViewById(R.id.room_image_iv)
+    protected ImageView roomImageIv;
+
+    @ViewById(R.id.seat_count_tv)
+    protected TextView seatCountTv;
+
+    @ViewById(R.id.room_title_tv)
+    protected TextView roomTitleTv;
+
+    @ViewById(R.id.room_description_tv)
+    protected TextView roomDescriptionTv;
+
+    private Room room;
+
+    public RoomView(Context context) {
+        super(context);
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+        setValue();
+    }
+
+    private void setValue() {
+        ImageUtils.loadImageWithPlaceHolder(getContext(), room.imageUrl, roomImageIv, R.drawable.dummy_bg);
+        seatCountTv.setText(room.seatCount);
+        roomTitleTv.setText(room.title);
+        roomDescriptionTv.setText(room.description);
+    }
+}

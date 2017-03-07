@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking;
+package com.jixstreet.kolla.booking.category;
 
 import android.graphics.drawable.Drawable;
 

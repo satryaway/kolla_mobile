@@ -40,4 +40,10 @@
     <string name="unknown_error_occured">Unknown Error Occured</string>
     <string name="tap_twice_to_exit">Tap once again to exit!</string>
     <string name="cancelled_by_user">Cancelled by user</string>
+    <string name="title_activity_room_list">RoomListActivity</string>
+    <string name="dummy_long_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed tellus sem, vehicula sed nulla at, laoreet lacinia sem. Morbi eu lorem magna.
+        Aenean vitae gravida magna. Phasellus vulputate vel nibh quis hendrerit. </string>
+    <string name="dummy_short_text">Lorem ipsum dolor sit amet</string>
+    <string name="locations_available">"%d Locations Available"</string>
 </resources>

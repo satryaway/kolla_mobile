@@ -2,7 +2,9 @@ package com.jixstreet.kolla;
 
 import android.content.Context;
 
-import com.jixstreet.kolla.booking.BookingCategory;
+import com.jixstreet.kolla.booking.category.BookingCategory;
+import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.booking.room.RoomHeader;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
@@ -43,5 +45,27 @@ public class Seeder {
         bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Warm Desk"));
         bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Normal Desk"));
         return bookingCategories;
+    }
+
+    public static RoomHeader getRoomHeader() {
+        return new RoomHeader("Hot Desk", "Suitable for individuals who needs a flexible work space");
+    }
+
+    public static ArrayList<Room> getRoomList() {
+        ArrayList<Room> rooms = new ArrayList<>();
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        return rooms;
     }
 }

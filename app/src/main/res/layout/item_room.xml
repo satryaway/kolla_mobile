@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/gray_border_layout"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/room_image_iv"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/dummy_bg" />
+
+        <TextView
+            android:id="@+id/seat_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/room_image_iv"
+            android:layout_alignRight="@+id/room_image_iv"
+            android:layout_marginRight="16dp"
+            android:background="@color/transparent_navy_blue_90"
+            android:padding="8dp"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            tools:text="22 Seats" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/room_image_iv"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/room_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/medium_text"
+                android:textStyle="bold"
+                tools:text="Kolla Space - Sabang" />
+
+            <TextView
+                android:id="@+id/room_description_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:lines="2"
+                android:textColor="@color/secondary_text"
+                tools:text="@string/dummy_long_text" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

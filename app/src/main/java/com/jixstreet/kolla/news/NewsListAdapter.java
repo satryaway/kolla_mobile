@@ -2,12 +2,8 @@ package com.jixstreet.kolla.news;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
-import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.utility.ViewUtils;
 

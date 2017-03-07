@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking;
+package com.jixstreet.kolla.booking.category;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;

@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.jixstreet.kolla.booking.BookingFragment;
+import com.jixstreet.kolla.booking.category.BookingFragment;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
