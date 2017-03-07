@@ -1,5 +1,6 @@
 package com.jixstreet.kolla;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,12 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.facebook.login.LoginResult;
-import com.jixstreet.kolla.booking.BookingFragment_;
+import com.jixstreet.kolla.booking.BookingFragment;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
-import com.jixstreet.kolla.news.NewsFragment_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 
@@ -51,6 +50,8 @@ public class MainActivity extends AppCompatActivity
 
     private static final String NEWS = "news";
     private Fragment previousFragment;
+    private BookingFragment bookingFragment;
+    private NewsFragment newsFragment;
 
     @AfterViews
     void onViewsCreated() {
@@ -61,7 +62,9 @@ public class MainActivity extends AppCompatActivity
         }
         modifyActionBar();
         initDrawer();
-        setContent(NewsFragment.newInstance(), NEWS);
+
+        newsFragment = NewsFragment.newInstance();
+        setContent(newsFragment, NEWS);
     }
 
     private void modifyActionBar() {
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity
             if (!previousFragment.getTag().equals(tag)) {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.fade_in_effect, R.anim.fade_out_effect)
-                        .replace(R.id.content_wrapper, fragment, tag)
+                        .show(fragment)
+                        .hide(previousFragment)
                         .commit();
                 previousFragment = fragment;
             }
@@ -177,11 +181,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.action_news) {
-            fragment = new NewsFragment_();
+            if (newsFragment == null)
+                newsFragment = NewsFragment.newInstance();
+            fragment = newsFragment;
             toolbarTitle = "";
             tag = NEWS;
         } else if (id == R.id.action_booking) {
-            fragment = new BookingFragment_();
+            if (bookingFragment == null)
+                bookingFragment = BookingFragment.newInstance();
+
+            fragment = bookingFragment;
             toolbarTitle = getString(R.string.your_kolla_credits);
             tag = BOOKING;
         }
@@ -193,5 +202,10 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
