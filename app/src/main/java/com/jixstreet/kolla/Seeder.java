@@ -53,19 +53,18 @@ public class Seeder {
 
     public static ArrayList<Room> getRoomList() {
         ArrayList<Room> rooms = new ArrayList<>();
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
-        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats"));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", false));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", false));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", false));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
+        rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
         return rooms;
     }
 }

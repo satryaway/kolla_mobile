@@ -33,7 +33,6 @@ public class BookingCategoryAdapter extends RecyclerView.Adapter<BookingCategory
     @Override
     public void onBindViewHolder(BookingCategoryViewHolder holder, int position) {
         holder.getView().setBookingCategory(bookingCategories.get(position));
-        ViewUtils.setAnimation(context, holder.getView());
     }
 
     @Override

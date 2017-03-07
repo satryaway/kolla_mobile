@@ -11,22 +11,44 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="?attr/selectableItemBackground">
 
-        <ImageView
-            android:id="@+id/room_image_iv"
+        <FrameLayout
+            android:id="@+id/image_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:contentDescription="@null"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/dummy_bg" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/room_image_iv"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/dummy_bg" />
+
+            <TextView
+                android:id="@+id/full_booked_state_tv"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:background="@drawable/full_book_bar"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/full_book"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/seat_count_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/room_image_iv"
-            android:layout_alignRight="@+id/room_image_iv"
+            android:layout_alignBottom="@+id/image_wrapper"
+            android:layout_alignRight="@+id/image_wrapper"
             android:layout_marginRight="16dp"
             android:background="@color/transparent_navy_blue_90"
             android:padding="8dp"
@@ -39,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/room_image_iv"
+            android:layout_below="@+id/image_wrapper"
             android:orientation="vertical"
             android:padding="12dp">
 

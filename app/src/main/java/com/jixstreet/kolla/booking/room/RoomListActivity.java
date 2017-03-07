@@ -17,7 +17,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_room_list)
+@EActivity(R.layout.content_room_list)
 public class RoomListActivity extends AppCompatActivity {
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -49,9 +49,10 @@ public class RoomListActivity extends AppCompatActivity {
     private void initAdapter() {
         roomListAdapter = new RoomListAdapter(this);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(this, true);
-        roomRv.setNestedScrollingEnabled(true);
+        roomRv.setNestedScrollingEnabled(false);
         roomRv.setClipToPadding(true);
         roomRv.setLayoutManager(layoutManager);
+        roomRv.setItemAnimator(new DefaultItemAnimator());
         roomRv.setAdapter(roomListAdapter);
     }
 

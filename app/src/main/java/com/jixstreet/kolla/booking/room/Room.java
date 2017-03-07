@@ -10,11 +10,13 @@ public class Room {
     public String title;
     public String description;
     public String seatCount;
+    public boolean isFullBooked;
 
-    public Room(String imageUrl, String title, String description, String seatCount) {
+    public Room(String imageUrl, String title, String description, String seatCount, boolean isFullBooked) {
         this.imageUrl = imageUrl;
         this.title = title;
         this.description = description;
         this.seatCount = seatCount;
+        this.isFullBooked = isFullBooked;
     }
 }

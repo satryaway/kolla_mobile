@@ -84,6 +84,7 @@ public class ImageUtils {
                 .load(imageResId)
                 .skipMemoryCache(false)
                 .centerCrop()
+                .crossFade()
                 .into(imageView);
     }
 
@@ -147,7 +148,8 @@ public class ImageUtils {
         Glide.with(ctx).load(url)
                 .placeholder(placeHolderRes)
                 .skipMemoryCache(true)
-                .fitCenter()
+                .centerCrop()
+                .crossFade()
                 .into(imageView);
         Log.d("Image", url);
     }

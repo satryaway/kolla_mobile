@@ -46,7 +46,7 @@ public class NewsFragment extends Fragment {
         newsListAdapter = new NewsListAdapter(getActivity());
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         ViewUtils.setRecyclerViewDivider(newsRv, layoutManager);
-        newsRv.setNestedScrollingEnabled(true);
+        newsRv.setNestedScrollingEnabled(false);
         newsRv.setClipToPadding(true);
         newsRv.setLayoutManager(layoutManager);
         newsRv.setItemAnimator(new DefaultItemAnimator());

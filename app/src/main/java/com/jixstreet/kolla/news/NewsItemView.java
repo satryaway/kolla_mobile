@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.NewsDetail;
+import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -41,7 +42,7 @@ public class NewsItemView extends LinearLayout {
 
     private void setValue() {
         newsTitleTv.setText(newsDetail.title);
-        newsDateTv.setText(newsDetail.created_at);
+        newsDateTv.setText(DateUtils.getDateTimeStr(Long.valueOf(newsDetail.created_at), ""));
         ImageUtils.loadImage(getContext(), newsDetail.cover_image, newsImageIv);
     }
 }

@@ -2,11 +2,13 @@ package com.jixstreet.kolla.booking.room;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.news.NewsListAdapter;
-import com.jixstreet.kolla.utility.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final Context context;
 
     private ArrayList<Room> rooms = new ArrayList<>();
+    private int lastPosition = -1;
 
     public RoomListAdapter(Context context) {
         this.context = context;
@@ -39,7 +42,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RoomViewHolder) {
             ((RoomViewHolder) holder).getView().setRoom(rooms.get(position - 1));
-            ViewUtils.setAnimation(context, holder.itemView);
+            setAnimation(holder.itemView, position);
         } else if (holder instanceof RoomHeaderViewHolder) {
             ((RoomHeaderViewHolder) holder).getView().setRoomHeader(Seeder.getRoomHeader());
         }
@@ -64,6 +67,14 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((RoomViewHolder) holder).getView().clearAnimation();
         } else {
             ((RoomHeaderViewHolder) holder).getView().clearAnimation();
+        }
+    }
+
+    public void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_top);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
         }
     }
 

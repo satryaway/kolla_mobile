@@ -212,7 +212,7 @@ public class DateUtils {
      */
     public static final String getDateTimeStr(long timeMillis, String format) {
         if (TextUtils.isEmpty(format))
-            format = "dd MMMM yyyy HH:mm";
+            format = "dd MMM yyyy";
 
         Calendar c = getCalendar();
         c.setTimeInMillis(timeMillis);

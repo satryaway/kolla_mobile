@@ -10,9 +10,6 @@
         android:id="@+id/category_image_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="false"
-        android:background="?attr/selectableItemBackground"
-        android:scaleType="centerCrop"
         android:src="@drawable/dummy_bg" />
 
     <TextView

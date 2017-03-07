@@ -30,9 +30,10 @@ public class BookingFragment extends Fragment {
     void onViewsCreated() {
         BookingCategoryAdapter bookingCategoryAdapter = new BookingCategoryAdapter(getActivity());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        bookingCategoryRv.setNestedScrollingEnabled(true);
-        bookingCategoryRv.setClipToPadding(true);
+        bookingCategoryRv.setNestedScrollingEnabled(false);
+        bookingCategoryRv.setClipToPadding(false);
         bookingCategoryRv.setLayoutManager(layoutManager);
+        bookingCategoryRv.setHasFixedSize(true);
         bookingCategoryRv.setItemAnimator(new DefaultItemAnimator());
         bookingCategoryRv.setAdapter(bookingCategoryAdapter);
 

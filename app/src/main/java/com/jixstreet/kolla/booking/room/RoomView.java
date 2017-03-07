@@ -30,6 +30,9 @@ public class RoomView extends RelativeLayout {
     @ViewById(R.id.room_description_tv)
     protected TextView roomDescriptionTv;
 
+    @ViewById(R.id.full_booked_state_tv)
+    protected TextView fullBookedStateTv;
+
     private Room room;
 
     public RoomView(Context context) {
@@ -44,7 +47,14 @@ public class RoomView extends RelativeLayout {
     private void setValue() {
         ImageUtils.loadImageWithPlaceHolder(getContext(), room.imageUrl, roomImageIv, R.drawable.dummy_bg);
         seatCountTv.setText(room.seatCount);
-        roomTitleTv.setText(room.title);
         roomDescriptionTv.setText(room.description);
+        roomTitleTv.setText(room.title);
+        if (room.isFullBooked) {
+            fullBookedStateTv.setVisibility(VISIBLE);
+            seatCountTv.setVisibility(GONE);
+        } else {
+            fullBookedStateTv.setVisibility(GONE);
+            seatCountTv.setVisibility(VISIBLE);
+        }
     }
 }
