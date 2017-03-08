@@ -65,6 +65,7 @@ public class RegisterJson extends ModelJson {
 
     public static class Response extends DefaultResponse {
         public UserData data;
+        public String access_token;
     }
 
     public void post(Request request, OnRegister onRegister) {

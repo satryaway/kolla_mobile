@@ -40,10 +40,7 @@ public class Seeder {
 
     public static List<BookingCategory> getBookingCategories(Context context) {
         List<BookingCategory> bookingCategories = new ArrayList<>();
-        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Hot Desk"));
-        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Cold Desk"));
-        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Warm Desk"));
-        bookingCategories.add(new BookingCategory((R.drawable.dummy_bg), "Normal Desk"));
+        bookingCategories.add(new BookingCategory());
         return bookingCategories;
     }
 

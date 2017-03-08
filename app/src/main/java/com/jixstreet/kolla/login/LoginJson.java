@@ -54,6 +54,7 @@ public class LoginJson extends ModelJson {
 
     public static class Response extends DefaultResponse {
         public UserData data;
+        public String access_token;
 
         public static void saveData(Context ctx, String access_token, UserData data) {
             saveAccessToken(ctx, access_token);

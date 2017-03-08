@@ -6,5 +6,4 @@ package com.jixstreet.kolla.parent;
 public class DefaultResponse {
     public String status;
     public String message;
-    public String access_token;
 }

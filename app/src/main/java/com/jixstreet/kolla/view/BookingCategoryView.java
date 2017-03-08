@@ -45,8 +45,8 @@ public class BookingCategoryView extends RelativeLayout {
     }
 
     private void setValue() {
-        ImageUtils.loadLocalImage(context, categoryImageIv, bookingCategory.src);
-        categoryLabelTv.setText(bookingCategory.label);
+        ImageUtils.loadImageWithPlaceHolder(context, bookingCategory.image, categoryImageIv, R.drawable.dummy_bg);
+        categoryLabelTv.setText(bookingCategory.name);
     }
 
     @Click(R.id.item_wrapper)

@@ -11,6 +11,7 @@ import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
+import com.jixstreet.kolla.parent.DefaultPagingResponse;
 import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.parent.DefaultRequest;
 import com.jixstreet.kolla.parent.ModelJson;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
  */
 
 public class NewsJson extends ModelJson {
-
     private final ProgressOkHttp<Response, Void> req;
     private OnGetNews onGetNews;
 
@@ -57,14 +57,7 @@ public class NewsJson extends ModelJson {
         public Data data;
     }
 
-    public class Data {
-        public String total;
-        public String per_page;
-        public String last_page;
-        public String next_page_url;
-        public String prev_page_url;
-        public String from;
-        public String to;
+    public class Data extends DefaultPagingResponse {
         public ArrayList<NewsDetail> data;
     }
 
