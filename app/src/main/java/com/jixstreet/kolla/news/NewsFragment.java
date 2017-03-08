@@ -59,7 +59,6 @@ public class NewsFragment extends Fragment {
         newsJson.get(request, new OnGetNews() {
             @Override
             public void onSucceed(NewsJson.Response response) {
-                LoginJson.Response.saveAccessToken(getContext(), response.access_token);
                 newsListAdapter.setNews(response.data.data);
             }
 
