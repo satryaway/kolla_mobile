@@ -10,15 +10,12 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.ArrayList;
 
 /**
  * Created by satryaway on 2/16/2017.

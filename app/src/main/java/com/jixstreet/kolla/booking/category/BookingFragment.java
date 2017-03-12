@@ -7,12 +7,14 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.prefs.CPrefs;
 import com.jixstreet.kolla.utility.DialogUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 /**
  * Created by satryaway on 3/2/2017.
@@ -23,7 +25,6 @@ import org.androidannotations.annotations.ViewById;
 public class BookingFragment extends Fragment {
     @ViewById(R.id.booking_category_rv)
     protected RecyclerView bookingCategoryRv;
-    private BookingCategoryJson bookingCategoryJson;
     private BookingCategoryAdapter bookingCategoryAdapter;
 
     public static BookingFragment newInstance() {
@@ -48,12 +49,23 @@ public class BookingFragment extends Fragment {
     }
 
     private void getCategories() {
-        bookingCategoryJson = new BookingCategoryJson(getActivity());
+        List<BookingCategory> responses = CPrefs.readList(getActivity(),
+                BookingCategoryJson.prefKey, BookingCategory[].class);
+
+        if (responses != null && responses.size() > 0)
+            bookingCategoryAdapter.setBookingCategories(responses);
+
+        getCategoriesFromServer();
+    }
+
+    private void getCategoriesFromServer() {
+        BookingCategoryJson bookingCategoryJson = new BookingCategoryJson(getActivity());
         bookingCategoryJson.get(new OnGetCategories() {
             @Override
             public void onSuccess(BookingCategoryJson.Response response) {
                 if (response.data.data != null) {
                     bookingCategoryAdapter.setBookingCategories(response.data.data);
+                    CPrefs.writeList(getActivity(), BookingCategoryJson.prefKey, response.data.data);
                 }
             }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
  */
 
 public class BookingCategoryJson extends ModelJson {
+    public static final String prefKey = BookingCategoryJson.class.getName().concat("1");
     private final ProgressOkHttp<Response, Void> req;
     private OnGetCategories onGetCategories;
 
