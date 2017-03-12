@@ -3,12 +3,14 @@ package com.jixstreet.kolla.news;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -16,17 +18,22 @@ import com.jixstreet.kolla.utility.ViewUtils;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
+
 /**
  * Created by satryaway on 2/16/2017.
  * satryaway@gmail.com
  */
 
 @EFragment(R.layout.fragment_news)
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final int OFFSET = 10;
     @ViewById(R.id.news_rv)
     protected RecyclerView newsRv;
+
+    @ViewById(R.id.refresh_wrapper)
+    protected SwipeRefreshLayout refreshWrapper;
 
     private NewsJson newsJson;
     private NewsListAdapter newsListAdapter;
@@ -47,6 +54,7 @@ public class NewsFragment extends Fragment {
         newsListAdapter = new NewsListAdapter(getActivity());
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
+        refreshWrapper.setOnRefreshListener(this);
 
         ViewUtils.setRecyclerViewDivider(newsRv, layoutManager);
         newsRv.setNestedScrollingEnabled(false);
@@ -74,6 +82,7 @@ public class NewsFragment extends Fragment {
             @Override
             public void onSucceed(NewsJson.Response response) {
                 newsListAdapter.addNews(response.data.data);
+                refreshWrapper.setRefreshing(false);
             }
 
             @Override
@@ -82,5 +91,11 @@ public class NewsFragment extends Fragment {
                         getActivity().getWindow().getDecorView(), message);
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        scrollListener.resetState();
+        newsListAdapter.clearNews();
     }
 }

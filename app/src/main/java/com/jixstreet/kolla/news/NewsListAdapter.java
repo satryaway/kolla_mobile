@@ -43,10 +43,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NewsViewHolder) {
             ((NewsViewHolder) holder).getView().setNewsDetail(news.get(position - 1));
+            setAnimation(holder.itemView, position);
         } else if (holder instanceof NewsHeaderViewHolder) {
             ((NewsHeaderViewHolder) holder).getView().setView();
         }
-        setAnimation(holder.itemView, position);
     }
 
     @Override
@@ -81,6 +81,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void addNews(ArrayList<NewsDetail> news) {
         this.news.addAll(news);
+        notifyDataSetChanged();
+    }
+
+    public void clearNews() {
+        this.news = new ArrayList<>();
+        lastPosition = -1;
         notifyDataSetChanged();
     }
 
