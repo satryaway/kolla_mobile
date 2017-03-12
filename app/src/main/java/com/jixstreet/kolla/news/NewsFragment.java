@@ -84,6 +84,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(String message) {
+                refreshWrapper.setRefreshing(false);
                 DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(),
                         getActivity().getWindow().getDecorView(), message);
             }
@@ -94,5 +95,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onRefresh() {
         scrollListener.resetState();
         newsListAdapter.clearNews();
+        scrollListener.initScroll(newsRv);
     }
 }
