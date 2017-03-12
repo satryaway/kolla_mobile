@@ -79,8 +79,8 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void setNews(ArrayList<NewsDetail> news) {
-        this.news = news;
+    public void addNews(ArrayList<NewsDetail> news) {
+        this.news.addAll(news);
         notifyDataSetChanged();
     }
 

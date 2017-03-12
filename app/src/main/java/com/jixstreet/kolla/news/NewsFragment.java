@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.login.LoginJson;
+import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -24,11 +24,13 @@ import org.androidannotations.annotations.ViewById;
 @EFragment(R.layout.fragment_news)
 public class NewsFragment extends Fragment {
 
+    private static final int OFFSET = 10;
     @ViewById(R.id.news_rv)
     protected RecyclerView newsRv;
 
     private NewsJson newsJson;
     private NewsListAdapter newsListAdapter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public static NewsFragment newInstance() {
         return new NewsFragment_();
@@ -39,27 +41,39 @@ public class NewsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         newsJson = new NewsJson(getActivity());
         initAdapter();
-        getNews();
     }
 
     private void initAdapter() {
         newsListAdapter = new NewsListAdapter(getActivity());
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
+        scrollListener = getScrollListener(layoutManager, OFFSET);
+
         ViewUtils.setRecyclerViewDivider(newsRv, layoutManager);
         newsRv.setNestedScrollingEnabled(false);
         newsRv.setClipToPadding(true);
         newsRv.setLayoutManager(layoutManager);
         newsRv.setItemAnimator(new DefaultItemAnimator());
+        newsRv.addOnScrollListener(scrollListener);
+
         newsRv.setAdapter(newsListAdapter);
     }
 
-    private void getNews() {
+    private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {
+        return new EndlessRecyclerViewScrollListener(layoutManager, offset) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                getNews(page);
+            }
+        };
+    }
+
+    private void getNews(int page) {
         NewsJson.Request request = new NewsJson.Request();
-        request.page = "1";
+        request.page = String.valueOf(page);
         newsJson.get(request, new OnGetNews() {
             @Override
             public void onSucceed(NewsJson.Response response) {
-                newsListAdapter.setNews(response.data.data);
+                newsListAdapter.addNews(response.data.data);
             }
 
             @Override
