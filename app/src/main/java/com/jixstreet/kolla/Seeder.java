@@ -75,4 +75,22 @@ public class Seeder {
 
         return locations;
     }
+
+    public static List<String> getDurations(int count) {
+        List<String> durationList = new ArrayList<>();
+        for (int i = 1; i < count + 1; i++) {
+            durationList.add(i + (i == 1 ? " hour" : " hours"));
+        }
+
+        return durationList;
+    }
+
+    public static List<String> getGuests(int count) {
+        List<String> guestList = new ArrayList<>();
+        for (int i = 1; i < count + 1; i++) {
+            guestList.add(i + (i == 1 ? " person" : " persons"));
+        }
+
+        return guestList;
+    }
 }

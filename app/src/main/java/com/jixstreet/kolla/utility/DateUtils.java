@@ -260,6 +260,21 @@ public class DateUtils {
         return getDateTimeStr(date, month, year, "dd MMMM yyyy");
     }
 
+    public static final String getTimeStr(int hour, int minute, int second) {
+        return getTimeString(hour, minute, second, "HH:mm");
+    }
+
+    public static final String getTimeString(int hour, int minute, int second, String format) {
+        if (TextUtils.isEmpty(format))
+            format = "HH:mm";
+
+        Calendar c = getCalendar();
+        c.set(Calendar.YEAR, Calendar.MONTH, Calendar.DATE, hour, minute, second);
+        SimpleDateFormat sdf = createSDF(format);
+        sdf.setCalendar(c);
+        return sdf.format(c.getTime());
+    }
+
     /**
      * Get datetime string from date, month, year index (in local time). January = 0.
      */
