@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.BookingDetailActivity_;
 import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.utility.ActivityUtils;
@@ -51,6 +52,6 @@ public class BookingCategoryView extends RelativeLayout {
 
     @Click(R.id.item_wrapper)
     void callRoomList() {
-        ActivityUtils.startActivity((Activity) context, RoomListActivity_.class);
+        ActivityUtils.startActivity((Activity) context, BookingDetailActivity_.class);
     }
 }

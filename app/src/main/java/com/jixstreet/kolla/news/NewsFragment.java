@@ -14,6 +14,7 @@ import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -40,9 +41,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         return new NewsFragment_();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    @AfterViews
+    public void onViewsCreated() {
         newsJson = new NewsJson(getActivity());
         initAdapter();
     }

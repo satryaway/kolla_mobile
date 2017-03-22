@@ -64,4 +64,15 @@ public class Seeder {
         rooms.add(new Room("xx", "Kolla Space - Sabang", "7 Eleven Sabang, 2nd Floor. KH. Agus Salim 32B, Sabang", "22 Seats", true));
         return rooms;
     }
+
+    public static List<String> getLocations() {
+        List<String> locations = new ArrayList<>();
+        locations.add("Jakarta");
+        locations.add("Bandung");
+        locations.add("Tangerang");
+        locations.add("Bogor");
+        locations.add("Bekasi");
+
+        return locations;
+    }
 }
