@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.room.RoomJson;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
+import com.jixstreet.kolla.utility.ViewUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -31,6 +34,9 @@ import java.util.List;
 public class BookingDetailActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    public static final int requestCode = ActivityUtils.getRequestCode(BookingDetailActivity.class, "1");
+    public static final String resultKey = BookingDetailActivity.class.getName().concat("1");
+
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -50,25 +56,29 @@ public class BookingDetailActivity extends AppCompatActivity
     protected TextView bookingTimeTv;
 
     private Calendar certainDate;
+    private RoomJson.Request roomParam;
+    private List<String> locations, durations, guests;
 
     @AfterViews
     void onViewsCreated() {
+        roomParam = ActivityUtils.getParam(this, RoomJson.paramKey, RoomJson.Request.class);
+        if (roomParam == null)
+            roomParam = new RoomJson.Request();
+
+        collectDummyData();
         initCalendar();
         initView();
     }
 
-    private void initView() {
-        initToolbar();
-        initSpinners();
+    private void collectDummyData() {
+        locations = Seeder.getLocations();
+        durations = Seeder.getDurations(6);
+        guests = Seeder.getGuests(10);
     }
 
-    private void initToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
+    private void initView() {
+        ViewUtils.setToolbar(this, toolbar);
+        initSpinners();
     }
 
     private void initSpinners() {
@@ -143,6 +153,28 @@ public class BookingDetailActivity extends AppCompatActivity
         }
     };
 
+    private void collectInformation() {
+        roomParam.location = locations.get(locationSpinner.getSelectedItemPosition());
+        roomParam.bookingDate = getString(R.string.date_builder,
+                certainDate.get(Calendar.DAY_OF_MONTH),
+                certainDate.get(Calendar.MONTH) + 1,
+                certainDate.get(Calendar.YEAR));
+        roomParam.bookingTime = getString(R.string.time_builder,
+                certainDate.get(Calendar.HOUR),
+                "00");
+        roomParam.duration = durations.get(durationSpinner.getSelectedItemPosition());
+        roomParam.guest = guests.get(guestCountSpinner.getSelectedItemPosition());
+        roomParam.isInitial = false;
+
+        ActivityUtils.returnWithResult(this, resultKey, roomParam);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         bookingDateTv.setText(DateUtils.getDateTimeStr(dayOfMonth, monthOfYear, year));
@@ -156,6 +188,16 @@ public class BookingDetailActivity extends AppCompatActivity
         certainDate.set(Calendar.MINUTE, 0);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (roomParam.isInitial) {
+            setResult(RESULT_CANCELED);
+            super.onBackPressed();
+        } else {
+            collectInformation();
+        }
+    }
+
     @Click(R.id.booking_date_tv)
     void showDatePicker() {
         showDatePickerDialog(certainDate.get(Calendar.YEAR),
@@ -166,5 +208,10 @@ public class BookingDetailActivity extends AppCompatActivity
     @Click(R.id.booking_time_tv)
     void showTimePicker() {
         showTimePickerDialog(certainDate.get(Calendar.HOUR));
+    }
+
+    @Click(R.id.search_tv)
+    void searchRooms() {
+        collectInformation();
     }
 }

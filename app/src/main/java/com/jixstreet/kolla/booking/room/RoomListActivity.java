@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking.room;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +12,13 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.BookingDetailActivity;
+import com.jixstreet.kolla.booking.BookingDetailActivity_;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -28,22 +33,16 @@ public class RoomListActivity extends AppCompatActivity {
     @ViewById(R.id.room_rv)
     protected RecyclerView roomRv;
 
+    private RoomJson.Request roomParams;
+
     private RoomListAdapter roomListAdapter;
 
     @AfterViews
     void onViewsCreated() {
-        modifyStatusBar();
+        getBookingDetail();
+        ViewUtils.setToolbar(this, toolbar);
         initAdapter();
         setValue();
-    }
-
-    private void modifyStatusBar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
     }
 
     private void initAdapter() {
@@ -69,17 +68,23 @@ public class RoomListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
-        return true;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == BookingDetailActivity.requestCode) {
+                roomParams = ActivityUtils.getResult(data, BookingDetailActivity.resultKey, RoomJson.Request.class);
+                if (roomParams != null) {
+                    //TODO : Do request for room list
+                }
+            }
+        } else {
+            finish();
+        }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-
+    @Click(R.id.setting_iv)
+    void getBookingDetail() {
+        ActivityUtils.startActivityWParamAndWait(this, BookingDetailActivity_.class,
+                RoomJson.paramKey, roomParams, BookingDetailActivity.requestCode);
     }
 }

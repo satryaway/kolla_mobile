@@ -84,7 +84,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(String message) {
-                refreshWrapper.setRefreshing(false);
+                if (refreshWrapper != null)
+                    refreshWrapper.setRefreshing(false);
+
                 DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(),
                         getActivity().getWindow().getDecorView(), message);
             }

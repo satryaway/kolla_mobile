@@ -37,7 +37,7 @@
     <string name="add_credit">Add Credit</string>
     <string name="history">History</string>
     <string name="hot_desk">Hot Desk</string>
-    <string name="unknown_error_occured">Unknown Error Occured</string>
+    <string name="unknown_error_occured">Unknown Error Occurred</string>
     <string name="tap_twice_to_exit">Tap once again to exit!</string>
     <string name="cancelled_by_user">Cancelled by user</string>
     <string name="title_activity_room_list">RoomListActivity</string>
@@ -54,4 +54,6 @@
     <string name="duration">Duration</string>
     <string name="guest">Guest</string>
     <string name="search">Search</string>
+    <string name="date_builder">%1$d&#8211;%2$d&#8211;%3$d</string>
+    <string name="time_builder">%1$d:%2$s</string>
 </resources>
