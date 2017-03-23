@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking.room.detail;
+package com.jixstreet.kolla.booking.room.detail.description;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

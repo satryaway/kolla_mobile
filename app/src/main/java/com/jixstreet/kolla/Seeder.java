@@ -6,6 +6,7 @@ import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomHeader;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailHeaderItem;
+import com.jixstreet.kolla.booking.room.detail.facility.RoomFacility;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
@@ -103,5 +104,14 @@ public class Seeder {
         roomDetailHeaderItems.add(new RoomDetailHeaderItem("Image 4", "This is dummy image, you could change it anytime on Seeder class", R.drawable.dummy_bg));
 
         return roomDetailHeaderItems;
+    }
+
+    public static List<RoomFacility> getRoomFacilities(int count) {
+        List<RoomFacility> roomFacilities = new ArrayList<>();
+        for (int i = 1; i < count+1; i++) {
+            roomFacilities.add(new RoomFacility(R.drawable.com_facebook_close, "Facility " + i));
+        }
+
+        return roomFacilities;
     }
 }

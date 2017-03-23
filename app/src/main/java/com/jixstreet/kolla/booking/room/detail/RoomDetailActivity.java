@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
+import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -44,7 +46,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(RoomDetailFragment.newInstance(), "ONE");
-        adapter.addFragment(RoomDetailFragment.newInstance(), "TWO");
+        adapter.addFragment(RoomFacilityFragment.newInstance(), "TWO");
         adapter.addFragment(RoomDetailFragment.newInstance(), "THREE");
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
