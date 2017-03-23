@@ -14,17 +14,21 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white"
-            app:popupTheme="@style/BaseTheme"
-            app:theme="@style/BaseTheme">
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/white"
+                app:popupTheme="@style/BaseTheme"
+                app:theme="@style/BaseTheme" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize">
 
                 <TextView
                     android:id="@+id/toolbar_title_tv"
@@ -39,13 +43,15 @@
                     android:id="@+id/setting_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:contentDescription="@null"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_gear_setting"
-                    android:contentDescription="@null" />
+                    android:padding="16dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_gear_setting" />
+
             </RelativeLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
