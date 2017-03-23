@@ -13,4 +13,6 @@
     <dimen name="image_list_size">96dp</dimen>
     <dimen name="news_header_height">312dp</dimen>
     <dimen name="news_item_width">108dp</dimen>
+    <dimen name="room_detail_header_size">256dp</dimen>
+    <dimen name="tab_layout_height">48dp</dimen>
 </resources>

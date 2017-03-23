@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/room_detail_header_item_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/dummy_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/room_detail_header_item_iv"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:background="@color/transparent_orange_90"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/tab_layout_height"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/room_detail_header_item_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:textAllCaps="true"
+                android:lines="1"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                tools:text="Dapatkan pacar baru di sini. Banyak pilihan menarik." />
+
+            <TextView
+                android:id="@+id/room_detail_header_item_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:ellipsize="end"
+                android:textColor="@android:color/white"
+                tools:text="Posted on August 25, 2016" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

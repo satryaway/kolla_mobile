@@ -1,13 +1,17 @@
 package com.jixstreet.kolla.booking.room;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
@@ -34,9 +38,11 @@ public class RoomView extends RelativeLayout {
     protected TextView fullBookedStateTv;
 
     private Room room;
+    private Context context;
 
     public RoomView(Context context) {
         super(context);
+        this.context = context;
     }
 
     public void setRoom(Room room) {
@@ -56,5 +62,10 @@ public class RoomView extends RelativeLayout {
             fullBookedStateTv.setVisibility(GONE);
             seatCountTv.setVisibility(VISIBLE);
         }
+    }
+
+    @Click(R.id.main_wrapper)
+    void openDetail() {
+        ActivityUtils.startActivity((Activity)context, RoomDetailActivity_.class);
     }
 }

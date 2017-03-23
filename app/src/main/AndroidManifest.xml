@@ -11,13 +11,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity_"
+            android:name=".booking.room.detail.RoomDetailActivity_"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,13 +27,15 @@
         <activity
             android:name=".intro.IntroActivity_"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".booking.room.RoomListActivity_"
             android:label="@string/title_activity_room_list"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".booking.BookingDetailActivity_" />
+        <!--activity
+            android:name=".booking.room.detail.RoomDetailActivity_"
+            android:label="@string/title_activity_room_detail"
+            android:theme="@style/AppTheme"></activity -->
     </application>
 
 </manifest>

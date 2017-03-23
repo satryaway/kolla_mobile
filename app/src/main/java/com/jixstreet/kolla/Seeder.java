@@ -5,6 +5,7 @@ import android.content.Context;
 import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomHeader;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailHeaderItem;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
@@ -92,5 +93,15 @@ public class Seeder {
         }
 
         return guestList;
+    }
+
+    public static List<RoomDetailHeaderItem> getRoomDetailHeaderList() {
+        List<RoomDetailHeaderItem> roomDetailHeaderItems = new ArrayList<>();
+        roomDetailHeaderItems.add(new RoomDetailHeaderItem("Image 1", "This is dummy image, you could change it anytime on Seeder class", R.drawable.dummy_bg));
+        roomDetailHeaderItems.add(new RoomDetailHeaderItem("Image 2", "This is dummy image, you could change it anytime on Seeder class", R.drawable.dummy_bg));
+        roomDetailHeaderItems.add(new RoomDetailHeaderItem("Image 3", "This is dummy image, you could change it anytime on Seeder class", R.drawable.dummy_bg));
+        roomDetailHeaderItems.add(new RoomDetailHeaderItem("Image 4", "This is dummy image, you could change it anytime on Seeder class", R.drawable.dummy_bg));
+
+        return roomDetailHeaderItems;
     }
 }
