@@ -62,4 +62,7 @@
     <string name="title_activity_room_detail">RoomDetailActivity</string>
     <string name="dummy_day_range">Monday - Friday \n10:00 – 17:00 </string>
     <string name="dummy_facility">Wi-Fi</string>
+    <string name="detail">Detail</string>
+    <string name="facility">Facility</string>
+    <string name="map">Map</string>
 </resources>
