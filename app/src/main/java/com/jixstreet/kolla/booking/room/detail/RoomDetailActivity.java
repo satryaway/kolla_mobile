@@ -49,6 +49,7 @@ public class RoomDetailActivity extends AppCompatActivity {
         adapter.addFragment(RoomDetailFragment.newInstance(), getString(R.string.detail));
         adapter.addFragment(RoomFacilityFragment.newInstance(), getString(R.string.facility));
         adapter.addFragment(RoomMapFragment.newInstance(), getString(R.string.map));
+        contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
 

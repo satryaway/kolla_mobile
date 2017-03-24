@@ -43,8 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tab_layout_height"
                 android:layout_gravity="bottom"
+                app:tabBackground="@android:color/white"
+                app:tabSelectedTextColor="@color/accent"
                 app:tabGravity="fill"
-                app:tabMode="fixed" />
+                app:tabMode="fixed"
+                app:tabTextColor="@android:color/black" />
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

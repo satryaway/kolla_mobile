@@ -1,7 +1,11 @@
 package com.jixstreet.kolla.booking.room.detail.map;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,10 +27,13 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_room_map)
 public class RoomMapFragment extends Fragment {
+
     @ViewById(R.id.map_view)
     MapView mapView;
 
     private GoogleMap map;
+
+    private Bundle bundle;
 
     public static RoomMapFragment newInstance() {
         Bundle args = new Bundle();
@@ -36,8 +43,18 @@ public class RoomMapFragment extends Fragment {
         return fragment;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        bundle = savedInstanceState;
+
+        return null;
+    }
+
     @AfterViews
     protected void onViewsCreated() {
+        mapView.onCreate(bundle);
         mapView.onResume();
 
         try {

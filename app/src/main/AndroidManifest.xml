@@ -23,7 +23,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".booking.room.detail.RoomDetailActivity_"
+            android:name=".MainActivity_"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,12 +39,11 @@
             android:label="@string/title_activity_room_list"
             android:theme="@style/AppTheme" />
         <activity android:name=".booking.BookingDetailActivity_" />
-        <!--
-            activity
+
+        <activity
             android:name=".booking.room.detail.RoomDetailActivity_"
             android:label="@string/title_activity_room_detail"
-            android:theme="@style/AppTheme"></activity
-        -->
+            android:theme="@style/AppTheme"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
