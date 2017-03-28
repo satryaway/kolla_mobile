@@ -65,4 +65,5 @@
     <string name="detail">Detail</string>
     <string name="facility">Facility</string>
     <string name="map">Map</string>
+    <string name="booking_this_space">Booking This Space</string>
 </resources>
