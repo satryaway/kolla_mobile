@@ -66,4 +66,10 @@
     <string name="facility">Facility</string>
     <string name="map">Map</string>
     <string name="booking_this_space">Booking This Space</string>
+    <string name="title_activity_other_payment">OtherPaymentActivity</string>
+    <string name="payment">Payment</string>
+    <string name="not_enough_kolla_point_warning_text">Your KollaPoint is not enough. Please pay with other methods</string>
+    <string name="bank_transfer">Bank Transfer</string>
+    <string name="internet_banking">Internet Banking</string>
+    <string name="credit_card">Credit Card</string>
 </resources>

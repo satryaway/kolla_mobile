@@ -14,9 +14,12 @@ import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
+import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -58,7 +61,12 @@ public class RoomDetailActivity extends AppCompatActivity {
         imageVp.setAdapter(roomDetailHeaderPagerManager);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    @Click(R.id.booking_this_space_tv)
+    void bookThisSpace() {
+        ActivityUtils.startActivity(this, OtherPaymentActivity_.class);
+    }
+
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
