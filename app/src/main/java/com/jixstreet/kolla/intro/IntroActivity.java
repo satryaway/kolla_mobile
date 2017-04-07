@@ -93,6 +93,7 @@ public class IntroActivity extends AppCompatActivity implements IntroView.LoginI
     private void initFacebook() {
         callbackManager = CallbackManager.Factory.create();
         LoginManager loginManager = LoginManager.getInstance();
+        loginManager.logOut();
         loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
         loginManager.registerCallback(callbackManager, facebookCallback);
     }

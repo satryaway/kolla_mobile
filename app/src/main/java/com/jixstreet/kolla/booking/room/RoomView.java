@@ -52,7 +52,7 @@ public class RoomView extends RelativeLayout {
 
     private void setValue() {
         ImageUtils.loadImageWithPlaceHolder(getContext(), room.imageUrl, roomImageIv, R.drawable.dummy_bg);
-        seatCountTv.setText(room.seatCount);
+        seatCountTv.setText(room.available_seats);
         roomDescriptionTv.setText(room.description);
         roomTitleTv.setText(room.title);
         if (room.isFullBooked) {

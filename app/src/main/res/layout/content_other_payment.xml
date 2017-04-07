@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/accent"
-        app:tabTextColor="@android:color/white" />
+        app:tabSelectedTextColor="@color/accent" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/content_viewpager"
