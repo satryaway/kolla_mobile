@@ -39,9 +39,9 @@ public class OtherPaymentActivity extends AppCompatActivity {
 
     private void initPager() {
         OtherPaymentPagerAdapter adapter = new OtherPaymentPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(RoomDetailFragment.newInstance(), getString(R.string.bank_transfer));
-        adapter.addFragment(RoomDetailFragment.newInstance(), getString(R.string.internet_banking));
-        adapter.addFragment(RoomDetailFragment.newInstance(), getString(R.string.credit_card));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.bank_transfer));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.internet_banking));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.credit_card));
 
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);

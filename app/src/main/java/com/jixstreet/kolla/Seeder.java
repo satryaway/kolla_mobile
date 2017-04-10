@@ -7,6 +7,7 @@ import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomHeader;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailHeaderItem;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacility;
+import com.jixstreet.kolla.booking.room.payment.Banking;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 
@@ -113,5 +114,14 @@ public class Seeder {
         }
 
         return roomFacilities;
+    }
+
+    public static List<Banking> getBankingList() {
+        List<Banking> bankingList = new ArrayList<>();
+        bankingList.add(new Banking(R.drawable.dummy_bg, "030-222-3797 a.n Ucing Gipsum "));
+        bankingList.add(new Banking(R.drawable.dummy_bg, "000-5254-7878 a.n Ucing Gipsum "));
+        bankingList.add(new Banking(R.drawable.dummy_bg, "11121-4545-23 a.n Ucing Gipsum "));
+
+        return bankingList;
     }
 }

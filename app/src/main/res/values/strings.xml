@@ -72,4 +72,6 @@
     <string name="bank_transfer">Bank Transfer</string>
     <string name="internet_banking">Internet Banking</string>
     <string name="credit_card">Credit Card</string>
+    <string name="you_can_transfer_this_bank_and_confirm_payment_at_your_profile">You can transfer this bank and confirm payment at your profile.</string>
+    <string name="pay">Pay</string>
 </resources>
