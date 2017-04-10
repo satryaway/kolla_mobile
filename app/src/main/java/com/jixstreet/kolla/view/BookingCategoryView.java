@@ -52,6 +52,7 @@ public class BookingCategoryView extends RelativeLayout {
 
     @Click(R.id.item_wrapper)
     void callRoomList() {
-        ActivityUtils.startActivity((Activity) context, RoomListActivity_.class);
+        ActivityUtils.startActivityWParam((Activity) context, RoomListActivity_.class,
+                BookingCategory.paramKey, bookingCategory);
     }
 }

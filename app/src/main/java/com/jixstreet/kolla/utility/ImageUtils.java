@@ -143,15 +143,12 @@ public class ImageUtils {
      * Load image into ImageView with default place holder, scale down as necessary .
      */
     public static final void loadImageWithPlaceHolder(Context ctx, String url, ImageView imageView, int placeHolderRes) {
-        if (TextUtils.isEmpty(url))
-            return;
         Glide.with(ctx).load(url)
                 .placeholder(placeHolderRes)
                 .skipMemoryCache(true)
                 .centerCrop()
                 .crossFade()
                 .into(imageView);
-        Log.d("Image", url);
     }
 
     /**

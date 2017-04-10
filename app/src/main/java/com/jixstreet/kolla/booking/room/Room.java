@@ -2,6 +2,8 @@ package com.jixstreet.kolla.booking.room;
 
 import com.jixstreet.kolla.booking.category.BookingCategory;
 
+import java.util.List;
+
 /**
  * Created by satryaway on 3/7/2017.
  * satryaway@gmail.com
@@ -10,25 +12,38 @@ import com.jixstreet.kolla.booking.category.BookingCategory;
 public class Room {
     public String id;
     public String category_id;
-    public String title;
-    public String address;
-    public String available_seats;
-    public String images;
-    public String maps_coordinate;
-    public String facilities;
-    public String price;
-    public String created_at;
-    public String updated_at;
-    public BookingCategory bookingCategory;
-    public String imageUrl;
+    public String name;
     public String description;
+    public String location;
+    public String map;
+    public String size;
+    public String measurement;
+    public String price;
+    public String price_type;
+    public String created_at;
+
+    public String updated_at;
+    //Extras for detail
+    public BookingCategory category;
+
+    public List<Facility> facilities;
+    public String images;
+    public String imageUrl;
     public boolean isFullBooked;
 
-    public Room(String imageUrl, String title, String description, String available_seats, boolean isFullBooked) {
+    public Room(String imageUrl, String name, String description, String measurement, boolean isFullBooked) {
         this.imageUrl = imageUrl;
-        this.title = title;
+        this.name = name;
         this.description = description;
-        this.available_seats = available_seats;
+        this.measurement = measurement;
         this.isFullBooked = isFullBooked;
+    }
+
+    public class Facility {
+        public String id;
+        public String name;
+        public String icon;
+        public String created_at;
+        public String updated_at;
     }
 }

@@ -155,15 +155,15 @@ public class BookingDetailActivity extends AppCompatActivity
 
     private void collectInformation() {
         roomParam.location = locations.get(locationSpinner.getSelectedItemPosition());
-        roomParam.bookingDate = getString(R.string.date_builder,
+        roomParam.date = getString(R.string.date_builder,
                 certainDate.get(Calendar.DAY_OF_MONTH),
                 certainDate.get(Calendar.MONTH) + 1,
                 certainDate.get(Calendar.YEAR));
-        roomParam.bookingTime = getString(R.string.time_builder,
-                certainDate.get(Calendar.HOUR),
+        roomParam.time = getString(R.string.time_builder,
+                certainDate.get(Calendar.HOUR_OF_DAY),
                 "00");
-        roomParam.duration = durations.get(durationSpinner.getSelectedItemPosition());
-        roomParam.guest = guests.get(guestCountSpinner.getSelectedItemPosition());
+        roomParam.duration = String.valueOf(durationSpinner.getSelectedItemPosition()+1);
+        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition());
         roomParam.isInitial = false;
 
         ActivityUtils.returnWithResult(this, resultKey, roomParam);
@@ -184,7 +184,7 @@ public class BookingDetailActivity extends AppCompatActivity
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         bookingTimeTv.setText(DateUtils.getTimeStr(hourOfDay, minute, second));
-        certainDate.set(Calendar.HOUR, hourOfDay);
+        certainDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
         certainDate.set(Calendar.MINUTE, 0);
     }
 

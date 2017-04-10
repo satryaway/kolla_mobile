@@ -8,9 +8,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.category.BookingCategory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by satryaway on 3/7/2017.
@@ -22,7 +23,8 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_ITEM = 1;
     private final Context context;
 
-    private ArrayList<Room> rooms = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
+    private BookingCategory bookingCategory = new BookingCategory();
     private int lastPosition = -1;
 
     public RoomListAdapter(Context context) {
@@ -44,7 +46,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((RoomViewHolder) holder).getView().setRoom(rooms.get(position - 1));
             setAnimation(holder.itemView, position);
         } else if (holder instanceof RoomHeaderViewHolder) {
-            ((RoomHeaderViewHolder) holder).getView().setRoomHeader(Seeder.getRoomHeader());
+            ((RoomHeaderViewHolder) holder).getView().setBookingCategory(bookingCategory);
         }
     }
 
@@ -82,8 +84,9 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return position == 0;
     }
 
-    public void setRooms(ArrayList<Room> rooms) {
+    public void setRooms(List<Room> rooms, BookingCategory bookingCategory) {
         this.rooms = rooms;
+        this.bookingCategory = bookingCategory;
         notifyDataSetChanged();
     }
 

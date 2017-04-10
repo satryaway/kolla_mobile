@@ -5,6 +5,7 @@ package com.jixstreet.kolla.booking.room;
  * satryaway@gmail.com
  */
 
+@Deprecated
 public class RoomHeader {
     public String title;
     public String description;

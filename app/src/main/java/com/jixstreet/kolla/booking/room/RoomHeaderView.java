@@ -5,6 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.category.BookingCategory;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -22,19 +23,19 @@ public class RoomHeaderView extends RelativeLayout {
     @ViewById(R.id.room_header_description_tv)
     protected TextView roomHeaderDescriptionTv;
 
-    private RoomHeader roomHeader;
+    private BookingCategory bookingCategory;
 
     public RoomHeaderView(Context context) {
         super(context);
     }
 
-    public void setRoomHeader(RoomHeader roomHeader) {
-        this.roomHeader = roomHeader;
+    public void setBookingCategory(BookingCategory bookingCategory) {
+        this.bookingCategory = bookingCategory;
         setValue();
     }
 
     private void setValue() {
-        roomHeaderTitleTv.setText(roomHeader.title);
-        roomHeaderDescriptionTv.setText(roomHeader.description);
+        roomHeaderTitleTv.setText(bookingCategory.name);
+        roomHeaderDescriptionTv.setText(bookingCategory.description);
     }
 }

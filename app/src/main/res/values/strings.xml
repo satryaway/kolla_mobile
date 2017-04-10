@@ -57,7 +57,7 @@
     <string name="duration">Duration</string>
     <string name="guest">Guest</string>
     <string name="search">Search</string>
-    <string name="date_builder">%1$d&#8211;%2$d&#8211;%3$d</string>
+    <string name="date_builder">%1$d-%2$d-%3$d</string>
     <string name="time_builder">%1$d:%2$s</string>
     <string name="title_activity_room_detail">RoomDetailActivity</string>
     <string name="dummy_day_range">Monday - Friday \n10:00 – 17:00 </string>
@@ -74,4 +74,5 @@
     <string name="credit_card">Credit Card</string>
     <string name="you_can_transfer_this_bank_and_confirm_payment_at_your_profile">You can transfer this bank and confirm payment at your profile.</string>
     <string name="pay">Pay</string>
+    <string name="seat_available">%1$s %2$s</string>
 </resources>

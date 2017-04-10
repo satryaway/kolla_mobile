@@ -8,6 +8,8 @@ import com.jixstreet.kolla.parent.ModelJson;
  */
 
 public class BookingCategory {
+    public static final String paramKey = BookingCategory.class.getName().concat("1");
+
     public String id;
     public String name;
     public String description;

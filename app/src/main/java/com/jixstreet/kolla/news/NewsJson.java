@@ -5,17 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
-import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
 import com.jixstreet.kolla.parent.DefaultPagingResponse;
-import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.parent.DefaultRequest;
+import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.parent.ModelJson;
-import com.jixstreet.kolla.utility.StringUtils;
 
 import java.util.ArrayList;
 
@@ -75,9 +73,7 @@ public class NewsJson extends ModelJson {
                 if (response.status.equals(RStatus.OK))
                     onGetNews.onSucceed(response);
                 else onGetNews.onFailure(response.message);
-            } else {
-                onGetNews.onFailure(errorMsg);
-            }
+            } else onGetNews.onFailure(errorMsg);
         }
     };
 }
