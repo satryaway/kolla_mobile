@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
@@ -66,6 +67,7 @@ public class RoomView extends RelativeLayout {
 
     @Click(R.id.main_wrapper)
     void openDetail() {
-        ActivityUtils.startActivity((Activity)context, RoomDetailActivity_.class);
+        if (room != null)
+            ActivityUtils.startActivityWParam((Activity)context, RoomDetailActivity_.class, RoomDetailActivity.paramKey, room);
     }
 }

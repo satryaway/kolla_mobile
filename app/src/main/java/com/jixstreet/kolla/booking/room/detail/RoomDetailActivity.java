@@ -9,13 +9,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.booking.room.RoomDetailJson;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
+import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
 import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,6 +34,8 @@ import java.util.List;
 @EActivity(R.layout.activity_room_detail)
 public class RoomDetailActivity extends AppCompatActivity {
 
+    public static String paramKey = RoomDetailActivity.class.getName().concat("1");
+
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -41,17 +48,38 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.tabs)
     protected TabLayout tabs;
 
+    private Room room;
+    private RoomDetailFragment roomDetailFragment;
+    private RoomFacilityFragment roomFacilityFragment;
+    private RoomMapFragment roomMapFragment;
+
+    private RoomDetailJson roomDetailJson;
+
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
-        setupViewPager();
+
+        room = ActivityUtils.getParam(this, paramKey, Room.class);
+        if (room != null) {
+            roomDetailJson = new RoomDetailJson(this, room.id);
+            initFragments();
+            setupViewPager();
+            getRoomDetail();
+        }
+    }
+
+    private void initFragments() {
+        roomDetailFragment = RoomDetailFragment.newInstance(room);
+        roomFacilityFragment = RoomFacilityFragment.newInstance(room);
+        roomMapFragment = RoomMapFragment.newInstance(room);
     }
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(RoomDetailFragment.newInstance(), getString(R.string.detail));
-        adapter.addFragment(RoomFacilityFragment.newInstance(), getString(R.string.facility));
-        adapter.addFragment(RoomMapFragment.newInstance(), getString(R.string.map));
+        adapter.addFragment(roomDetailFragment, getString(R.string.detail));
+        adapter.addFragment(roomFacilityFragment, getString(R.string.facility));
+        adapter.addFragment(roomMapFragment, getString(R.string.map));
+
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
@@ -59,6 +87,28 @@ public class RoomDetailActivity extends AppCompatActivity {
         RoomDetailHeaderPagerManager roomDetailHeaderPagerManager
                 = new RoomDetailHeaderPagerManager(this, getSupportFragmentManager());
         imageVp.setAdapter(roomDetailHeaderPagerManager);
+    }
+
+    private void getRoomDetail() {
+        roomDetailJson.getRoomDetail(new OnGetRoomDetail() {
+            @Override
+            public void onSuccess(RoomDetailJson.Response response) {
+                room = response.data;
+                refreshFragments();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, RoomDetailActivity.this,
+                        getWindow().getDecorView(), message);
+            }
+        });
+    }
+
+    private void refreshFragments() {
+        roomDetailFragment.setValue(room);
+        roomFacilityFragment.setValue(room);
+        roomMapFragment.setValue(room);
     }
 
     @Click(R.id.booking_this_space_tv)

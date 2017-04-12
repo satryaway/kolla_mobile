@@ -8,6 +8,8 @@ import android.content.Context;
  */
 
 public abstract class ModelJson {
+    private String id;
+
     public abstract String getRoute();
     public abstract void cancel();
 
@@ -18,6 +20,16 @@ public abstract class ModelJson {
     public ModelJson(Context context) {
         this.context = context;
         setAPI();
+    }
+
+    public ModelJson(Context context, String id) {
+        this.context = context;
+        this.id = id;
+        setAPIWithId();
+    }
+
+    private void setAPIWithId() {
+        ROUTE = getRoute() + id;
     }
 
     private void setAPI() {

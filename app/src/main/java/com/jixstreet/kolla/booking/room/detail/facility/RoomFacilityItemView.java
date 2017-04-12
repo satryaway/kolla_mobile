@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -26,20 +27,20 @@ public class RoomFacilityItemView extends RelativeLayout {
     @ViewById(R.id.facility_name_iv)
     protected TextView facilityNameIv;
 
-    private RoomFacility roomFacility;
+    private Room.Facility roomFacility;
 
     public RoomFacilityItemView(Context context) {
         super(context);
         this.context = context;
     }
 
-    public void setRoomFacility(RoomFacility roomFacility) {
+    public void setRoomFacility(Room.Facility roomFacility) {
         this.roomFacility = roomFacility;
         setValue();
     }
 
     private void setValue() {
-        ImageUtils.loadLocalImage(context, facilityIconIv, roomFacility.icon);
+        ImageUtils.loadImageWithPlaceHolder(context, roomFacility.icon, facilityIconIv, R.drawable.ic_menu_camera);
         facilityNameIv.setText(roomFacility.name);
     }
 }

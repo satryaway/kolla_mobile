@@ -5,6 +5,7 @@ package com.jixstreet.kolla.booking.room.detail.facility;
  * satryaway@gmail.com
  */
 
+@Deprecated
 public class RoomFacility {
     public int icon;
     public String name;

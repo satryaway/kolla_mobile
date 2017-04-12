@@ -3,6 +3,8 @@ package com.jixstreet.kolla.booking.room.detail.facility;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.jixstreet.kolla.booking.room.Room;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 
 public class RoomFacilityAdapter extends RecyclerView.Adapter<RoomFacilityAdapter.RoomFacilityViewHolder> {
 
-    private List<RoomFacility> roomFacilityList = new ArrayList<>();
+    private List<Room.Facility> roomFacilityList = new ArrayList<>();
 
     @Override
     public RoomFacilityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,7 +33,7 @@ public class RoomFacilityAdapter extends RecyclerView.Adapter<RoomFacilityAdapte
         return roomFacilityList.size();
     }
 
-    public void setRoomFacilityList(List<RoomFacility> roomFacilityList) {
+    public void setRoomFacilityList(List<Room.Facility> roomFacilityList) {
         this.roomFacilityList = roomFacilityList;
         notifyDataSetChanged();
     }

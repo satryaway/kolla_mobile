@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:padding="8dp"
-    android:clickable="true">
+    android:clickable="true"
+    android:padding="8dp">
 
     <com.jixstreet.kolla.view.SquareImageView
         android:id="@+id/facility_icon_iv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_list_size"
-        android:src="@drawable/ic_menu_camera"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+        tools:src="@drawable/ic_menu_camera" />
 
     <TextView
         android:id="@+id/facility_name_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/facility_icon_iv"
-        android:text="@string/dummy_facility"/>
+        android:layout_centerHorizontal="true"
+        tools:text="@string/dummy_facility" />
 
 </RelativeLayout>

@@ -21,8 +21,8 @@ public class Room {
     public String price;
     public String price_type;
     public String created_at;
-
     public String updated_at;
+
     //Extras for detail
     public BookingCategory category;
 
@@ -46,4 +46,6 @@ public class Room {
         public String created_at;
         public String updated_at;
     }
+
+
 }
