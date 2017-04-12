@@ -84,7 +84,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-    public void clearNews() {
+    public void clearList() {
         this.news = new ArrayList<>();
         lastPosition = -1;
         notifyDataSetChanged();

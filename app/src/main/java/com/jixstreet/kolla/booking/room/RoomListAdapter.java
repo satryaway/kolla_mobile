@@ -23,7 +23,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_ITEM = 1;
     private final Context context;
 
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> list = new ArrayList<>();
     private BookingCategory bookingCategory = new BookingCategory();
     private int lastPosition = -1;
 
@@ -43,7 +43,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof RoomViewHolder) {
-            ((RoomViewHolder) holder).getView().setRoom(rooms.get(position - 1));
+            ((RoomViewHolder) holder).getView().setRoom(list.get(position - 1));
             setAnimation(holder.itemView, position);
         } else if (holder instanceof RoomHeaderViewHolder) {
             ((RoomHeaderViewHolder) holder).getView().setBookingCategory(bookingCategory);
@@ -52,7 +52,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return rooms.size() + 1;
+        return list.size() + 1;
     }
 
     @Override
@@ -84,10 +84,20 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return position == 0;
     }
 
-    public void setRooms(List<Room> rooms, BookingCategory bookingCategory) {
-        this.rooms = rooms;
+    public void addList(List<Room> rooms, BookingCategory bookingCategory) {
+        this.list.addAll(rooms);
         this.bookingCategory = bookingCategory;
         notifyDataSetChanged();
+    }
+
+    public void clearList() {
+        this.list = new ArrayList<>();
+        lastPosition = -1;
+        notifyDataSetChanged();
+    }
+
+    public int getListSize() {
+        return list.size();
     }
 
     public class RoomViewHolder extends RecyclerView.ViewHolder {

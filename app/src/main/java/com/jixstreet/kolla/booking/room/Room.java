@@ -27,7 +27,7 @@ public class Room {
     public BookingCategory category;
 
     public List<Facility> facilities;
-    public String images;
+    public List<String> images;
     public String imageUrl;
     public boolean isFullBooked;
 

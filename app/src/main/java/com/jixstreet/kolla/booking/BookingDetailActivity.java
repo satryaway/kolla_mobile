@@ -163,7 +163,7 @@ public class BookingDetailActivity extends AppCompatActivity
                 certainDate.get(Calendar.HOUR_OF_DAY),
                 "00");
         roomParam.duration = String.valueOf(durationSpinner.getSelectedItemPosition()+1);
-        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition());
+        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition()+1);
         roomParam.isInitial = false;
 
         ActivityUtils.returnWithResult(this, resultKey, roomParam);

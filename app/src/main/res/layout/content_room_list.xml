@@ -43,10 +43,10 @@
                     android:id="@+id/setting_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:layout_centerVertical="true"
-                    android:padding="16dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@null"
+                    android:padding="16dp"
                     android:src="@drawable/ic_gear_setting" />
 
             </RelativeLayout>
@@ -54,9 +54,15 @@
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/room_rv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/room_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
