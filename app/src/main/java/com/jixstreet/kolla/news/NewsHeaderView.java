@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
@@ -21,13 +22,15 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EViewGroup(R.layout.view_news_header)
-public class NewsHeaderView extends RelativeLayout {
+public class NewsHeaderView extends RelativeLayout implements ViewPager.OnPageChangeListener {
 
     @ViewById(R.id.news_header_vp)
     protected ViewPager newsHeaderVp;
 
     @ViewById(R.id.tabsLayout)
     protected TabLayout tabs;
+
+    private SwipeRefreshLayout refreshWrapper;
 
     private Context context;
 
@@ -38,9 +41,33 @@ public class NewsHeaderView extends RelativeLayout {
 
     public void setView() {
         NewsHeaderPagerAdapter newsHeaderPagerAdapter = new NewsHeaderPagerAdapter(context,
-                ((AppCompatActivity)context).getSupportFragmentManager());
+                ((AppCompatActivity) context).getSupportFragmentManager());
+        newsHeaderVp.addOnPageChangeListener(this);
         newsHeaderVp.setAdapter(newsHeaderPagerAdapter);
         tabs.setupWithViewPager(newsHeaderVp);
+    }
+
+    public void setRefreshWrapper(SwipeRefreshLayout refreshWrapper) {
+        this.refreshWrapper = refreshWrapper;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        toggleRefreshing(state == ViewPager.SCROLL_STATE_IDLE);
+    }
+
+    public void toggleRefreshing(boolean enabled) {
+        if (refreshWrapper != null) {
+            refreshWrapper.setEnabled(enabled);
+        }
     }
 
     public class NewsHeaderPagerAdapter extends FragmentPagerAdapter {

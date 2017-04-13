@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.news;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,7 +47,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void initAdapter() {
-        newsListAdapter = new NewsListAdapter(getActivity());
+        newsListAdapter = new NewsListAdapter(getActivity(), refreshWrapper);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
@@ -76,15 +77,16 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         newsJson.get(request, new OnGetNews() {
             @Override
             public void onSucceed(NewsJson.Response response) {
-                newsListAdapter.addNews(response.data.data);
                 refreshWrapper.setRefreshing(false);
+                newsListAdapter.addNews(response.data.data);
             }
 
             @Override
             public void onFailure(String message) {
-                if (refreshWrapper != null)
-                    refreshWrapper.setRefreshing(false);
+                if (refreshWrapper == null && getActivity() == null)
+                    return;
 
+                refreshWrapper.setRefreshing(false);
                 DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(),
                         getActivity().getWindow().getDecorView(), message);
             }

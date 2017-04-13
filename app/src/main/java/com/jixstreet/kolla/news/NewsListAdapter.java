@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.news;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,14 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private final Context context;
+    private final SwipeRefreshLayout refreshWrapper;
 
     private ArrayList<NewsDetail> news = new ArrayList<>();
     private int lastPosition = -1;
 
-    public NewsListAdapter(Context context) {
+    public NewsListAdapter(Context context, SwipeRefreshLayout refreshWrapper) {
         this.context = context;
+        this.refreshWrapper = refreshWrapper;
     }
 
 
@@ -35,7 +38,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (viewType == TYPE_ITEM) {
             return new NewsViewHolder(NewsItemView_.build(parent.getContext()));
         } else {
-            return new NewsHeaderViewHolder(NewsHeaderView_.build(parent.getContext()));
+            NewsHeaderView newsHeaderView = NewsHeaderView_.build(parent.getContext());
+            newsHeaderView.setRefreshWrapper(refreshWrapper);
+            return new NewsHeaderViewHolder(newsHeaderView);
         }
     }
 

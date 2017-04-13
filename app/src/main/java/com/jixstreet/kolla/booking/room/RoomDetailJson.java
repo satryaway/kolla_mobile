@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
+import com.jixstreet.kolla.network.BackGroundOkHttp;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -23,11 +24,11 @@ import java.util.ArrayList;
 
 public class RoomDetailJson extends ModelJson {
     private OnGetRoomDetail onGetRoomDetail;
-    private ProgressOkHttp<Response, Void> http;
+    private BackGroundOkHttp<Response, Void> http;
 
     public RoomDetailJson(Context context, String id) {
         super(context, id);
-        http = new ProgressOkHttp<>(context, Response.class);
+        http = new BackGroundOkHttp<>(context, Response.class);
     }
 
     @Override
@@ -46,8 +47,7 @@ public class RoomDetailJson extends ModelJson {
 
     public void getRoomDetail(OnGetRoomDetail onGetRoomDetail) {
         this.onGetRoomDetail = onGetRoomDetail;
-        http.get(ROUTE, null, null, onGetRoomDetailFinished,
-                "Fetching Room Detail", true);
+        http.get(ROUTE, null, null, onGetRoomDetailFinished);
     }
 
     private OnFinishedCallback<Response, Void> onGetRoomDetailFinished = new OnFinishedCallback<Response, Void>() {
