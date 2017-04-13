@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
@@ -48,6 +49,9 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.tabs)
     protected TabLayout tabs;
 
+    @ViewById(R.id.toolbar_title_tv)
+    protected TextView toolbarTitleTv;
+
     private Room room;
     private RoomDetailFragment roomDetailFragment;
     private RoomFacilityFragment roomFacilityFragment;
@@ -62,10 +66,15 @@ public class RoomDetailActivity extends AppCompatActivity {
         room = ActivityUtils.getParam(this, paramKey, Room.class);
         if (room != null) {
             roomDetailJson = new RoomDetailJson(this, room.id);
+            setValue();
             initFragments();
             setupViewPager();
             getRoomDetail();
         }
+    }
+
+    private void setValue() {
+        ViewUtils.setTextView(toolbarTitleTv, room.name);
     }
 
     private void initFragments() {

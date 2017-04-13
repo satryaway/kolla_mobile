@@ -15,9 +15,9 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.booking.room.RoomListActivity;
 
 /**
  * Created by satryaway on 2/16/2017.
@@ -71,6 +71,12 @@ public class ViewUtils {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+    public static void setTextView(TextView textView, String text) {
+        if (textView != null && text != null) {
+            textView.setText(text);
         }
     }
 }

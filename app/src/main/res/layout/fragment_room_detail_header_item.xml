@@ -14,45 +14,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/room_detail_header_item_iv"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent_navy_blue_50"
         android:orientation="vertical"
-        android:weightSum="10">
+        android:padding="8dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
-            android:visibility="invisible" />
+        <TextView
+            android:id="@+id/room_detail_header_item_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:lines="1"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            tools:text="@string/dummy_short_text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/tab_layout_height"
-            android:layout_weight="4"
-            android:background="@color/transparent_orange_90"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/room_detail_header_item_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:lines="1"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                tools:text="Dapatkan pacar baru di sini. Banyak pilihan menarik." />
-
-            <TextView
-                android:id="@+id/room_detail_header_item_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="2"
-                android:textColor="@android:color/white"
-                tools:text="Posted on August 25, 2016" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/room_detail_header_item_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            android:textColor="@android:color/white"
+            tools:text="@string/dummy_long_text" />
     </LinearLayout>
 </RelativeLayout>

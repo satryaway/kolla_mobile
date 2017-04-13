@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jixstreet.kolla.network.BackGroundOkHttp;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class BookingCategoryJson extends ModelJson {
     public static final String prefKey = BookingCategoryJson.class.getName().concat("1");
-    private final ProgressOkHttp<Response, Void> req;
+    private final BackGroundOkHttp<Response, Void> req;
     private OnGetCategories onGetCategories;
 
     @Override
@@ -36,7 +37,7 @@ public class BookingCategoryJson extends ModelJson {
 
     public BookingCategoryJson(Context context) {
         super(context);
-        req = new ProgressOkHttp<>(context, Response.class);
+        req = new BackGroundOkHttp<>(context, Response.class);
     }
 
     public class Response extends DefaultResponse {
@@ -49,8 +50,7 @@ public class BookingCategoryJson extends ModelJson {
 
     public void get(OnGetCategories onGetCategories) {
         this.onGetCategories = onGetCategories;
-        req.get(ROUTE, null, null, onGetCategoriesDone,
-                "Fetching categories...", true);
+        req.get(ROUTE, null, null, onGetCategoriesDone);
     }
 
     private OnFinishedCallback<Response, Void> onGetCategoriesDone = new OnFinishedCallback<Response, Void>() {
