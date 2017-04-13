@@ -43,4 +43,13 @@
         <item name="android:popupBackground">#DFFFFFFF</item>
     </style>
 
+    <style name="default_tab_layout">
+        <item name="app:tabBackground">@color/default_tab_color</item>
+        <item name="app:tabGravity">fill</item>
+        <item name="app:tabMode">fixed</item>
+        <item name="app:tabSelectedTextColor">@color/active_text</item>
+        <item name="app:tabTextColor">@color/disabled_text</item>
+        <item name="app:tabIndicatorHeight">4dp</item>
+    </style>
+
 </resources>

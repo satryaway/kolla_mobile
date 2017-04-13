@@ -12,6 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -108,7 +109,10 @@ public class RoomMapFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
 
-            map.addMarker(new MarkerOptions().position(latlng).title("Marker in Sydney"));
+            map.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .title("Marker in Sydney")
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
     };

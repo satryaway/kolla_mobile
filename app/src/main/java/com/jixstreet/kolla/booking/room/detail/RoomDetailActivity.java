@@ -73,6 +73,12 @@ public class RoomDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     private void setValue() {
         ViewUtils.setTextView(toolbarTitleTv, room.name);
     }

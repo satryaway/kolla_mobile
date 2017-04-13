@@ -7,12 +7,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -46,6 +48,11 @@ public class OtherPaymentActivity extends AppCompatActivity {
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
+    }
+
+    @Click(R.id.pay_tv)
+    protected void pay() {
+        
     }
 
     public class OtherPaymentPagerAdapter extends FragmentPagerAdapter {
