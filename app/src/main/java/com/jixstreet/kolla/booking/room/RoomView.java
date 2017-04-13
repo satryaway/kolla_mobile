@@ -38,6 +38,8 @@ public class RoomView extends RelativeLayout {
     @ViewById(R.id.full_booked_state_tv)
     protected TextView fullBookedStateTv;
 
+    private OnRoomSelected onRoomSelected;
+
     private Room room;
     private Context context;
 
@@ -65,9 +67,13 @@ public class RoomView extends RelativeLayout {
         }
     }
 
+    public void setOnRoomSelected(OnRoomSelected onRoomSelected) {
+        this.onRoomSelected = onRoomSelected;
+    }
+
     @Click(R.id.main_wrapper)
     void openDetail() {
         if (room != null)
-            ActivityUtils.startActivityWParam((Activity)context, RoomDetailActivity_.class, RoomDetailActivity.paramKey, room);
+            this.onRoomSelected.onSelect(room);
     }
 }

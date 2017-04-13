@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking.room;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,12 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.BookingDetailActivity;
 import com.jixstreet.kolla.booking.BookingDetailActivity_;
 import com.jixstreet.kolla.booking.category.BookingCategory;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -27,7 +31,8 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 @EActivity(R.layout.content_room_list)
-public class RoomListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class RoomListActivity extends AppCompatActivity implements
+        SwipeRefreshLayout.OnRefreshListener, OnRoomSelected {
     private static final int OFFSET = 10;
 
     @ViewById(R.id.toolbar)
@@ -61,6 +66,7 @@ public class RoomListActivity extends AppCompatActivity implements SwipeRefreshL
 
     private void initAdapter() {
         roomListAdapter = new RoomListAdapter(this);
+        roomListAdapter.setOnRoomSelected(this);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(this, true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
@@ -145,5 +151,13 @@ public class RoomListActivity extends AppCompatActivity implements SwipeRefreshL
         scrollListener.resetState();
         roomListAdapter.clearList();
         scrollListener.initScroll(roomRv);
+    }
+
+    @Override
+    public void onSelect(Room room) {
+        Booking booking = new Booking();
+        booking.room = room;
+        booking.roomRequest = roomParams;
+        ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class, RoomDetailActivity.paramKey, booking);
     }
 }

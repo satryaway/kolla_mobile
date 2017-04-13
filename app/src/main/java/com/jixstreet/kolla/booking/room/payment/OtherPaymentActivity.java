@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking.room.payment;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,6 +27,8 @@ import java.util.List;
 
 @EActivity(R.layout.activity_other_payment)
 public class OtherPaymentActivity extends AppCompatActivity {
+    public static String paramKey = OtherPaymentActivity.class.getName().concat("1");
+
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -33,10 +38,24 @@ public class OtherPaymentActivity extends AppCompatActivity {
     @ViewById(R.id.content_viewpager)
     protected ViewPager contentVp;
 
+    @Nullable
+    private Booking booking;
+
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
+        collectIntent();
         initPager();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    private void collectIntent() {
+        booking = ActivityUtils.getParam(this, paramKey, Booking.class);
     }
 
     private void initPager() {
@@ -48,11 +67,6 @@ public class OtherPaymentActivity extends AppCompatActivity {
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
-    }
-
-    @Click(R.id.pay_tv)
-    protected void pay() {
-        
     }
 
     public class OtherPaymentPagerAdapter extends FragmentPagerAdapter {

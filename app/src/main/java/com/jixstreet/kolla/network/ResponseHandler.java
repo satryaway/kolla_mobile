@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroActivity;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.parent.DefaultResponse;
@@ -90,7 +89,7 @@ public class ResponseHandler<R, T> implements Callback {
         else
             // conversion failure should return fail, null object, and appropriate message
             handleResult(ResultType.Fail, null, parent.contextWR.get().getResources().getString(
-        com.jixstreet.kolla.R.string.unknown_error_occured));
+                    com.jixstreet.kolla.R.string.unknown_error_occured));
     }
 
     /**

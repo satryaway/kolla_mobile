@@ -82,9 +82,9 @@ public class BookingDetailActivity extends AppCompatActivity
     }
 
     private void initSpinners() {
-        initSpinner(Seeder.getLocations(), locationSpinner, selectedLocationListener);
-        initSpinner(Seeder.getDurations(6), durationSpinner, selectedDurationListener);
-        initSpinner(Seeder.getGuests(10), guestCountSpinner, selectedGuestListener);
+        initSpinner(Seeder.getLocations(), locationSpinner, null);
+        initSpinner(Seeder.getDurations(6), durationSpinner, null);
+        initSpinner(Seeder.getGuests(10), guestCountSpinner, null);
     }
 
     private void initSpinner(List<String> collections, Spinner spinner,
@@ -113,45 +113,6 @@ public class BookingDetailActivity extends AppCompatActivity
         timePickerDialog.enableSeconds(false);
         timePickerDialog.show(getFragmentManager(), "Time Picker");
     }
-
-    private AdapterView.OnItemSelectedListener selectedLocationListener
-            = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-
-    private AdapterView.OnItemSelectedListener selectedDurationListener
-            = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-
-    private AdapterView.OnItemSelectedListener selectedGuestListener
-            = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
 
     private void collectInformation() {
         roomParam.location = locations.get(locationSpinner.getSelectedItemPosition());

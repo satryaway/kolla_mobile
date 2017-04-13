@@ -13,12 +13,14 @@ import android.widget.TextView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomDetailJson;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
 import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
+import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
 import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -56,6 +58,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     private RoomDetailFragment roomDetailFragment;
     private RoomFacilityFragment roomFacilityFragment;
     private RoomMapFragment roomMapFragment;
+    private Booking booking;
 
     private RoomDetailJson roomDetailJson;
 
@@ -63,8 +66,9 @@ public class RoomDetailActivity extends AppCompatActivity {
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
 
-        room = ActivityUtils.getParam(this, paramKey, Room.class);
-        if (room != null) {
+        booking = ActivityUtils.getParam(this, paramKey, Booking.class);
+        if (booking != null && booking.room != null) {
+            room = booking.room;
             roomDetailJson = new RoomDetailJson(this, room.id);
             setValue();
             initFragments();
@@ -109,6 +113,7 @@ public class RoomDetailActivity extends AppCompatActivity {
             @Override
             public void onSuccess(RoomDetailJson.Response response) {
                 room = response.data;
+                booking.room = room;
                 refreshFragments();
             }
 
@@ -128,7 +133,9 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     @Click(R.id.booking_this_space_tv)
     void bookThisSpace() {
-        ActivityUtils.startActivity(this, OtherPaymentActivity_.class);
+        if (booking != null) {
+            ActivityUtils.startActivityWParam(this, OtherPaymentActivity_.class, OtherPaymentActivity.paramKey, booking);
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
