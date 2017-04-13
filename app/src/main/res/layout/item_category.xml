@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/category_image_iv"
-        android:background="@color/transparent_navy_blue_90"
+        android:background="@color/transparent_primary_90"
         android:gravity="center"
         android:padding="8dp"
         android:text="@string/hot_desk"

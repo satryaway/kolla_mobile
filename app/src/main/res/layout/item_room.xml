@@ -39,7 +39,7 @@
             android:layout_alignBottom="@+id/image_wrapper"
             android:layout_alignRight="@+id/image_wrapper"
             android:layout_marginRight="16dp"
-            android:background="@color/transparent_navy_blue_90"
+            android:background="@color/transparent_primary_90"
             android:padding="8dp"
             android:textAllCaps="true"
             android:textColor="@android:color/white"

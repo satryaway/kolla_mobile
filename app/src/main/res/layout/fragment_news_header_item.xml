@@ -8,6 +8,7 @@
         android:id="@+id/news_header_item_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@null"
         android:scaleType="centerCrop"
         tools:src="@drawable/dummy_bg" />
 
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"
-            android:background="@color/transparent_orange_90"
+            android:background="@color/transparent_primary_90"
             android:orientation="vertical"
             android:padding="8dp">
 
@@ -37,18 +38,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:textAllCaps="true"
                 android:lines="2"
+                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/large_text"
-                tools:text="Dapatkan pacar baru di sini. Banyak pilihan menarik." />
+                tools:text="@string/dummy_long_text" />
 
             <TextView
                 android:id="@+id/news_header_item_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                tools:text="Posted on August 25, 2016" />
+                tools:text="@string/dummy_short_text" />
 
         </LinearLayout>
 

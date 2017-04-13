@@ -14,9 +14,8 @@
 
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
-    <color name="transparent_orange_90">#E6E64A19</color>
-    <color name="transparent_navy_blue_90">#e60F3443</color>
-    <color name="transparent_navy_blue_50">#7b0F3443</color>
+    <color name="transparent_primary_90">#e60F3443</color>
+    <color name="transparent_primary_50">#7b0F3443</color>
     <color name="black_alpha_40">#66000000</color>
     <color name="disabled_text">#BDBDBD</color>
     <color name="default_tab_color">#EAEAEA</color>
