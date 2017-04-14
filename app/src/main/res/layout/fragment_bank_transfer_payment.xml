@@ -29,7 +29,7 @@
             android:background="@color/primary">
 
             <TextView
-                android:id="@+id/login_tv"
+                android:id="@+id/pay_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"

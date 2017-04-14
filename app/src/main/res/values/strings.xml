@@ -33,7 +33,6 @@
     <string name="check_your_facebook_privacy">Facebook Registration Failed. Check your Facebook privacy.</string>
     <string name="session_expired">Your session expired. Please log in again.</string>
     <string name="your_kolla_credits">Your Kolla Credits</string>
-    <string name="last_update_s">Last update %s</string>
     <string name="add_credit">Add Credit</string>
     <string name="history">History</string>
     <string name="hot_desk">Hot Desk</string>
@@ -48,7 +47,6 @@
         Sed tellus sem, vehicula sed nulla at, laoreet lacinia sem. Morbi eu lorem magna.
         Aenean vitae gravida magna. Phasellus vulputate vel nibh quis hendrerit.</string>
     <string name="dummy_short_text">Lorem ipsum dolor sit amet</string>
-    <string name="locations_available">"%d Locations Available"</string>
     <string name="full_book">Full Book</string>
     <string name="booking_detail">Booking Detail</string>
     <string name="location">Location</string>
@@ -56,9 +54,6 @@
     <string name="booking_time">Booking Time</string>
     <string name="duration">Duration</string>
     <string name="guest">Guest</string>
-    <string name="search">Search</string>
-    <string name="date_builder">%1$d-%2$d-%3$d</string>
-    <string name="time_builder">%1$d:%2$s</string>
     <string name="title_activity_room_detail">RoomDetailActivity</string>
     <string name="dummy_day_range">Monday - Friday \n10:00 – 17:00 </string>
     <string name="dummy_facility">Wi-Fi</string>
@@ -74,5 +69,22 @@
     <string name="credit_card">Credit Card</string>
     <string name="you_can_transfer_this_bank_and_confirm_payment_at_your_profile">You can transfer this bank and confirm payment at your profile.</string>
     <string name="pay">Pay</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="kollacredits">KollaCredits</string>
+    <string name="submit">Submit</string>
+    <string name="search">Search</string>
+
+    <string name="locations_available">"%d Locations Available"</string>
+    <string name="date_builder">%1$d-%2$d-%3$d</string>
+    <string name="time_builder">%1$d:%2$s</string>
     <string name="seat_available">%1$s %2$s</string>
+    <string name="last_update_s">Last update %s</string>
+    <string name="s_guest">%s Person</string>
+    <string name="s_durations">%s Hours</string>
+    <string name="s_duration">%s Hour</string>
+
+    <string name="dummy_date">25 August 2016</string>
+    <string name="dummy_time">10:00</string>
+    <string name="dummy_duration">3 hours</string>
+    <string name="dummy_guest">1 person</string>
 </resources>

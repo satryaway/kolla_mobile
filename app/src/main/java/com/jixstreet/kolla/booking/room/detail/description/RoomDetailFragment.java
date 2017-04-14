@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.utility.CastUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -29,7 +29,7 @@ public class RoomDetailFragment extends Fragment {
 
     public static RoomDetailFragment newInstance(Room room) {
         Bundle args = new Bundle();
-        args.putString(ROOM_DETAIL, new Gson().toJson(room));
+        args.putString(ROOM_DETAIL, CastUtils.toString(room));
         RoomDetailFragment fragment = new RoomDetailFragment_();
         fragment.setArguments(args);
 
@@ -38,7 +38,7 @@ public class RoomDetailFragment extends Fragment {
 
     @AfterViews
     protected void onViewsCreated() {
-        room = new Gson().fromJson(getArguments().getString(ROOM_DETAIL, ""), Room.class);
+        room = CastUtils.fromString(getArguments().getString(ROOM_DETAIL, ""), Room.class);
         if (room != null) {
             setValue(room);
         }

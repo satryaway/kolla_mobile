@@ -28,8 +28,10 @@ public class Room {
 
     public List<Facility> facilities;
     public List<String> images;
+
     public String imageUrl;
     public boolean isFullBooked;
+    public boolean isOnlyView;
 
     public Room(String imageUrl, String name, String description, String measurement, boolean isFullBooked) {
         this.imageUrl = imageUrl;

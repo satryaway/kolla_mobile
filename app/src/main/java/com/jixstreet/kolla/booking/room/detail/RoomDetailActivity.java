@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
@@ -58,6 +59,9 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout collapsingToolbarLayout;
 
+    @ViewById(R.id.booking_this_space_tv)
+    protected TextView bookTv;
+
     private Room room;
     private RoomDetailFragment roomDetailFragment;
     private RoomFacilityFragment roomFacilityFragment;
@@ -89,6 +93,7 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     private void setValue() {
         ViewUtils.setTextView(toolbarTitleTv, room.name);
+        ViewUtils.setVisibility(bookTv, room.isOnlyView ? View.GONE : View.VISIBLE);
         toolbar.setTitle(room.name);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);

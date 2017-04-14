@@ -15,9 +15,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.utility.CastUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -35,15 +35,13 @@ public class RoomMapFragment extends Fragment {
     @ViewById(R.id.map_view)
     MapView mapView;
 
-    private GoogleMap map;
-
     private Bundle bundle;
     private Room room;
     private LatLng latlng;
 
     public static RoomMapFragment newInstance(Room room) {
         Bundle args = new Bundle();
-        args.putString(ROOM_MAP, new Gson().toJson(room));
+        args.putString(ROOM_MAP, CastUtils.toString(room));
 
         RoomMapFragment fragment = new RoomMapFragment_();
         fragment.setArguments(args);
@@ -62,7 +60,7 @@ public class RoomMapFragment extends Fragment {
 
     @AfterViews
     protected void onViewsCreated() {
-        room = new Gson().fromJson(getArguments().getString(ROOM_MAP, ""), Room.class);
+        room = CastUtils.fromString(getArguments().getString(ROOM_MAP, ""), Room.class);
         if (room != null)
             setValue(room);
     }
@@ -107,13 +105,12 @@ public class RoomMapFragment extends Fragment {
     private OnMapReadyCallback onMapReadyCallBack = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            map = googleMap;
 
-            map.addMarker(new MarkerOptions()
+            googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title("Marker in Sydney")
                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
     };
 

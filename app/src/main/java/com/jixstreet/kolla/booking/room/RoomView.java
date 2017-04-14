@@ -1,15 +1,12 @@
 package com.jixstreet.kolla.booking.room;
 
-import android.app.Activity;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
-import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
-import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.Click;
@@ -48,6 +45,11 @@ public class RoomView extends RelativeLayout {
         this.context = context;
     }
 
+    public RoomView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+    }
+
     public void setRoom(Room room) {
         this.room = room;
         setValue();
@@ -75,5 +77,10 @@ public class RoomView extends RelativeLayout {
     void openDetail() {
         if (room != null)
             this.onRoomSelected.onSelect(room);
+    }
+
+    public void setIsOnlyView(boolean isOnlyView) {
+        if (room != null)
+            room.isOnlyView = isOnlyView;
     }
 }

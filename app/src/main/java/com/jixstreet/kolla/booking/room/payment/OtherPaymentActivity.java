@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_other_payment)
-public class OtherPaymentActivity extends AppCompatActivity {
+public class OtherPaymentActivity extends AppCompatActivity implements OnPayOtherPayment {
     public static String paramKey = OtherPaymentActivity.class.getName().concat("1");
 
     @ViewById(R.id.toolbar)
@@ -60,13 +62,19 @@ public class OtherPaymentActivity extends AppCompatActivity {
 
     private void initPager() {
         OtherPaymentPagerAdapter adapter = new OtherPaymentPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.bank_transfer));
-        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.internet_banking));
-        adapter.addFragment(BankTransferPaymentFragment.newInstance(), getString(R.string.credit_card));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.bank_transfer));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.internet_banking));
+        adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.credit_card));
 
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
         tabs.setupWithViewPager(contentVp);
+    }
+
+    @Override
+    public void onPay(Booking booking) {
+        ActivityUtils.startActivityWParam(this, BookingConfirmationActivity_.class,
+                BookingConfirmationActivity.paramKey, booking);
     }
 
     public class OtherPaymentPagerAdapter extends FragmentPagerAdapter {

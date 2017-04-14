@@ -6,9 +6,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.utility.CastUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -33,7 +33,7 @@ public class RoomFacilityFragment extends Fragment {
 
     public static RoomFacilityFragment newInstance(Room room) {
         Bundle args = new Bundle();
-        args.putString(ROOM_FACILITY, new Gson().toJson(room));
+        args.putString(ROOM_FACILITY, CastUtils.toString(room));
 
         RoomFacilityFragment fragment = new RoomFacilityFragment_();
         fragment.setArguments(args);
@@ -43,7 +43,7 @@ public class RoomFacilityFragment extends Fragment {
 
     @AfterViews
     protected void onViewsCreated() {
-        room = new Gson().fromJson(getArguments().getString(ROOM_FACILITY, ""), Room.class);
+        room = CastUtils.fromString(getArguments().getString(ROOM_FACILITY, ""), Room.class);
         if (room != null) {
             initAdapter();
             setValue(room);

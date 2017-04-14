@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/white"
-            app:expandedTitleMarginBottom="64dp"
+            app:expandedTitleMarginBottom="72dp"
             app:expandedTitleMarginStart="8dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

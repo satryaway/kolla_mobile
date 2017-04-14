@@ -79,4 +79,9 @@ public class ViewUtils {
             textView.setText(text);
         }
     }
+
+    public static void setVisibility(View view, int visibility) {
+        if (view != null)
+            view.setVisibility(visibility);
+    }
 }
