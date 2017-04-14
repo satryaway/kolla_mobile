@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.booking.room.detail;
 
 import android.content.Context;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,6 +55,9 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.toolbar_title_tv)
     protected TextView toolbarTitleTv;
 
+    @ViewById(R.id.collapsing_toolbar)
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+
     private Room room;
     private RoomDetailFragment roomDetailFragment;
     private RoomFacilityFragment roomFacilityFragment;
@@ -85,6 +89,9 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     private void setValue() {
         ViewUtils.setTextView(toolbarTitleTv, room.name);
+        toolbar.setTitle(room.name);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
     }
 
     private void initFragments() {

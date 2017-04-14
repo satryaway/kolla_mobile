@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setContent(Fragment fragment, String tag) {
+        if (fragment == null && previousFragment == null) return;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment savedFragment = fragmentManager.findFragmentByTag(tag);
 
