@@ -97,16 +97,17 @@ public class RoomDetailActivity extends AppCompatActivity {
     }
 
     private void setValue() {
+        toolbar.setTitle(room.name);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
         ViewUtils.setTextView(toolbarTitleTv, room.name);
         ViewUtils.setVisibility(bookTv, room.isOnlyView ? View.GONE : View.VISIBLE);
+
         if (booking.roomRequest.category.equals(BookingEntity.OFFICE))
             bookTv.setText(R.string.request_a_survey);
         else if (booking.roomRequest.category.equals(BookingEntity.HALL))
             bookTv.setText(R.string.booking_this_hall);
 
-        toolbar.setTitle(room.name);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
     }
 
     private void initFragments() {

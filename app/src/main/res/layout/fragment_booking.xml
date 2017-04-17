@@ -37,22 +37,22 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/balance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/massive_text"
-                android:textStyle="bold"
-                tools:text="2.508" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/last_update_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
             android:text="@string/last_update_s"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/medium_text" />
+            android:textColor="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/buttons_wrapper"

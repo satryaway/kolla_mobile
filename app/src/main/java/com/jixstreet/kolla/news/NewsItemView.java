@@ -42,7 +42,7 @@ public class NewsItemView extends LinearLayout {
 
     private void setValue() {
         newsTitleTv.setText(newsDetail.title);
-        newsDateTv.setText(DateUtils.getDateTimeStr(Long.valueOf(newsDetail.created_at), ""));
+        newsDateTv.setText(DateUtils.getDateTimeStrFromMillis(newsDetail.created_at, ""));
         ImageUtils.loadImage(getContext(), newsDetail.cover_image, newsImageIv);
     }
 }

@@ -54,17 +54,7 @@ public class CheckBalanceJson extends ModelJson {
     }
 
     public static class Response extends DefaultResponse {
-        public Data data;
-
-        public class Data {
-            public String user_id;
-            public String main_credit;
-            public String bonus_credit;
-            public String notes;
-            public String created_at;
-            public String updated_at;
-            public String status;
-        }
+        public GetBalanceJson.Data data;
     }
 
     public void get(Request request, OnCheckBalance onCheckBalance) {

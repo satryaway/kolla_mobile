@@ -205,6 +205,10 @@ public class DateUtils {
             return -1;
     }
 
+    public static final String getDateTimeStrFromMillis(String time, String format) {
+        return getDateTimeStr(Long.valueOf(time), format);
+    }
+
     /**
      * Get datetime string from milliseconds (in local time).
      *

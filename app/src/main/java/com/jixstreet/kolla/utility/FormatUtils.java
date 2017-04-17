@@ -7,6 +7,8 @@ import com.jixstreet.kolla.BuildConfig;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -47,5 +49,15 @@ public class FormatUtils {
         } catch (Exception ex) {
             return defaultOutput;
         }
+    }
+
+    public static String formatDecimal(String amount) {
+        BigDecimal bigDecimal = new BigDecimal(amount);
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        formatter.setDecimalFormatSymbols(symbols);
+
+        return formatter.format(bigDecimal.longValue());
     }
 }

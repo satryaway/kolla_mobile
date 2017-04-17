@@ -4,11 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.credit.GetBalanceJson;
+import com.jixstreet.kolla.credit.OnGetBalance;
 import com.jixstreet.kolla.prefs.CPrefs;
+import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.FormatUtils;
+import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -25,7 +31,15 @@ import java.util.List;
 public class BookingFragment extends Fragment {
     @ViewById(R.id.booking_category_rv)
     protected RecyclerView bookingCategoryRv;
+
+    @ViewById(R.id.balance_tv)
+    protected TextView balanceTv;
+
+    @ViewById(R.id.last_update_tv)
+    protected TextView lastUpdateTv;
+
     private BookingCategoryAdapter bookingCategoryAdapter;
+    private GetBalanceJson getBalanceJson;
 
     public static BookingFragment newInstance() {
         return new BookingFragment_();
@@ -33,7 +47,9 @@ public class BookingFragment extends Fragment {
 
     @AfterViews
     void onViewsCreated() {
+        getBalanceJson = new GetBalanceJson(getContext());
         initAdapter();
+        getBalance();
         getCategories();
     }
 
@@ -46,6 +62,23 @@ public class BookingFragment extends Fragment {
         bookingCategoryRv.setHasFixedSize(true);
         bookingCategoryRv.setItemAnimator(new DefaultItemAnimator());
         bookingCategoryRv.setAdapter(bookingCategoryAdapter);
+    }
+
+    private void getBalance() {
+        getBalanceJson.get(new OnGetBalance() {
+            @Override
+            public void onSuccess(GetBalanceJson.Response response) {
+                ViewUtils.setTextView(balanceTv, FormatUtils.formatDecimal(response.data.main_credit));
+                ViewUtils.setTextView(lastUpdateTv,
+                        getString(R.string.last_update_s,
+                                DateUtils.getDateTimeStrFromMillis(response.data.updated_at, "")));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+            }
+        });
     }
 
     private void getCategories() {
