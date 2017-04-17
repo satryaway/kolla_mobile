@@ -90,4 +90,7 @@
     <string name="price">Price</string>
     <string name="default_date_format">dd MMM yyyy</string>
     <string name="default_web_date_format">dd-MM-yyyy</string>
+    <string name="booking_option">Booking Option</string>
+    <string name="request_a_survey">Request a Survey</string>
+    <string name="booking_this_hall">Booking This Hall</string>
 </resources>

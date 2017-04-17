@@ -5,11 +5,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.RoomJson;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
@@ -55,9 +57,11 @@ public class BookingDetailActivity extends AppCompatActivity
     @ViewById(R.id.booking_time_tv)
     protected TextView bookingTimeTv;
 
+    @ViewById(R.id.more_wrapper)
+    protected LinearLayout moreWrapper;
+
     private Calendar certainDate;
     private RoomJson.Request roomParam;
-    private List<String> locations, durations, guests;
 
     @AfterViews
     void onViewsCreated() {
@@ -65,15 +69,14 @@ public class BookingDetailActivity extends AppCompatActivity
         if (roomParam == null)
             roomParam = new RoomJson.Request();
 
-        collectDummyData();
+        setLayout();
         initCalendar();
         initView();
     }
 
-    private void collectDummyData() {
-        locations = Seeder.getLocations();
-        durations = Seeder.getDurations(6);
-        guests = Seeder.getGuests(10);
+    private void setLayout() {
+        if (roomParam.category != null && roomParam.category.equals(BookingEntity.OFFICE))
+            moreWrapper.setVisibility(View.GONE);
     }
 
     private void initView() {
@@ -115,7 +118,7 @@ public class BookingDetailActivity extends AppCompatActivity
     }
 
     private void collectInformation() {
-        roomParam.location = locations.get(locationSpinner.getSelectedItemPosition());
+        roomParam.location = Seeder.getLocations().get(locationSpinner.getSelectedItemPosition());
         roomParam.date = getString(R.string.date_builder,
                 certainDate.get(Calendar.DAY_OF_MONTH),
                 certainDate.get(Calendar.MONTH) + 1,
@@ -123,8 +126,8 @@ public class BookingDetailActivity extends AppCompatActivity
         roomParam.time = getString(R.string.time_builder,
                 certainDate.get(Calendar.HOUR_OF_DAY),
                 "00");
-        roomParam.duration = String.valueOf(durationSpinner.getSelectedItemPosition()+1);
-        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition()+1);
+        roomParam.duration = String.valueOf(durationSpinner.getSelectedItemPosition() + 1);
+        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition() + 1);
         roomParam.isInitial = false;
 
         ActivityUtils.returnWithResult(this, resultKey, roomParam);

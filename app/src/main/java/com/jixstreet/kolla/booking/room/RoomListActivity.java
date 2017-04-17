@@ -47,7 +47,7 @@ public class RoomListActivity extends AppCompatActivity implements
     @ViewById(R.id.refresh_wrapper)
     protected SwipeRefreshLayout refreshWrapper;
 
-    private RoomJson.Request roomParams;
+    private RoomJson.Request roomParams = new RoomJson.Request();
 
     private RoomListAdapter roomListAdapter;
     private RoomJson roomJson;
@@ -56,10 +56,11 @@ public class RoomListActivity extends AppCompatActivity implements
 
     @AfterViews
     void onViewsCreated() {
-        getBookingDetail();
-
         roomJson = new RoomJson(this);
         bookingCategory = ActivityUtils.getParam(this, BookingCategory.paramKey, BookingCategory.class);
+        roomParams.category = bookingCategory.id;
+
+        getBookingDetail();
         ViewUtils.setToolbar(this, toolbar);
         initAdapter();
     }
@@ -98,7 +99,6 @@ public class RoomListActivity extends AppCompatActivity implements
 
     private void getRooms(int page) {
         if (roomParams != null && roomJson != null && bookingCategory != null) {
-            roomParams.category = bookingCategory.id;
             roomParams.page = String.valueOf(page);
             roomJson.getRooms(roomParams, new OnGetRoom() {
                 @Override
