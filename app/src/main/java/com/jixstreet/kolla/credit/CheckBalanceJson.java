@@ -1,8 +1,14 @@
 package com.jixstreet.kolla.credit;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Pair;
 
+import com.jixstreet.kolla.network.OnFinishedCallback;
+import com.jixstreet.kolla.network.ProgressOkHttp;
+import com.jixstreet.kolla.network.RStatus;
+import com.jixstreet.kolla.network.ResultType;
 import com.jixstreet.kolla.parent.DefaultRequest;
 import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.parent.ModelJson;
@@ -15,8 +21,12 @@ import java.util.ArrayList;
  */
 
 public class CheckBalanceJson extends ModelJson {
+    private final ProgressOkHttp<Response, Void> http;
+    private OnCheckBalance onCheckBalance;
+
     public CheckBalanceJson(Context context) {
         super(context);
+        http = new ProgressOkHttp<>(context, Response.class);
     }
 
     @Override
@@ -53,6 +63,26 @@ public class CheckBalanceJson extends ModelJson {
             public String notes;
             public String created_at;
             public String updated_at;
+            public String status;
         }
     }
+
+    public void get(Request request, OnCheckBalance onCheckBalance) {
+        this.onCheckBalance = onCheckBalance;
+        http.get(ROUTE, request.getParams(), null,
+                onCheckBalanceFinished, "Checking balance...", true);
+    }
+
+    private OnFinishedCallback<Response, Void> onCheckBalanceFinished =
+            new OnFinishedCallback<Response, Void>() {
+                @Override
+                public void handle(@NonNull ResultType type, @Nullable Response response,
+                                   @Nullable Void tag, @Nullable String errorMsg) {
+                    if (type == ResultType.Success && response != null) {
+                        if (RStatus.OK.equals(response.status)) {
+                            onCheckBalance.onSuccess(response);
+                        } else onCheckBalance.onFailure(response.message);
+                    } else onCheckBalance.onFailure(errorMsg);
+                }
+            };
 }

@@ -1,6 +1,5 @@
 package com.jixstreet.kolla.booking.room.detail;
 
-import android.content.Context;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
@@ -24,6 +24,9 @@ import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
 import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
 import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
 import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
+import com.jixstreet.kolla.credit.CheckBalanceJson;
+import com.jixstreet.kolla.credit.CreditSufficientStatus;
+import com.jixstreet.kolla.credit.OnCheckBalance;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -69,12 +72,14 @@ public class RoomDetailActivity extends AppCompatActivity {
     private Booking booking;
 
     private RoomDetailJson roomDetailJson;
+    private CheckBalanceJson checkBalanceJson;
 
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
 
         booking = ActivityUtils.getParam(this, paramKey, Booking.class);
+        checkBalanceJson = new CheckBalanceJson(this);
         if (booking != null && booking.room != null) {
             room = booking.room;
             roomDetailJson = new RoomDetailJson(this, room.id);
@@ -116,7 +121,7 @@ public class RoomDetailActivity extends AppCompatActivity {
         tabs.setupWithViewPager(contentVp);
 
         RoomDetailHeaderPagerManager roomDetailHeaderPagerManager
-                = new RoomDetailHeaderPagerManager(this, getSupportFragmentManager());
+                = new RoomDetailHeaderPagerManager(getSupportFragmentManager());
         imageVp.setAdapter(roomDetailHeaderPagerManager);
     }
 
@@ -146,7 +151,27 @@ public class RoomDetailActivity extends AppCompatActivity {
     @Click(R.id.booking_this_space_tv)
     void bookThisSpace() {
         if (booking != null) {
-            ActivityUtils.startActivityWParam(this, OtherPaymentActivity_.class, OtherPaymentActivity.paramKey, booking);
+            CheckBalanceJson.Request request = new CheckBalanceJson.Request();
+            request.room_id = booking.room.id;
+            checkBalanceJson.get(request, new OnCheckBalance() {
+                @Override
+                public void onSuccess(CheckBalanceJson.Response response) {
+                    if (!response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
+                        ActivityUtils.startActivityWParam(RoomDetailActivity.this,
+                                OtherPaymentActivity_.class,
+                                OtherPaymentActivity.paramKey, booking);
+                    } else {
+                        DialogUtils.makeSnackBar(CommonConstant.success, RoomDetailActivity.this
+                                , response.data.main_credit);
+                    }
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    DialogUtils.makeSnackBar(CommonConstant.failed, RoomDetailActivity.this,
+                            ViewUtils.getRootView(RoomDetailActivity.this), message);
+                }
+            });
         }
     }
 
@@ -180,11 +205,9 @@ public class RoomDetailActivity extends AppCompatActivity {
     }
 
     public class RoomDetailHeaderPagerManager extends FragmentPagerAdapter {
-        private final Context context;
 
-        public RoomDetailHeaderPagerManager(Context context, FragmentManager fm) {
+        public RoomDetailHeaderPagerManager(FragmentManager fm) {
             super(fm);
-            this.context = context;
         }
 
         @Override

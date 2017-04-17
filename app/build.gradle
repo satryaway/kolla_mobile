@@ -38,6 +38,7 @@ android {
         buildConfigField "int", "STANDARD_PORT", "80"
         buildConfigField "String", "MEDIA_DIR", '"Kolla"'
         buildConfigField "String", "PLATFORM_NAME", '"ANDROID"'
+        buildConfigField "String", "CURRENCY_STR", '"Rp "'
     }
     buildTypes {
         release {

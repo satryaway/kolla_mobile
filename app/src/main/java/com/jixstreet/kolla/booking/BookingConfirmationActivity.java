@@ -10,8 +10,10 @@ import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
+import com.jixstreet.kolla.booking.room.payment.PaymentType;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
+import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -41,6 +43,9 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     @ViewById(R.id.guest_tv)
     protected TextView guestTv;
 
+    @ViewById(R.id.payment_type_tv)
+    protected TextView paymentTypeTv;
+
     public static String paramKey = BookingConfirmationActivity.class.getName().concat("1");
     private Booking booking;
 
@@ -64,21 +69,27 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
-            ViewUtils.setTextView(pointsTv, booking.room.price);
-            ViewUtils.setTextView(bookingDateTv, DateUtils.getDateTimeStr(booking.roomRequest.date,
-                    "dd-MM-yyyy", "dd MMM yyyy"));
             ViewUtils.setTextView(bookingTimeTv, booking.roomRequest.time);
+            ViewUtils.setTextView(guestTv, getString(R.string.s_guest, booking.roomRequest.guest));
+            ViewUtils.setTextView(bookingDateTv, DateUtils.getDateTimeStr(booking.roomRequest.date,
+                    getString(R.string.default_web_date_format), getString(R.string.default_date_format)));
             ViewUtils.setTextView(durationTv,
                     getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
-                                    R.string.s_durations : R.string.s_duration)
-                            , booking.roomRequest.duration));
-            ViewUtils.setTextView(guestTv, getString(R.string.s_guest, booking.roomRequest.guest));
+                            R.string.s_durations : R.string.s_duration), booking.roomRequest.duration));
+            if (booking.room.price_type.equals(PaymentType.CASH)) {
+                ViewUtils.setTextView(paymentTypeTv, getString(R.string.price));
+                ViewUtils.setTextView(pointsTv, FormatUtils.formatCurrency(booking.room.price));
+            } else {
+                ViewUtils.setTextView(paymentTypeTv, getString(R.string.kollacredits));
+                ViewUtils.setTextView(pointsTv, booking.room.price);
+            }
         }
     }
 
     @Override
     public void onSelect(Room room) {
         booking.room = room;
-        ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class, RoomDetailActivity.paramKey, booking);
+        ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
+                RoomDetailActivity.paramKey, booking);
     }
 }

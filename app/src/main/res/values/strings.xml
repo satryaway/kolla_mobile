@@ -87,4 +87,7 @@
     <string name="dummy_time">10:00</string>
     <string name="dummy_duration">3 hours</string>
     <string name="dummy_guest">1 person</string>
+    <string name="price">Price</string>
+    <string name="default_date_format">dd MMM yyyy</string>
+    <string name="default_web_date_format">dd-MM-yyyy</string>
 </resources>
