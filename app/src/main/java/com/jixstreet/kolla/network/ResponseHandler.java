@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroActivity;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.parent.DefaultResponse;
@@ -169,9 +170,8 @@ public class ResponseHandler<R, T> implements Callback {
 
             Context context = parent.contextWR.get();
             if (context != null) {
-                ActivityUtils.startActivityWParam((Activity) context, IntroActivity_.class,
-                        IntroActivity.paramsCode, RStatus.SESSION_EXPIRED);
-                ((Activity) context).finish();
+                ActivityUtils.returnToLoginPageWParams((Activity)context,
+                        context.getString(com.jixstreet.kolla.R.string.session_expired));
             } else {
                 Log.d("ResponseHandler", "Context is null");
             }

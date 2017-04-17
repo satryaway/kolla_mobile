@@ -314,6 +314,19 @@ public class ActivityUtils {
         returnClearTopFinish(fromActivity, IntroActivity_.class);
     }
 
+    public static final void returnToLoginPageWParams(Activity fromActivity,
+                                                      String message) {
+        LoginJson.Response.clearAccessToken(fromActivity);
+
+        if (fromActivity instanceof IntroActivity) return;
+
+        Intent intent = new Intent(fromActivity, IntroActivity_.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(IntroActivity.paramsKey, CastUtils.toString(message));
+        fromActivity.startActivity(intent);
+        fromActivity.finish();
+    }
+
     /**
      * Start or return to specific activity, and clear all other activity in front of it. <br />
      * <br />

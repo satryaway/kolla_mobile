@@ -38,7 +38,7 @@ import java.util.Arrays;
 public class IntroActivity extends AppCompatActivity implements IntroView.LoginInterface,
         IntroView.RegisterInterface {
 
-    public static String paramsCode = IntroActivity.class.getName().concat("1");
+    public static String paramsKey = IntroActivity.class.getName().concat("1");
 
     @ViewById(R.id.background_vp)
     protected ViewPager backgroundVp;
@@ -63,10 +63,10 @@ public class IntroActivity extends AppCompatActivity implements IntroView.LoginI
     }
 
     private void collectIntent() {
-        String param = ActivityUtils.getParam(this, paramsCode, String.class);
-        if (param != null && param.equals(RStatus.SESSION_EXPIRED)) {
+        String message = ActivityUtils.getParam(this, paramsKey, String.class);
+        if (message != null) {
             DialogUtils.makeSnackBar(CommonConstant.failed, this, getWindow().getDecorView(),
-                    getString(R.string.session_expired));
+                    message);
         }
     }
 
