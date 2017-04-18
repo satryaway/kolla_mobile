@@ -19,6 +19,7 @@ import java.util.List;
 public class BookingCategoryAdapter extends RecyclerView.Adapter<BookingCategoryAdapter.BookingCategoryViewHolder> {
     private final Context context;
     private List<BookingCategory> bookingCategories = new ArrayList<>();
+    private OnCategorySelected onCategorySelected;
 
     public BookingCategoryAdapter(Context context) {
         this.context = context;
@@ -33,11 +34,16 @@ public class BookingCategoryAdapter extends RecyclerView.Adapter<BookingCategory
     @Override
     public void onBindViewHolder(BookingCategoryViewHolder holder, int position) {
         holder.getView().setBookingCategory(bookingCategories.get(position));
+        holder.getView().setOnCategorySelected(onCategorySelected);
     }
 
     @Override
     public int getItemCount() {
         return bookingCategories.size();
+    }
+
+    public void setOnCategorySelected(OnCategorySelected onCategorySelected) {
+        this.onCategorySelected = onCategorySelected;
     }
 
     public void setBookingCategories(List<BookingCategory> bookingCategories) {

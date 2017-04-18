@@ -1,16 +1,13 @@
 package com.jixstreet.kolla.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.booking.BookingDetailActivity_;
-import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.booking.category.BookingCategory;
-import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.booking.category.OnCategorySelected;
 import com.jixstreet.kolla.utility.ImageUtils;
 
 import org.androidannotations.annotations.Click;
@@ -34,6 +31,7 @@ public class BookingCategoryView extends RelativeLayout {
     protected TextView categoryLabelTv;
 
     private BookingCategory bookingCategory;
+    private OnCategorySelected onCategorySelected;
 
     public BookingCategoryView(Context context) {
         super(context);
@@ -50,9 +48,13 @@ public class BookingCategoryView extends RelativeLayout {
         categoryLabelTv.setText(bookingCategory.name);
     }
 
+    public void setOnCategorySelected(OnCategorySelected onCategorySelected) {
+        this.onCategorySelected = onCategorySelected;
+    }
+
     @Click(R.id.item_wrapper)
     void callRoomList() {
-        ActivityUtils.startActivityWParam((Activity) context, RoomListActivity_.class,
-                BookingCategory.paramKey, bookingCategory);
+        if (onCategorySelected == null) return;
+        onCategorySelected.onSelect(bookingCategory);
     }
 }

@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:weightSum="2">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="@dimen/medium_text"
+        tools:text="@string/kollacredits" />
+
+    <TextView
+        android:id="@+id/value_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:lines="1"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/medium_text"
+        android:textStyle="bold"
+        tools:text="@string/dummy_short_text" />
+
+</LinearLayout>

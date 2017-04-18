@@ -96,4 +96,7 @@
     <string name="top_up_kolla_credit">Top Up Kolla Credit</string>
     <string name="cancel">Cancel</string>
     <string name="error">Error</string>
+    <string name="booking_success">Booking Success</string>
+    <string name="back_to_booking">Back to Booking</string>
+    <string name="see_your_booking">See Your Booking</string>
 </resources>

@@ -60,8 +60,8 @@
             android:name=".booking.room.payment.OtherPaymentActivity_"
             android:label="@string/title_activity_other_payment"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".booking.BookingConfirmationActivity_" />
+        <activity android:name=".booking.BookingSuccessActivity_"></activity>
     </application>
 
 </manifest>

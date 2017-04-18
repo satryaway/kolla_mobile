@@ -1,13 +1,12 @@
 package com.jixstreet.kolla.booking;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.app.Activity;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
-import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
@@ -15,13 +14,8 @@ import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
-import com.jixstreet.kolla.credit.CheckBalanceJson;
-import com.jixstreet.kolla.credit.CreditSufficientStatus;
-import com.jixstreet.kolla.credit.OnCheckBalance;
-import com.jixstreet.kolla.library.Callback;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
-import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -32,37 +26,29 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-@EActivity(R.layout.activity_booking_confirmation)
-public class BookingConfirmationActivity extends AppCompatActivity implements OnRoomSelected {
-    public static int requestCode = ActivityUtils.getRequestCode(BookingConfirmationActivity.class, "1");
+@EActivity(R.layout.activity_booking_success)
+public class BookingSuccessActivity extends AppCompatActivity implements OnRoomSelected {
+    public static int requestCode = ActivityUtils.getRequestCode(BookingSuccessActivity.class, "1");
 
-    @ViewById(R.id.room_wrapper)
+    @ViewById(R.id.room_view)
     protected RoomView roomView;
-
-    @ViewById(R.id.toolbar)
-    protected Toolbar toolbar;
 
     @ViewById(R.id.params_wrapper)
     protected LinearLayout paramsWrapper;
 
-    public static String paramKey = BookingConfirmationActivity.class.getName().concat("1");
+    @ViewById(R.id.toolbar)
+    protected Toolbar toolbar;
+
     private Booking booking;
-    private CheckBalanceJson checkBalanceJson;
 
     @AfterViews
     protected void onViewsCreated() {
-        ViewUtils.setToolbar(this, toolbar);
+        ViewUtils.setToolbarNoUpButton(this, toolbar);
+
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        checkBalanceJson = new CheckBalanceJson(this);
         if (booking != null) {
             setValue();
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
     }
 
     private void setValue() {
@@ -70,7 +56,6 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
-            buildParams();
             makeViews(buildParams());
         }
     }
@@ -100,48 +85,10 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         return params;
     }
 
-    private void checkBalance() {
-        CheckBalanceJson.Request request = new CheckBalanceJson.Request();
-        request.room_id = booking.room.id;
-        checkBalanceJson.get(request, new OnCheckBalance() {
-            @Override
-            public void onSuccess(CheckBalanceJson.Response response) {
-                if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
-                    ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
-                            BookingSuccessActivity_.class, Booking.paramKey, booking,
-                            BookingSuccessActivity.requestCode);
-                } else {
-                    showTopupDialog(response);
-                }
-            }
-
-            @Override
-            public void onFailure(String message) {
-                DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this,
-                        ViewUtils.getRootView(BookingConfirmationActivity.this), message);
-            }
-        });
-    }
-
-    private void showTopupDialog(CheckBalanceJson.Response response) {
-        DialogUtils.makeTwoButtonDialog(this, getString(R.string.error), response.message,
-                getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
-                    @Override
-                    public void run(@Nullable Boolean param) {
-                        //TODO : Go to TopUp Page
-                    }
-                });
-    }
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == BookingSuccessActivity.requestCode) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        }
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        super.onBackPressed();
     }
 
     @Override
@@ -151,8 +98,8 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
                 Booking.paramKey, booking);
     }
 
-    @Click(R.id.submit_tv)
-    protected void submitBooking() {
-        checkBalance();
+    @Click(R.id.back_tv)
+    protected void goBack() {
+        onBackPressed();
     }
 }

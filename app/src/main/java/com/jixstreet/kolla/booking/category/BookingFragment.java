@@ -1,5 +1,7 @@
 package com.jixstreet.kolla.booking.category;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,9 +10,12 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.room.RoomListActivity;
+import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.credit.GetBalanceJson;
 import com.jixstreet.kolla.credit.OnGetBalance;
 import com.jixstreet.kolla.prefs.CPrefs;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
@@ -28,7 +33,7 @@ import java.util.List;
  */
 
 @EFragment(R.layout.fragment_booking)
-public class BookingFragment extends Fragment {
+public class BookingFragment extends Fragment implements OnCategorySelected {
     @ViewById(R.id.booking_category_rv)
     protected RecyclerView bookingCategoryRv;
 
@@ -56,6 +61,7 @@ public class BookingFragment extends Fragment {
     private void initAdapter() {
         bookingCategoryAdapter = new BookingCategoryAdapter(getActivity());
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        bookingCategoryAdapter.setOnCategorySelected(this);
         bookingCategoryRv.setNestedScrollingEnabled(false);
         bookingCategoryRv.setClipToPadding(false);
         bookingCategoryRv.setLayoutManager(layoutManager);
@@ -65,6 +71,7 @@ public class BookingFragment extends Fragment {
     }
 
     private void getBalance() {
+        if (getBalanceJson == null) return;
         getBalanceJson.get(new OnGetBalance() {
             @Override
             public void onSuccess(GetBalanceJson.Response response) {
@@ -108,5 +115,21 @@ public class BookingFragment extends Fragment {
                         getActivity().getWindow().getDecorView(), message);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RoomListActivity.requestCode) {
+                getBalance();
+            }
+        }
+    }
+
+    @Override
+    public void onSelect(BookingCategory bookingCategory) {
+        ActivityUtils.startActivityWParamAndWait(this, RoomListActivity_.class,
+                BookingCategory.paramKey, bookingCategory, RoomListActivity.requestCode);
     }
 }

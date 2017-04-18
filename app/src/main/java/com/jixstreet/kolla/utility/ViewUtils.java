@@ -85,6 +85,15 @@ public class ViewUtils {
         }
     }
 
+    public static void setToolbarNoUpButton(AppCompatActivity activity, Toolbar toolbar) {
+        activity.setSupportActionBar(toolbar);
+        ActionBar actionBar = activity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
     public static void setTextView(TextView textView, String text) {
         if (textView != null && text != null) {
             textView.setText(text);

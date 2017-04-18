@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking.room.detail;
 
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.Room;
@@ -38,8 +40,8 @@ import java.util.List;
 
 @EActivity(R.layout.activity_room_detail)
 public class RoomDetailActivity extends AppCompatActivity {
-
     public static String paramKey = RoomDetailActivity.class.getName().concat("1");
+    public static int requestCode = ActivityUtils.getRequestCode(RoomDetailActivity.class, "1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -74,7 +76,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
 
-        booking = ActivityUtils.getParam(this, paramKey, Booking.class);
+        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
         if (booking != null && booking.room != null) {
             room = booking.room;
             roomDetailJson = new RoomDetailJson(this, room.id);
@@ -151,9 +153,20 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     @Click(R.id.booking_this_space_tv)
     void bookThisSpace() {
-        ActivityUtils.startActivityWParam(RoomDetailActivity.this,
+        ActivityUtils.startActivityWParamAndWait(RoomDetailActivity.this,
                 BookingConfirmationActivity_.class,
-                Booking.paramKey, booking);
+                Booking.paramKey, booking, BookingConfirmationActivity.requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == BookingConfirmationActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

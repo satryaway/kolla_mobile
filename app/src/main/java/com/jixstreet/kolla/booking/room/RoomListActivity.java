@@ -34,6 +34,7 @@ import java.util.List;
 public class RoomListActivity extends AppCompatActivity implements
         SwipeRefreshLayout.OnRefreshListener, OnRoomSelected {
     private static final int OFFSET = 10;
+    public static int requestCode = ActivityUtils.getRequestCode(RoomListActivity.class, "1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -134,6 +135,9 @@ public class RoomListActivity extends AppCompatActivity implements
                 if (roomParams != null) {
                     onRefresh();
                 }
+            } else if (requestCode == RoomDetailActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
             }
         } else {
             finish();
@@ -158,6 +162,7 @@ public class RoomListActivity extends AppCompatActivity implements
         Booking booking = new Booking();
         booking.room = room;
         booking.roomRequest = roomParams;
-        ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class, RoomDetailActivity.paramKey, booking);
+        ActivityUtils.startActivityWParamAndWait(this, RoomDetailActivity_.class,
+                Booking.paramKey, booking, RoomDetailActivity.requestCode);
     }
 }
