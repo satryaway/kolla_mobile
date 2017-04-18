@@ -57,7 +57,7 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
     }
 
     private void collectIntent() {
-        booking = ActivityUtils.getParam(this, paramKey, Booking.class);
+        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
     }
 
     private void initPager() {

@@ -1,9 +1,11 @@
 package com.jixstreet.kolla.booking;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
@@ -11,12 +13,18 @@ import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
+import com.jixstreet.kolla.credit.CheckBalanceJson;
+import com.jixstreet.kolla.credit.CreditSufficientStatus;
+import com.jixstreet.kolla.credit.OnCheckBalance;
+import com.jixstreet.kolla.library.Callback;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -48,11 +56,13 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     public static String paramKey = BookingConfirmationActivity.class.getName().concat("1");
     private Booking booking;
+    private CheckBalanceJson checkBalanceJson;
 
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
-        booking = ActivityUtils.getParam(this, paramKey, Booking.class);
+        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
+        checkBalanceJson = new CheckBalanceJson(this);
         if (booking != null) {
             setValue();
         }
@@ -86,10 +96,46 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         }
     }
 
+    private void checkBalance() {
+        CheckBalanceJson.Request request = new CheckBalanceJson.Request();
+        request.room_id = booking.room.id;
+        checkBalanceJson.get(request, new OnCheckBalance() {
+            @Override
+            public void onSuccess(CheckBalanceJson.Response response) {
+                if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
+                    DialogUtils.makeToast(BookingConfirmationActivity.this, response.message);
+                } else {
+                    showTopupDialog(response);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this,
+                        ViewUtils.getRootView(BookingConfirmationActivity.this), message);
+            }
+        });
+    }
+
+    private void showTopupDialog(CheckBalanceJson.Response response) {
+        DialogUtils.makeTwoButtonDialog(this, getString(R.string.error), response.message,
+                getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
+                    @Override
+                    public void run(@Nullable Boolean param) {
+                        //TODO : Go to TopUp Page
+                    }
+                });
+    }
+
     @Override
     public void onSelect(Room room) {
         booking.room = room;
         ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
                 RoomDetailActivity.paramKey, booking);
+    }
+
+    @Click(R.id.submit_tv)
+    protected void submitBooking() {
+        checkBalance();
     }
 }

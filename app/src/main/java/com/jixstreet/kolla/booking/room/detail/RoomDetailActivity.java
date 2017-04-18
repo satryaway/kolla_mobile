@@ -15,6 +15,7 @@ import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomDetailJson;
@@ -22,11 +23,7 @@ import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
 import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.credit.CheckBalanceJson;
-import com.jixstreet.kolla.credit.CreditSufficientStatus;
-import com.jixstreet.kolla.credit.OnCheckBalance;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -72,14 +69,12 @@ public class RoomDetailActivity extends AppCompatActivity {
     private Booking booking;
 
     private RoomDetailJson roomDetailJson;
-    private CheckBalanceJson checkBalanceJson;
 
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
 
         booking = ActivityUtils.getParam(this, paramKey, Booking.class);
-        checkBalanceJson = new CheckBalanceJson(this);
         if (booking != null && booking.room != null) {
             room = booking.room;
             roomDetailJson = new RoomDetailJson(this, room.id);
@@ -156,29 +151,9 @@ public class RoomDetailActivity extends AppCompatActivity {
 
     @Click(R.id.booking_this_space_tv)
     void bookThisSpace() {
-        if (booking != null) {
-            CheckBalanceJson.Request request = new CheckBalanceJson.Request();
-            request.room_id = booking.room.id;
-            checkBalanceJson.get(request, new OnCheckBalance() {
-                @Override
-                public void onSuccess(CheckBalanceJson.Response response) {
-                    if (!response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
-                        ActivityUtils.startActivityWParam(RoomDetailActivity.this,
-                                OtherPaymentActivity_.class,
-                                OtherPaymentActivity.paramKey, booking);
-                    } else {
-                        DialogUtils.makeSnackBar(CommonConstant.success, RoomDetailActivity.this
-                                , response.data.main_credit);
-                    }
-                }
-
-                @Override
-                public void onFailure(String message) {
-                    DialogUtils.makeSnackBar(CommonConstant.failed, RoomDetailActivity.this,
-                            ViewUtils.getRootView(RoomDetailActivity.this), message);
-                }
-            });
-        }
+        ActivityUtils.startActivityWParam(RoomDetailActivity.this,
+                BookingConfirmationActivity_.class,
+                Booking.paramKey, booking);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

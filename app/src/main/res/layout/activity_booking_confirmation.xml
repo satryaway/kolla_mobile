@@ -204,7 +204,7 @@
         android:gravity="center|bottom">
 
         <TextView
-            android:id="@+id/booking_this_space_tv"
+            android:id="@+id/submit_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

@@ -93,4 +93,7 @@
     <string name="booking_option">Booking Option</string>
     <string name="request_a_survey">Request a Survey</string>
     <string name="booking_this_hall">Booking This Hall</string>
+    <string name="top_up_kolla_credit">Top Up Kolla Credit</string>
+    <string name="cancel">Cancel</string>
+    <string name="error">Error</string>
 </resources>

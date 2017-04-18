@@ -9,6 +9,7 @@ import com.jixstreet.kolla.booking.room.RoomJson;
  */
 
 public class Booking {
+    public static String paramKey = Booking.class.getName().concat("1");
     public Room room;
     public RoomJson.Request roomRequest;
 }
