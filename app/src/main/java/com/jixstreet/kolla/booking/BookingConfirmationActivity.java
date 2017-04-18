@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
-import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
+import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
+import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
 import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
@@ -70,8 +72,21 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
-            buildParams();
-            makeViews(buildParams());
+
+            switch (booking.room.category.id) {
+                case BookingEntity.COMMON_SPACE:
+                    makeViews(buildRoomParams());
+                    break;
+                case BookingEntity.HALL:
+                    makeViews(buildHallParams());
+                    break;
+                case BookingEntity.OFFICE:
+                    makeViews(buildRoomParams());
+                    break;
+                default:
+                    makeViews(buildRoomParams());
+                    break;
+            }
         }
     }
 
@@ -84,7 +99,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         }
     }
 
-    private ArrayList<Pair<String, String>> buildParams() {
+    private ArrayList<Pair<String, String>> buildRoomParams() {
         ArrayList<Pair<String, String>> params = new ArrayList<>();
         if (booking.room.price_type.equals(PaymentType.CASH))
             params.add(new Pair<>(getString(R.string.price), FormatUtils.formatCurrency(booking.room.price)));
@@ -96,6 +111,21 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
                 R.string.s_durations : R.string.s_duration), booking.roomRequest.duration)));
         params.add(new Pair<>(getString(R.string.guest), getString(R.string.s_guest, booking.roomRequest.guest)));
+
+        return params;
+    }
+
+    private ArrayList<Pair<String, String>> buildHallParams() {
+        ArrayList<Pair<String, String>> params = new ArrayList<>();
+        params.add(new Pair<>(getString(R.string.name), booking.roomRequest.event_name));
+        params.add(new Pair<>(getString(R.string.date), DateUtils.getDateTimeStr(booking.roomRequest.date,
+                getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
+        params.add(new Pair<>(getString(R.string.time), booking.roomRequest.time));
+        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
+                R.string.s_durations : R.string.s_duration), booking.roomRequest.duration)));
+        params.add(new Pair<>(getString(R.string.type), booking.roomRequest.booking_type));
+        params.add(new Pair<>(getString(R.string.pax), booking.roomRequest.pax));
+        params.add(new Pair<>(getString(R.string.payment), booking.roomRequest.payment_type));
 
         return params;
     }
@@ -153,6 +183,14 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     @Click(R.id.submit_tv)
     protected void submitBooking() {
-        checkBalance();
+        switch (booking.room.category.id) {
+            case BookingEntity.HALL:
+                ActivityUtils.startActivityWParamAndWait(this, OtherPaymentActivity_.class,
+                        Booking.paramKey, booking, OtherPaymentActivity.requestCode);
+                break;
+            default:
+                checkBalance();
+                break;
+        }
     }
 }

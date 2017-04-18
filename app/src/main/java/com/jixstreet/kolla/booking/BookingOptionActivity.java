@@ -33,11 +33,11 @@ import java.util.List;
  */
 
 @EActivity(R.layout.activity_booking_detail)
-public class BookingDetailActivity extends AppCompatActivity
+public class BookingOptionActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    public static final int requestCode = ActivityUtils.getRequestCode(BookingDetailActivity.class, "1");
-    public static final String resultKey = BookingDetailActivity.class.getName().concat("1");
+    public static final int requestCode = ActivityUtils.getRequestCode(BookingOptionActivity.class, "1");
+    public static final String resultKey = BookingOptionActivity.class.getName().concat("1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -61,13 +61,13 @@ public class BookingDetailActivity extends AppCompatActivity
     protected LinearLayout moreWrapper;
 
     private Calendar certainDate;
-    private RoomJson.Request roomParam;
+    private Booking booking;
 
     @AfterViews
     void onViewsCreated() {
-        roomParam = ActivityUtils.getParam(this, RoomJson.paramKey, RoomJson.Request.class);
-        if (roomParam == null)
-            roomParam = new RoomJson.Request();
+        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
+        if (booking == null)
+            finish();
 
         setLayout();
         initCalendar();
@@ -75,7 +75,9 @@ public class BookingDetailActivity extends AppCompatActivity
     }
 
     private void setLayout() {
-        if (roomParam.category != null && roomParam.category.equals(BookingEntity.OFFICE))
+        if (booking.room.category != null &&
+                (booking.room.category.id.equals(BookingEntity.OFFICE) ||
+                        booking.room.category.id.equals(BookingEntity.HALL)))
             moreWrapper.setVisibility(View.GONE);
     }
 
@@ -102,7 +104,11 @@ public class BookingDetailActivity extends AppCompatActivity
     private void initCalendar() {
         certainDate = Calendar.getInstance();
         bookingDateTv.setText(DateUtils.getCurrentDate());
-        bookingTimeTv.setText(DateUtils.getCurrentTime());
+
+        certainDate.set(Calendar.HOUR_OF_DAY, DateUtils.getCurrentHour());
+        certainDate.set(Calendar.MINUTE, 0);
+        bookingTimeTv.setText(DateUtils.getTimeStr(certainDate.get(Calendar.HOUR_OF_DAY),
+                certainDate.get(Calendar.MINUTE), 0));
     }
 
     private void showDatePickerDialog(int year, int month, int day) {
@@ -118,19 +124,17 @@ public class BookingDetailActivity extends AppCompatActivity
     }
 
     private void collectInformation() {
-        roomParam.location = Seeder.getLocations().get(locationSpinner.getSelectedItemPosition());
-        roomParam.date = getString(R.string.date_builder,
+        booking.roomRequest.location = Seeder.getLocations().get(locationSpinner.getSelectedItemPosition());
+        booking.roomRequest.date = getString(R.string.date_builder,
                 certainDate.get(Calendar.DAY_OF_MONTH),
                 certainDate.get(Calendar.MONTH) + 1,
                 certainDate.get(Calendar.YEAR));
-        roomParam.time = getString(R.string.time_builder,
-                certainDate.get(Calendar.HOUR_OF_DAY),
-                "00");
-        roomParam.duration = String.valueOf(durationSpinner.getSelectedItemPosition() + 1);
-        roomParam.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition() + 1);
-        roomParam.isInitial = false;
+        booking.roomRequest.time = ViewUtils.getTextFromTextView(bookingTimeTv);
+        booking.roomRequest.duration = String.valueOf(durationSpinner.getSelectedItemPosition() + 1);
+        booking.roomRequest.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition() + 1);
+        booking.roomRequest.isInitial = false;
 
-        ActivityUtils.returnWithResult(this, resultKey, roomParam);
+        ActivityUtils.returnWithResult(this, resultKey, booking.roomRequest);
     }
 
     @Override
@@ -154,7 +158,7 @@ public class BookingDetailActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (roomParam.isInitial) {
+        if (booking.roomRequest.isInitial) {
             setResult(RESULT_CANCELED);
             super.onBackPressed();
         } else {

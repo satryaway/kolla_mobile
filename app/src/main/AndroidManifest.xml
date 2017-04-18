@@ -39,7 +39,7 @@
             android:name=".booking.room.RoomListActivity_"
             android:label="@string/title_activity_room_list"
             android:theme="@style/AppTheme" />
-        <activity android:name=".booking.BookingDetailActivity_" />
+        <activity android:name=".booking.BookingOptionActivity_" />
         <activity
             android:name=".booking.room.detail.RoomDetailActivity_"
             android:label="@string/title_activity_room_detail"
@@ -61,7 +61,8 @@
             android:label="@string/title_activity_other_payment"
             android:theme="@style/AppTheme" />
         <activity android:name=".booking.BookingConfirmationActivity_" />
-        <activity android:name=".booking.BookingSuccessActivity_"></activity>
+        <activity android:name=".booking.BookingSuccessActivity_" />
+        <activity android:name=".booking.BookingSizeActivity_"></activity>
     </application>
 
 </manifest>

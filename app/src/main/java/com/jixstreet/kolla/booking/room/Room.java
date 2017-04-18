@@ -33,6 +33,9 @@ public class Room {
     public boolean isFullBooked;
     public boolean isOnlyView;
 
+    public Room() {
+    }
+
     public Room(String imageUrl, String name, String description, String measurement, boolean isFullBooked) {
         this.imageUrl = imageUrl;
         this.name = name;

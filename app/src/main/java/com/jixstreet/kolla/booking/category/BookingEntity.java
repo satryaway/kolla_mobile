@@ -7,6 +7,7 @@ package com.jixstreet.kolla.booking.category;
 
 public class BookingEntity {
     public static final String COMMON_SPACE = "1";
+    public static final String MEETING_ROOM = "2";
     public static final String OFFICE = "3";
     public static final String HALL = "4";
 }

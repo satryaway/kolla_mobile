@@ -1,6 +1,5 @@
 package com.jixstreet.kolla.booking.room;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,8 @@ import android.widget.TextView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
-import com.jixstreet.kolla.booking.BookingDetailActivity;
-import com.jixstreet.kolla.booking.BookingDetailActivity_;
+import com.jixstreet.kolla.booking.BookingOptionActivity;
+import com.jixstreet.kolla.booking.BookingOptionActivity_;
 import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
@@ -48,20 +47,23 @@ public class RoomListActivity extends AppCompatActivity implements
     @ViewById(R.id.refresh_wrapper)
     protected SwipeRefreshLayout refreshWrapper;
 
-    private RoomJson.Request roomParams = new RoomJson.Request();
-
     private RoomListAdapter roomListAdapter;
     private RoomJson roomJson;
     private BookingCategory bookingCategory;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private Booking booking;
 
     @AfterViews
     void onViewsCreated() {
-        roomJson = new RoomJson(this);
         bookingCategory = ActivityUtils.getParam(this, BookingCategory.paramKey, BookingCategory.class);
-        roomParams.category = bookingCategory.id;
+        roomJson = new RoomJson(this);
 
-        getBookingDetail();
+        if (booking == null) booking = new Booking();
+        if (booking.room == null) booking.room = new Room();
+        if (booking.roomRequest == null) booking.roomRequest = new RoomJson.Request();
+        booking.room.category = bookingCategory;
+
+        getBookingOption();
         ViewUtils.setToolbar(this, toolbar);
         initAdapter();
     }
@@ -99,9 +101,10 @@ public class RoomListActivity extends AppCompatActivity implements
     }
 
     private void getRooms(int page) {
-        if (roomParams != null && roomJson != null && bookingCategory != null) {
-            roomParams.page = String.valueOf(page);
-            roomJson.getRooms(roomParams, new OnGetRoom() {
+        if (booking.roomRequest != null && roomJson != null && bookingCategory != null) {
+            booking.roomRequest.page = String.valueOf(page);
+            booking.roomRequest.category = bookingCategory.id;
+            roomJson.getRooms(booking.roomRequest, new OnGetRoom() {
                 @Override
                 public void onSuccess(RoomJson.Response response) {
                     refreshWrapper.setRefreshing(false);
@@ -130,9 +133,9 @@ public class RoomListActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == BookingDetailActivity.requestCode) {
-                roomParams = ActivityUtils.getResult(data, BookingDetailActivity.resultKey, RoomJson.Request.class);
-                if (roomParams != null) {
+            if (requestCode == BookingOptionActivity.requestCode) {
+                booking.roomRequest = ActivityUtils.getResult(data, BookingOptionActivity.resultKey, RoomJson.Request.class);
+                if (booking.roomRequest != null) {
                     onRefresh();
                 }
             } else if (requestCode == RoomDetailActivity.requestCode) {
@@ -145,9 +148,9 @@ public class RoomListActivity extends AppCompatActivity implements
     }
 
     @Click(R.id.setting_iv)
-    void getBookingDetail() {
-        ActivityUtils.startActivityWParamAndWait(this, BookingDetailActivity_.class,
-                RoomJson.paramKey, roomParams, BookingDetailActivity.requestCode);
+    void getBookingOption() {
+        ActivityUtils.startActivityWParamAndWait(this, BookingOptionActivity_.class,
+                Booking.paramKey, booking, BookingOptionActivity.requestCode);
     }
 
     @Override
@@ -159,9 +162,9 @@ public class RoomListActivity extends AppCompatActivity implements
 
     @Override
     public void onSelect(Room room) {
-        Booking booking = new Booking();
+        if (booking == null) return;
         booking.room = room;
-        booking.roomRequest = roomParams;
+        booking.room.category = bookingCategory;
         ActivityUtils.startActivityWParamAndWait(this, RoomDetailActivity_.class,
                 Booking.paramKey, booking, RoomDetailActivity.requestCode);
     }

@@ -30,6 +30,7 @@ import java.util.List;
 @EActivity(R.layout.activity_other_payment)
 public class OtherPaymentActivity extends AppCompatActivity implements OnPayOtherPayment {
     public static String paramKey = OtherPaymentActivity.class.getName().concat("1");
+    public static int requestCode = ActivityUtils.getRequestCode(OtherPaymentActivity.class, "1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -46,18 +47,16 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
-        collectIntent();
-        initPager();
+
+        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
+        if (booking != null)
+            initPager();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    private void collectIntent() {
-        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
     }
 
     private void initPager() {
@@ -73,8 +72,8 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
 
     @Override
     public void onPay(Booking booking) {
-        ActivityUtils.startActivityWParam(this, BookingConfirmationActivity_.class,
-                BookingConfirmationActivity.paramKey, booking);
+        /*ActivityUtils.startActivityWParam(this, BookingConfirmationActivity_.class,
+                BookingConfirmationActivity.paramKey, booking);*/
     }
 
     public class OtherPaymentPagerAdapter extends FragmentPagerAdapter {

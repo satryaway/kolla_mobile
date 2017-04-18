@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
@@ -103,5 +104,22 @@ public class ViewUtils {
     public static void setVisibility(View view, int visibility) {
         if (view != null)
             view.setVisibility(visibility);
+    }
+
+    public static String getTextFromEditText(EditText editText) {
+        if (editText != null)
+            return editText.getText().toString();
+        else return "";
+    }
+
+    public static String getTextFromTextView(TextView textView) {
+        if (textView != null)
+            return textView.getText().toString();
+        else return "";
+    }
+
+    public static void setError(EditText editText, String string) {
+        if (editText != null && !string.isEmpty())
+            editText.setError(string);
     }
 }

@@ -18,6 +18,8 @@ import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
+import com.jixstreet.kolla.booking.BookingSizeActivity;
+import com.jixstreet.kolla.booking.BookingSizeActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomDetailJson;
@@ -25,7 +27,6 @@ import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
 import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
-import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -154,8 +155,11 @@ public class RoomDetailActivity extends AppCompatActivity {
     @Click(R.id.booking_this_space_tv)
     void bookThisSpace() {
         ActivityUtils.startActivityWParamAndWait(RoomDetailActivity.this,
-                BookingConfirmationActivity_.class,
-                Booking.paramKey, booking, BookingConfirmationActivity.requestCode);
+                booking.roomRequest.category.equals(BookingEntity.HALL) ? BookingSizeActivity_.class :
+                        BookingConfirmationActivity_.class,
+                Booking.paramKey, booking,
+                booking.roomRequest.category.equals(BookingEntity.HALL) ? BookingSizeActivity.requestCode :
+                        BookingConfirmationActivity.requestCode);
     }
 
     @Override

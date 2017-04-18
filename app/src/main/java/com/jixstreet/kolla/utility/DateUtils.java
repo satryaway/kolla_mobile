@@ -382,4 +382,7 @@ public class DateUtils {
     }
 
 
+    public static int getCurrentHour() {
+        return getCalendar().get(Calendar.HOUR_OF_DAY);
+    }
 }

@@ -106,4 +106,18 @@
     <string name="settings">Settings</string>
     <string name="help">Help</string>
     <string name="log_out">Log Out</string>
+    <string name="booking_size">Booking Size</string>
+    <string name="event_date">Event Date</string>
+    <string name="event_time">Event Time</string>
+    <string name="booking_type">Booking Type</string>
+    <string name="event_name">Event Name</string>
+    <string name="your_event_name_here">Your event name here…</string>
+    <string name="number_of_pax_s">Number of Pax (Min. %s)</string>
+    <string name="dummy_pax">50</string>
+    <string name="next">Next</string>
+    <string name="payment_type">Payment Type</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="type">Type</string>
+    <string name="pax">Pax</string>
 </resources>

@@ -124,4 +124,20 @@ public class Seeder {
 
         return bankingList;
     }
+
+    public static List<String> getBookingType() {
+        List<String> list = new ArrayList<>();
+        list.add("Space Only");
+        list.add("Space, Food and Beverage");
+
+        return list;
+    }
+
+    public static List<String> getPaymentType() {
+        List<String> list = new ArrayList<>();
+        list.add("Full - Rp. 2.000.000");
+        list.add("DP - Rp. 200.000");
+
+        return list;
+    }
 }
