@@ -20,4 +20,6 @@
     <color name="disabled_text">#BDBDBD</color>
     <color name="default_tab_color">#EAEAEA</color>
     <color name="active_text">#212121</color>
+    <color name="transparent_black_90">#e6000000</color>
+    <color name="transparent_black_75">#b5000000</color>
 </resources>

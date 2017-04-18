@@ -2,8 +2,6 @@
     <string name="app_name">Kolla</string>
     <string name="facebook_app_id">263985664006850</string>
 
-    <string name="text_favorites">Favorite</string>
-    <string name="text_schedules">Schedules</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="skip">Skip</string>
@@ -99,4 +97,13 @@
     <string name="booking_success">Booking Success</string>
     <string name="back_to_booking">Back to Booking</string>
     <string name="see_your_booking">See Your Booking</string>
+    <string name="notification">Notification</string>
+    <string name="kolla">Kolla::</string>
+    <string name="news">News</string>
+    <string name="booking">Booking</string>
+    <string name="events">Events</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="log_out">Log Out</string>
 </resources>

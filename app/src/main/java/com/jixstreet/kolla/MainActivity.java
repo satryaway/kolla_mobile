@@ -1,7 +1,6 @@
 package com.jixstreet.kolla;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -26,6 +25,7 @@ import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void modifyActionBar() {
-
+        ViewUtils.setToolbar(this, toolbar);
     }
 
     private void initDrawer() {
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_notification) {
             return true;
         }
 
@@ -185,16 +185,12 @@ public class MainActivity extends AppCompatActivity
         String toolbarTitle = "";
         boolean isTransparent = false;
 
-        if (id == R.id.nav_camera) {
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.action_profile) {
+        } else if (id == R.id.action_settings) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.action_help) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.action_logout) {
 
         } else if (id == R.id.action_news) {
             if (newsFragment == null)
