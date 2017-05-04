@@ -1,17 +1,15 @@
 package com.jixstreet.kolla.booking;
 
-import android.app.Activity;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
-import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
 import com.jixstreet.kolla.utility.ActivityUtils;
@@ -52,11 +50,22 @@ public class BookingSuccessActivity extends AppCompatActivity implements OnRoomS
     }
 
     private void setValue() {
-        if (booking.room != null && booking.roomRequest != null) {
+        if (booking.room != null && booking.bookingRequest != null) {
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
-            makeViews(buildParams());
+
+            switch (booking.room.category.id) {
+                case BookingEntity.HALL:
+                    makeViews(buildHallParams());
+                    break;
+                case BookingEntity.OFFICE:
+                    makeViews(buildOfficeParams());
+                    break;
+                default:
+                    makeViews(buildRoomParams());
+                    break;
+            }
         }
     }
 
@@ -69,18 +78,44 @@ public class BookingSuccessActivity extends AppCompatActivity implements OnRoomS
         }
     }
 
-    private ArrayList<Pair<String, String>> buildParams() {
+    private ArrayList<Pair<String, String>> buildRoomParams() {
         ArrayList<Pair<String, String>> params = new ArrayList<>();
         if (booking.room.price_type.equals(PaymentType.CASH))
             params.add(new Pair<>(getString(R.string.price), FormatUtils.formatCurrency(booking.room.price)));
         else
             params.add(new Pair<>(getString(R.string.kollacredits), booking.room.price));
-        params.add(new Pair<>(getString(R.string.booking_date), DateUtils.getDateTimeStr(booking.roomRequest.date,
+        params.add(new Pair<>(getString(R.string.booking_date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
                 getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
-        params.add(new Pair<>(getString(R.string.booking_time), booking.roomRequest.time));
-        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
-                R.string.s_durations : R.string.s_duration), booking.roomRequest.duration)));
-        params.add(new Pair<>(getString(R.string.guest), getString(R.string.s_guest, booking.roomRequest.guest)));
+        params.add(new Pair<>(getString(R.string.booking_time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.bookingRequest.duration) > 1 ?
+                R.string.s_durations : R.string.s_duration), booking.bookingRequest.duration)));
+        params.add(new Pair<>(getString(R.string.guest), getString(R.string.s_guest, booking.bookingRequest.guest)));
+
+        return params;
+    }
+
+    private ArrayList<Pair<String, String>> buildOfficeParams() {
+        ArrayList<Pair<String, String>> params = new ArrayList<>();
+        params.add(new Pair<>(getString(R.string.full_name), booking.bookingRequest.full_name));
+        params.add(new Pair<>(getString(R.string.survey_date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
+                getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
+        params.add(new Pair<>(getString(R.string.survey_time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.office_size), getString(R.string.s_guest, booking.bookingRequest.guest)));
+
+        return params;
+    }
+
+    private ArrayList<Pair<String, String>> buildHallParams() {
+        ArrayList<Pair<String, String>> params = new ArrayList<>();
+        params.add(new Pair<>(getString(R.string.name), booking.bookingRequest.event_name));
+        params.add(new Pair<>(getString(R.string.date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
+                getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
+        params.add(new Pair<>(getString(R.string.time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.bookingRequest.duration) > 1 ?
+                R.string.s_durations : R.string.s_duration), booking.bookingRequest.duration)));
+        params.add(new Pair<>(getString(R.string.type), booking.bookingRequest.booking_type));
+        params.add(new Pair<>(getString(R.string.pax), booking.bookingRequest.guest));
+        params.add(new Pair<>(getString(R.string.payment), booking.bookingRequest.payment_type));
 
         return params;
     }

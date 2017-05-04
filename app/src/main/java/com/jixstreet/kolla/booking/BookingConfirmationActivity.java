@@ -14,8 +14,6 @@ import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
 import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
@@ -50,12 +48,14 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     public static String paramKey = BookingConfirmationActivity.class.getName().concat("1");
     private Booking booking;
     private CheckBalanceJson checkBalanceJson;
+    private BookingJson bookingJson;
 
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
         checkBalanceJson = new CheckBalanceJson(this);
+        bookingJson = new BookingJson(this, booking.room.id);
         if (booking != null) {
             setValue();
         }
@@ -68,20 +68,17 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     }
 
     private void setValue() {
-        if (booking.room != null && booking.roomRequest != null) {
+        if (booking.room != null && booking.bookingRequest != null) {
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
 
             switch (booking.room.category.id) {
-                case BookingEntity.COMMON_SPACE:
-                    makeViews(buildRoomParams());
-                    break;
                 case BookingEntity.HALL:
                     makeViews(buildHallParams());
                     break;
                 case BookingEntity.OFFICE:
-                    makeViews(buildRoomParams());
+                    makeViews(buildOfficeParams());
                     break;
                 default:
                     makeViews(buildRoomParams());
@@ -105,27 +102,38 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             params.add(new Pair<>(getString(R.string.price), FormatUtils.formatCurrency(booking.room.price)));
         else
             params.add(new Pair<>(getString(R.string.kollacredits), booking.room.price));
-        params.add(new Pair<>(getString(R.string.booking_date), DateUtils.getDateTimeStr(booking.roomRequest.date,
+        params.add(new Pair<>(getString(R.string.booking_date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
                 getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
-        params.add(new Pair<>(getString(R.string.booking_time), booking.roomRequest.time));
-        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
-                R.string.s_durations : R.string.s_duration), booking.roomRequest.duration)));
-        params.add(new Pair<>(getString(R.string.guest), getString(R.string.s_guest, booking.roomRequest.guest)));
+        params.add(new Pair<>(getString(R.string.booking_time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.bookingRequest.duration) > 1 ?
+                R.string.s_durations : R.string.s_duration), booking.bookingRequest.duration)));
+        params.add(new Pair<>(getString(R.string.guest), getString(R.string.s_guest, booking.bookingRequest.guest)));
+
+        return params;
+    }
+
+    private ArrayList<Pair<String, String>> buildOfficeParams() {
+        ArrayList<Pair<String, String>> params = new ArrayList<>();
+        params.add(new Pair<>(getString(R.string.full_name), booking.bookingRequest.full_name));
+        params.add(new Pair<>(getString(R.string.survey_date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
+                getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
+        params.add(new Pair<>(getString(R.string.survey_time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.office_size), getString(R.string.s_guest, booking.bookingRequest.guest)));
 
         return params;
     }
 
     private ArrayList<Pair<String, String>> buildHallParams() {
         ArrayList<Pair<String, String>> params = new ArrayList<>();
-        params.add(new Pair<>(getString(R.string.name), booking.roomRequest.event_name));
-        params.add(new Pair<>(getString(R.string.date), DateUtils.getDateTimeStr(booking.roomRequest.date,
+        params.add(new Pair<>(getString(R.string.name), booking.bookingRequest.event_name));
+        params.add(new Pair<>(getString(R.string.date), DateUtils.getDateTimeStr(booking.bookingRequest.date,
                 getString(R.string.default_web_date_format), getString(R.string.default_date_format))));
-        params.add(new Pair<>(getString(R.string.time), booking.roomRequest.time));
-        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.roomRequest.duration) > 1 ?
-                R.string.s_durations : R.string.s_duration), booking.roomRequest.duration)));
-        params.add(new Pair<>(getString(R.string.type), booking.roomRequest.booking_type));
-        params.add(new Pair<>(getString(R.string.pax), booking.roomRequest.pax));
-        params.add(new Pair<>(getString(R.string.payment), booking.roomRequest.payment_type));
+        params.add(new Pair<>(getString(R.string.time), booking.bookingRequest.time));
+        params.add(new Pair<>(getString(R.string.duration), getString((Integer.valueOf(booking.bookingRequest.duration) > 1 ?
+                R.string.s_durations : R.string.s_duration), booking.bookingRequest.duration)));
+        params.add(new Pair<>(getString(R.string.type), booking.bookingRequest.booking_type));
+        params.add(new Pair<>(getString(R.string.pax), booking.bookingRequest.guest));
+        params.add(new Pair<>(getString(R.string.payment), booking.bookingRequest.payment_type));
 
         return params;
     }
@@ -137,9 +145,8 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             @Override
             public void onSuccess(CheckBalanceJson.Response response) {
                 if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
-                    ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
-                            BookingSuccessActivity_.class, Booking.paramKey, booking,
-                            BookingSuccessActivity.requestCode);
+                    //TODO : If enough, do booking!
+                    doBooking();
                 } else {
                     showTopupDialog(response);
                 }
@@ -149,6 +156,24 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             public void onFailure(String message) {
                 DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this,
                         ViewUtils.getRootView(BookingConfirmationActivity.this), message);
+            }
+        });
+    }
+
+    private void doBooking() {
+        bookingJson.setBooking(booking.bookingRequest, new OnBooking() {
+            @Override
+            public void onSuccess(BookingJson.Response response) {
+                booking.bookingResponse = response;
+                ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
+                        BookingSuccessActivity_.class, Booking.paramKey, booking,
+                        BookingSuccessActivity.requestCode);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed,
+                        BookingConfirmationActivity.this, message);
             }
         });
     }
@@ -185,8 +210,8 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     protected void submitBooking() {
         switch (booking.room.category.id) {
             case BookingEntity.HALL:
-                ActivityUtils.startActivityWParamAndWait(this, OtherPaymentActivity_.class,
-                        Booking.paramKey, booking, OtherPaymentActivity.requestCode);
+            case BookingEntity.OFFICE:
+                doBooking();
                 break;
             default:
                 checkBalance();

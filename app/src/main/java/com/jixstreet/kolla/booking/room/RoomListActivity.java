@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.BookingJson;
 import com.jixstreet.kolla.booking.BookingOptionActivity;
 import com.jixstreet.kolla.booking.BookingOptionActivity_;
 import com.jixstreet.kolla.booking.category.BookingCategory;
@@ -60,6 +61,7 @@ public class RoomListActivity extends AppCompatActivity implements
 
         if (booking == null) booking = new Booking();
         if (booking.room == null) booking.room = new Room();
+        if (booking.bookingRequest == null) booking.bookingRequest = new BookingJson.Request();
         if (booking.roomRequest == null) booking.roomRequest = new RoomJson.Request();
         booking.room.category = bookingCategory;
 
@@ -101,7 +103,8 @@ public class RoomListActivity extends AppCompatActivity implements
     }
 
     private void getRooms(int page) {
-        if (booking.roomRequest != null && roomJson != null && bookingCategory != null) {
+        if (booking.bookingRequest != null && roomJson != null && bookingCategory != null
+                && booking.roomRequest != null) {
             booking.roomRequest.page = String.valueOf(page);
             booking.roomRequest.category = bookingCategory.id;
             roomJson.getRooms(booking.roomRequest, new OnGetRoom() {
@@ -135,6 +138,7 @@ public class RoomListActivity extends AppCompatActivity implements
         if (resultCode == RESULT_OK) {
             if (requestCode == BookingOptionActivity.requestCode) {
                 booking.roomRequest = ActivityUtils.getResult(data, BookingOptionActivity.resultKey, RoomJson.Request.class);
+                booking.setBookingRequest(booking);
                 if (booking.roomRequest != null) {
                     onRefresh();
                 }

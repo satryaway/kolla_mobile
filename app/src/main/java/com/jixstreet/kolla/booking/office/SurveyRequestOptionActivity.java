@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking;
+package com.jixstreet.kolla.booking.office;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity;
+import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -25,37 +28,26 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Calendar;
 import java.util.List;
 
-@EActivity(R.layout.activity_booking_size)
-public class BookingSizeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+@EActivity(R.layout.activity_survey_request_option)
+public class SurveyRequestOptionActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
-    public static final int requestCode = ActivityUtils.getRequestCode(BookingSizeActivity.class, "1");
+
+    public static int requestCode = ActivityUtils.getRequestCode(SurveyRequestOptionActivity.class, "1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
-    @ViewById(R.id.event_name_et)
-    protected EditText eventNameEt;
+    @ViewById(R.id.survey_date_tv)
+    protected TextView surveyDateTv;
 
-    @ViewById(R.id.event_date_tv)
-    protected TextView eventDateTv;
+    @ViewById(R.id.survey_time_tv)
+    protected TextView surveyTimeTv;
 
-    @ViewById(R.id.event_time_tv)
-    protected TextView eventTimeTv;
+    @ViewById(R.id.office_size_sp)
+    protected Spinner officeSizeSp;
 
-    @ViewById(R.id.duration_spinner)
-    protected Spinner durationSp;
-
-    @ViewById(R.id.booking_type_spinner)
-    protected Spinner bookingTypeSp;
-
-    @ViewById(R.id.payment_type_spinner)
-    protected Spinner paymentTypeSp;
-
-    @ViewById(R.id.pax_et)
-    protected EditText paxEt;
-
-    @ViewById(R.id.pax_tv)
-    protected TextView paxTv;
+    @ViewById(R.id.full_name_et)
+    protected EditText fullNameEt;
 
     private Calendar certainDate;
     private Booking booking;
@@ -65,30 +57,22 @@ public class BookingSizeActivity extends AppCompatActivity implements DatePicker
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
 
         ViewUtils.setToolbar(this, toolbar);
-        setValue();
         initCalendar();
         initSpinners();
     }
 
-    private void setValue() {
-        ViewUtils.setTextView(paxTv, getString(R.string.number_of_pax_s, booking.room.size));
-        ViewUtils.setEditTextHint(paxEt, booking.room.size);
-    }
-
     private void initCalendar() {
         certainDate = Calendar.getInstance();
-        eventDateTv.setText(DateUtils.getCurrentDate());
+        surveyDateTv.setText(DateUtils.getCurrentDate());
 
         certainDate.set(Calendar.HOUR_OF_DAY, DateUtils.getCurrentHour());
         certainDate.set(Calendar.MINUTE, 0);
-        eventTimeTv.setText(DateUtils.getTimeStr(certainDate.get(Calendar.HOUR_OF_DAY),
+        surveyTimeTv.setText(DateUtils.getTimeStr(certainDate.get(Calendar.HOUR_OF_DAY),
                 certainDate.get(Calendar.MINUTE), 0));
     }
 
     private void initSpinners() {
-        initSpinner(Seeder.getDurations(6), durationSp, null);
-        initSpinner(Seeder.getBookingType(), bookingTypeSp, null);
-        initSpinner(Seeder.getPaymentType(), paymentTypeSp, null);
+        initSpinner(Seeder.getGuests(50), officeSizeSp, null);
     }
 
     private void initSpinner(List<String> collections, Spinner spinner,
@@ -113,41 +97,16 @@ public class BookingSizeActivity extends AppCompatActivity implements DatePicker
     }
 
     private boolean isComplete() {
-        int minPax = Integer.valueOf(booking.room.size);
-
-        if (ViewUtils.getTextFromEditText(eventNameEt).isEmpty()) {
-            ViewUtils.setError(eventNameEt, getString(R.string.field_required));
+        if (ViewUtils.getTextFromEditText(fullNameEt).isEmpty())
             return false;
-        }
 
-        if (ViewUtils.getTextFromEditText(paxEt).isEmpty()) {
-            ViewUtils.setError(paxEt, getString(R.string.field_required));
-            return false;
-        } else {
-            int inputtedPax = Integer.valueOf(ViewUtils.getTextFromEditText(paxEt));
-            if (inputtedPax < minPax) {
-                ViewUtils.setError(paxEt, getString(R.string.minimum_pax_is_s, booking.room.size));
-                return false;
-            }
-        }
-
-        booking.bookingRequest.event_name = ViewUtils.getTextFromEditText(eventNameEt);
+        booking.bookingRequest.full_name = ViewUtils.getTextFromEditText(fullNameEt);
         booking.bookingRequest.date = getString(R.string.date_builder,
                 certainDate.get(Calendar.DAY_OF_MONTH),
                 certainDate.get(Calendar.MONTH) + 1,
                 certainDate.get(Calendar.YEAR));
-        booking.bookingRequest.time = ViewUtils.getTextFromTextView(eventTimeTv);
-        booking.bookingRequest.duration = String.valueOf(durationSp.getSelectedItemPosition() + 1);
-        booking.bookingRequest.booking_type = Seeder.getBookingType().get(bookingTypeSp.getSelectedItemPosition());
-        booking.bookingRequest.guest = ViewUtils.getTextFromEditText(paxEt);
-        booking.bookingRequest.payment_type = Seeder.getPaymentType().get(paymentTypeSp.getSelectedItemPosition());
-
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
+        booking.bookingRequest.time = ViewUtils.getTextFromTextView(surveyTimeTv);
+        booking.bookingRequest.guest = String.valueOf(officeSizeSp.getSelectedItemPosition() + 1);
         return true;
     }
 
@@ -163,26 +122,32 @@ public class BookingSizeActivity extends AppCompatActivity implements DatePicker
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        eventDateTv.setText(DateUtils.getDateTimeStr(dayOfMonth, monthOfYear, year));
+        surveyDateTv.setText(DateUtils.getDateTimeStr(dayOfMonth, monthOfYear, year));
         certainDate.set(year, monthOfYear, dayOfMonth);
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        eventTimeTv.setText(DateUtils.getTimeStr(hourOfDay, minute, second));
+        surveyTimeTv.setText(DateUtils.getTimeStr(hourOfDay, minute, second));
         certainDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
         certainDate.set(Calendar.MINUTE, 0);
     }
 
-    @Click(R.id.event_date_tv)
+    @Click(R.id.survey_date_tv)
     void showDatePicker() {
         showDatePickerDialog(certainDate.get(Calendar.YEAR),
                 certainDate.get(Calendar.MONTH),
                 certainDate.get(Calendar.DAY_OF_MONTH));
     }
 
-    @Click(R.id.event_time_tv)
+    @Click(R.id.survey_time_tv)
     void showTimePicker() {
         showTimePickerDialog(certainDate.get(Calendar.HOUR));
     }

@@ -50,11 +50,7 @@ public class RoomJson extends ModelJson {
         public String duration;
         public String guest;
         public String page;
-        public String event_name;
-        public String booking_type;
-        public String pax;
         public boolean isInitial = true;
-        public String payment_type;
 
         @Override
         public ArrayList<Pair<String, String>> getParams() {
@@ -66,10 +62,6 @@ public class RoomJson extends ModelJson {
             params.add(new Pair<>("duration", duration));
             params.add(new Pair<>("guest", guest));
             params.add(new Pair<>("page", page));
-            params.add(new Pair<>("event_name", event_name));
-            params.add(new Pair<>("booking_type", booking_type));
-            params.add(new Pair<>("pax", pax));
-            params.add(new Pair<>("payment_type", payment_type));
             return params;
         }
     }

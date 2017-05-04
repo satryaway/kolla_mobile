@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.category.BookingEntity;
-import com.jixstreet.kolla.booking.room.RoomJson;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;

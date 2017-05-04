@@ -77,7 +77,7 @@
         android:background="@color/primary">
 
         <TextView
-            android:id="@+id/booking_this_space_tv"
+            android:id="@+id/confirm_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"

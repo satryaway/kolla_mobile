@@ -21,6 +21,8 @@ import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
 import com.jixstreet.kolla.booking.BookingSizeActivity;
 import com.jixstreet.kolla.booking.BookingSizeActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
+import com.jixstreet.kolla.booking.office.SurveyRequestOptionActivity;
+import com.jixstreet.kolla.booking.office.SurveyRequestOptionActivity_;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomDetailJson;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
@@ -62,7 +64,7 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.collapsing_toolbar)
     protected CollapsingToolbarLayout collapsingToolbarLayout;
 
-    @ViewById(R.id.booking_this_space_tv)
+    @ViewById(R.id.confirm_tv)
     protected TextView bookTv;
 
     private Room room;
@@ -152,21 +154,35 @@ public class RoomDetailActivity extends AppCompatActivity {
         roomMapFragment.setValue(room);
     }
 
-    @Click(R.id.booking_this_space_tv)
+    @Click(R.id.confirm_tv)
     void bookThisSpace() {
+        Class destinationClass = BookingConfirmationActivity_.class;
+        int requestCode = BookingConfirmationActivity.requestCode;
+
+        switch (booking.roomRequest.category) {
+            case BookingEntity.HALL :
+                destinationClass = BookingSizeActivity_.class;
+                requestCode = BookingSizeActivity.requestCode;
+                break;
+            case BookingEntity.OFFICE :
+                destinationClass = SurveyRequestOptionActivity_.class;
+                requestCode = SurveyRequestOptionActivity.requestCode;
+                break;
+        }
+
         ActivityUtils.startActivityWParamAndWait(RoomDetailActivity.this,
-                booking.roomRequest.category.equals(BookingEntity.HALL) ? BookingSizeActivity_.class :
-                        BookingConfirmationActivity_.class,
+                destinationClass,
                 Booking.paramKey, booking,
-                booking.roomRequest.category.equals(BookingEntity.HALL) ? BookingSizeActivity.requestCode :
-                        BookingConfirmationActivity.requestCode);
+                requestCode);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == BookingConfirmationActivity.requestCode) {
+            if (requestCode == BookingConfirmationActivity.requestCode
+                    || requestCode == SurveyRequestOptionActivity.requestCode
+                    || requestCode == BookingSizeActivity.requestCode) {
                 setResult(RESULT_OK);
                 finish();
             }

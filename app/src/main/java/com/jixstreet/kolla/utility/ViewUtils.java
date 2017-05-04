@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -121,5 +120,11 @@ public class ViewUtils {
     public static void setError(EditText editText, String string) {
         if (editText != null && !string.isEmpty())
             editText.setError(string);
+    }
+
+    public static void setEditTextHint(EditText editText, String string) {
+        if (editText != null) {
+            editText.setHint(string.isEmpty() ? "" : string);
+        }
     }
 }
