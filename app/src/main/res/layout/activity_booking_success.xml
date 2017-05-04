@@ -95,7 +95,7 @@
                     android:padding="16dp"
                     android:text="@string/see_your_booking"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/primary"
                     android:textSize="@dimen/large_text" />
             </FrameLayout>
         </LinearLayout>

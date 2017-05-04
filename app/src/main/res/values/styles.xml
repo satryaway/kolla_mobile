@@ -47,7 +47,7 @@
         <item name="tabBackground">@color/default_tab_color</item>
         <item name="tabGravity">fill</item>
         <item name="tabMode">fixed</item>
-        <item name="tabSelectedTextColor">@color/active_text</item>
+        <item name="tabSelectedTextColor">@color/primary_colored_text</item>
         <item name="tabTextColor">@color/disabled_text</item>
         <item name="tabIndicatorHeight">4dp</item>
     </style>

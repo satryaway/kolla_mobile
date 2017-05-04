@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#0F3443</color>
+    <color name="primary">#F2BA33</color>
     <color name="primary_dark">#303F9F</color>
     <color name="primary_light">#EAEAEA</color>
-    <color name="accent">#34E89B</color>
+    <color name="accent">#F2BB35</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
@@ -12,10 +12,13 @@
     <color name="color_failure">#f57c00</color>
     <color name="color_success">#00c853</color>
 
+    <color name="primary_colored_text">#A5770E</color>
+
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
-    <color name="transparent_primary_90">#e60F3443</color>
-    <color name="transparent_primary_50">#7b0F3443</color>
+    <color name="transparent_primary_90">#e6F2BA33</color>
+    <color name="transparent_primary_50">#7bF2BA33</color>
+    <color name="transparent_primary_25">#41f2ba33</color>
     <color name="black_alpha_40">#66000000</color>
     <color name="disabled_text">#BDBDBD</color>
     <color name="default_tab_color">#EAEAEA</color>
