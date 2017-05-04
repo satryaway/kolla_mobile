@@ -62,11 +62,6 @@ public class MainActivity extends AppCompatActivity
 
     @AfterViews
     void onViewsCreated() {
-        if (LoginJson.Response.getAccessToken(this) == null) {
-            ActivityUtils.startActivity(this, IntroActivity_.class);
-            finish();
-            return;
-        }
         modifyActionBar();
         initDrawer();
 

@@ -18,9 +18,10 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.login.LoginView;
-import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.register.RegisterView;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -56,10 +57,19 @@ public class IntroActivity extends AppCompatActivity implements IntroView.LoginI
 
     @AfterViews
     void onViewsCreated() {
+        checkSavedLoginStatus();
         collectIntent();
         modifyStatusBar();
         initUI();
         initPager();
+    }
+
+    private void checkSavedLoginStatus() {
+        String accessToken = LoginJson.Response.getAccessToken(this);
+        if (accessToken != null) {
+            ActivityUtils.startActivity(this, MainActivity_.class);
+            finish();
+        }
     }
 
     private void collectIntent() {

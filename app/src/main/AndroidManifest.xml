@@ -24,7 +24,8 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity_"
+            android:name=".intro.IntroActivity_"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".intro.IntroActivity_"
+            android:name=".MainActivity_"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".booking.room.RoomListActivity_"
