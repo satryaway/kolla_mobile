@@ -14,6 +14,8 @@ import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
+import com.jixstreet.kolla.booking.room.payment.KollaPaymentJson;
+import com.jixstreet.kolla.booking.room.payment.OnKollaPay;
 import com.jixstreet.kolla.booking.room.payment.PaymentType;
 import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
@@ -49,6 +51,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     private Booking booking;
     private CheckBalanceJson checkBalanceJson;
     private BookingJson bookingJson;
+    private KollaPaymentJson kollaPaymentJson;
 
     @AfterViews
     protected void onViewsCreated() {
@@ -165,6 +168,12 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             @Override
             public void onSuccess(BookingJson.Response response) {
                 booking.bookingResponse = response;
+                if (booking.room.category.id.equals(BookingEntity.COMMON_SPACE)
+                        || booking.room.category.id.equals(BookingEntity.MEETING_ROOM)) {
+                    payWithKolla(response);
+                    return;
+                }
+
                 ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
                         BookingSuccessActivity_.class, Booking.paramKey, booking,
                         BookingSuccessActivity.requestCode);
@@ -174,6 +183,24 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             public void onFailure(String message) {
                 DialogUtils.makeSnackBar(CommonConstant.failed,
                         BookingConfirmationActivity.this, message);
+            }
+        });
+    }
+
+    private void payWithKolla(BookingJson.Response response) {
+        kollaPaymentJson = new KollaPaymentJson(BookingConfirmationActivity.this, response.data.id);
+        kollaPaymentJson.payWithKolla(new OnKollaPay() {
+            @Override
+            public void onSuccess(KollaPaymentJson.Response response) {
+                booking.kollaPaymentResponse = response;
+                ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
+                        BookingSuccessActivity_.class, Booking.paramKey, booking,
+                        BookingSuccessActivity.requestCode);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this, message);
             }
         });
     }

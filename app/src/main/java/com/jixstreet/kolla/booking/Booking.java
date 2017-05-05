@@ -2,6 +2,7 @@ package com.jixstreet.kolla.booking;
 
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomJson;
+import com.jixstreet.kolla.booking.room.payment.KollaPaymentJson;
 
 /**
  * Created by satryaway on 4/13/2017.
@@ -14,6 +15,7 @@ public class Booking {
     public RoomJson.Request roomRequest;
     public BookingJson.Request bookingRequest;
     public BookingJson.Response bookingResponse;
+    public KollaPaymentJson.Response kollaPaymentResponse;
 
     public void setBookingRequest(Booking booking) {
         BookingJson.Request bookingRequest = booking.bookingRequest;
