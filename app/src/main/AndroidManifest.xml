@@ -64,7 +64,12 @@
         <activity android:name=".booking.BookingConfirmationActivity_" />
         <activity android:name=".booking.BookingSuccessActivity_" />
         <activity android:name=".booking.BookingSizeActivity_" />
-        <activity android:name=".booking.office.SurveyRequestOptionActivity_"></activity>
+        <activity android:name=".booking.office.SurveyRequestOptionActivity_" />
+        <activity
+            android:name="com.msaku.library.OTPBrowser"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
     </application>
 
 </manifest>

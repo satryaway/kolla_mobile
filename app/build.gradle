@@ -84,4 +84,5 @@ dependencies {
     compile 'ch.acra:acra:4.9.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     testCompile 'junit:junit:4.12'
+    compile files('libs/libmsaku.jar')
 }
