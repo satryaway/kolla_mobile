@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#F2BA33</color>
-    <color name="primary_dark">#303F9F</color>
-    <color name="primary_light">#EAEAEA</color>
-    <color name="accent">#F2BB35</color>
+    <color name="primary">#FF9800</color>
+    <color name="primary_dark">#d78000</color>
+    <color name="primary_light">#FFE0B2</color>
+    <color name="accent">#795548</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
-    <color name="icons">#FFFFFF</color>
+    <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
 
     <color name="color_failure">#f57c00</color>
@@ -16,9 +16,9 @@
 
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
-    <color name="transparent_primary_90">#e6F2BA33</color>
-    <color name="transparent_primary_50">#7bF2BA33</color>
-    <color name="transparent_primary_25">#41f2ba33</color>
+    <color name="transparent_primary_90">#e6FF9800</color>
+    <color name="transparent_primary_50">#7bFF9800</color>
+    <color name="transparent_primary_25">#41FF9800</color>
     <color name="black_alpha_40">#66000000</color>
     <color name="disabled_text">#BDBDBD</color>
     <color name="default_tab_color">#EAEAEA</color>
