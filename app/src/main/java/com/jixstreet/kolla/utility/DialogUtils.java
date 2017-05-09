@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -75,5 +77,42 @@ public class DialogUtils {
                 callback.run(param);
             executed = true;
         }
+    }
+
+    /**
+     * Modal dialog with 1 neutral button and 1 result callback (boolean).
+     * Set cancelable true or false for disable/enable dismiss dialog. <br />
+     * <br />
+     * Because android didn't support modal (blocking) dialog, we must supply
+     * callback to respond to the result.
+     */
+    public static final void modalCancelable(@NonNull Context ctx,
+                                             @Nullable String title,
+                                             @Nullable String message,
+                                             boolean cancelable,
+                                             @Nullable Callback<Boolean> onDialogDone) {
+
+        AlertDialog alert = new AlertDialog.Builder(ctx)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(cancelable)
+                .create();
+
+        final DialogHelper mc = new DialogHelper();
+        mc.callback = onDialogDone;
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mc.execute(true);
+            }
+        });
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mc.execute(false);
+            }
+        });
+
+        alert.show();
     }
 }

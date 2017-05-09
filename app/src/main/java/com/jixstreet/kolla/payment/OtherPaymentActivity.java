@@ -1,5 +1,7 @@
 package com.jixstreet.kolla.payment;
 
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,7 +18,9 @@ import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.topup.CreditAmount;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
+import com.jixstreet.kolla.utility.PermissionUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -57,6 +61,8 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
+        PermissionUtils.requestPermissions(this, PermissionUtils.PERMISSIONS_PHONE_STATE,
+                PermissionUtils.REQUEST_PHONE_STATE, "Read Phone State");
 
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
         if (booking == null) {
@@ -86,7 +92,7 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
         OtherPaymentPagerAdapter adapter = new OtherPaymentPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.bank_transfer));
         adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.internet_banking));
-        adapter.addFragment(BankTransferPaymentFragment.newInstance(booking), getString(R.string.credit_card));
+        adapter.addFragment(CreditCardPaymentFragment.newInstance(creditAmount), getString(R.string.credit_card));
 
         contentVp.setOffscreenPageLimit(adapter.mFragmentList.size());
         contentVp.setAdapter(adapter);
@@ -97,6 +103,21 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
     public void onPay(Booking booking) {
         /*ActivityUtils.startActivityWParam(this, BookingConfirmationActivity_.class,
                 BookingConfirmationActivity.paramKey, booking);*/
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PermissionUtils.REQUEST_PHONE_STATE: {
+                if (grantResults.length < 1
+                        && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    DialogUtils.makeToast(this, "Permission denied");
+                    finish();
+                }
+            }
+        }
     }
 
     public class OtherPaymentPagerAdapter extends FragmentPagerAdapter {

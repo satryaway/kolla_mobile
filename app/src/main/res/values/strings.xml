@@ -130,4 +130,15 @@
     <string name="office_size">Office Size</string>
     <string name="redeem_voucher">Redeem Voucher</string>
     <string name="bonus_s">Bonus: %s</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_expiration">Card Expiration</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="cvv">CVV</string>
+    <string name="set_dummy_data">Set Dummy Data</string>
+    <string name="buy_s_kolla_credit">Buy %s Kolla Credit</string>
 </resources>

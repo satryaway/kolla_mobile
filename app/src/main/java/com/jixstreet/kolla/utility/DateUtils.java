@@ -22,8 +22,8 @@ public class DateUtils {
      * http://www.localeplanet.com/icu/id/
      */
     public static final String[] months
-            = new String[]{"Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+            = new String[]{"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
 
     public static final String[] shortMonths
             = new String[]{"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"};

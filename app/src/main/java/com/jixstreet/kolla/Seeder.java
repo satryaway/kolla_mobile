@@ -7,11 +7,14 @@ import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomHeader;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailHeaderItem;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacility;
-import com.jixstreet.kolla.payment.Banking;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
+import com.jixstreet.kolla.payment.Banking;
+import com.jixstreet.kolla.utility.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -109,7 +112,7 @@ public class Seeder {
 
     public static List<RoomFacility> getRoomFacilities(int count) {
         List<RoomFacility> roomFacilities = new ArrayList<>();
-        for (int i = 1; i < count+1; i++) {
+        for (int i = 1; i < count + 1; i++) {
             roomFacilities.add(new RoomFacility(R.drawable.com_facebook_close, "Facility " + i));
         }
 
@@ -137,6 +140,22 @@ public class Seeder {
         List<String> list = new ArrayList<>();
         list.add("Full - Rp. 2.000.000");
         list.add("DP - Rp. 200.000");
+
+        return list;
+    }
+
+    public static List<String> getMonths() {
+        return new ArrayList<>(Arrays.asList(DateUtils.months));
+    }
+
+    public static List<String> getYears() {
+        List<String> list = new ArrayList<>();
+        Calendar calendar = DateUtils.getCalendar();
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        for (int i = currentYear; i <= currentYear+10; i++) {
+            list.add("" + i);
+        }
 
         return list;
     }

@@ -47,6 +47,7 @@ android {
 
             buildConfigField "String", "BASE_URL", '"http://139.59.108.121/api"'
             buildConfigField "int", "API_PORT", "3000"
+            buildConfigField "String", "M_SAKU_APIKEY", "325941352f8c756e172f5f5de4de83f717dc8253741887075"
         }
 
         debug {
@@ -54,6 +55,7 @@ android {
             buildConfigField "boolean", "showDebugLog", "true"
             buildConfigField "String", "BASE_URL", '"http://139.59.108.121/api"'
             buildConfigField "int", "API_PORT", "3000"
+            buildConfigField "String", "M_SAKU_APIKEY", '"325941352f8c756e172f5f5de4de83f717dc8253741887075"'
         }
 
         applicationVariants.all { variant ->
@@ -85,4 +87,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     testCompile 'junit:junit:4.12'
     compile files('libs/libmsaku.jar')
+    compile files('libs/BouncyCastleEncoders.jar')
 }
