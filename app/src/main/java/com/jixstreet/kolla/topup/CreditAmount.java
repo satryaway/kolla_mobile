@@ -6,6 +6,8 @@ package com.jixstreet.kolla.topup;
  */
 
 public class CreditAmount {
+    public static String paramKey = CreditAmount.class.getName().concat("1");
+
     public String id;
     public String kolla_credit;
     public String nominal;

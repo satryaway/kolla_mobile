@@ -8,20 +8,19 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
-import com.jixstreet.kolla.booking.BookingConfirmationActivity;
-import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
-import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
+import com.jixstreet.kolla.topup.CreditAmount;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -44,13 +43,37 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
     @Nullable
     private Booking booking;
 
+    private CreditAmount creditAmount;
+
+    @ViewById(R.id.credit_amount_tv)
+    protected TextView creditAmountTv;
+
+    @ViewById(R.id.credit_price_tv)
+    protected TextView creditPriceTv;
+
+    @ViewById(R.id.top_up_wrapper)
+    protected LinearLayout topUpWrapper;
+
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
 
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        if (booking != null)
-            initPager();
+        if (booking == null) {
+            creditAmount = ActivityUtils.getParam(this, CreditAmount.paramKey, CreditAmount.class);
+            if (creditAmount != null) {
+                ViewUtils.setVisibility(topUpWrapper, View.VISIBLE);
+                setTopUpValue(creditAmount);
+            }
+        }
+        initPager();
+
+    }
+
+    private void setTopUpValue(CreditAmount creditAmount) {
+        ViewUtils.setTextView(creditAmountTv, creditAmount.kolla_credit +
+                (!creditAmount.given_bonus.equals("0") ? "+" + creditAmount.given_bonus : ""));
+        ViewUtils.setTextView(creditPriceTv, FormatUtils.formatCurrency(creditAmount.nominal));
     }
 
     @Override

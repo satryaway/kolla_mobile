@@ -15,10 +15,12 @@ import java.util.List;
 
 public class TopUpCreditListAdapter extends RecyclerView.Adapter<TopUpCreditListAdapter.TopUpCreditViewHolder> {
     private List<CreditAmount> itemList = new ArrayList<>();
+    private TopUpCreditView.OnCreditClickListener onCreditClickListener;
 
     @Override
     public TopUpCreditViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TopUpCreditView topUpCreditView = TopUpCreditView_.build(parent.getContext());
+        topUpCreditView.setOnCreditClickListener(onCreditClickListener);
         return new TopUpCreditViewHolder(topUpCreditView);
     }
 
@@ -39,6 +41,10 @@ public class TopUpCreditListAdapter extends RecyclerView.Adapter<TopUpCreditList
 
     public void clearItems() {
         this.itemList = new ArrayList<>();
+    }
+
+    public void setOnCreditClickListener(TopUpCreditView.OnCreditClickListener onCreditClickListener) {
+        this.onCreditClickListener = onCreditClickListener;
     }
 
     public class TopUpCreditViewHolder extends RecyclerView.ViewHolder {

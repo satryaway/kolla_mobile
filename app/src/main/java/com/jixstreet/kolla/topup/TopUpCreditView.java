@@ -5,6 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -33,6 +34,11 @@ public class TopUpCreditView extends RelativeLayout {
 
     private CreditAmount item;
     private Context context;
+    private OnCreditClickListener onCreditClickListener;
+
+    public interface OnCreditClickListener {
+        void onClick(CreditAmount creditAmount);
+    }
 
     public TopUpCreditView(Context context) {
         super(context);
@@ -52,8 +58,12 @@ public class TopUpCreditView extends RelativeLayout {
         ViewUtils.setVisibility(notesTv, item.notes != null ? VISIBLE : GONE);
     }
 
+    public void setOnCreditClickListener(OnCreditClickListener onCreditClickListener) {
+        this.onCreditClickListener = onCreditClickListener;
+    }
+
     @Click(R.id.content_wrapper)
     protected void chooseItem() {
-
+        this.onCreditClickListener.onClick(item);
     }
 }
