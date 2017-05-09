@@ -14,13 +14,23 @@
         android:layout_above="@+id/booking_category_rv"
         android:contentDescription="@null" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/booking_category_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/booking_header_wrapper"
+        android:padding="8dp"/>
+
     <LinearLayout
         android:id="@+id/booking_header_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="?attr/actionBarSize"
         android:background="@color/transparent_primary_50"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <LinearLayout
@@ -74,6 +84,7 @@
                 android:background="@android:color/white">
 
                 <TextView
+                    android:id="@+id/add_credit_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
@@ -107,12 +118,5 @@
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/booking_category_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/booking_header_wrapper"
-        android:padding="8dp"/>
 
 </RelativeLayout>

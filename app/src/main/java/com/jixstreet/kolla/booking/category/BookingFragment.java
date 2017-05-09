@@ -15,6 +15,8 @@ import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.credit.GetBalanceJson;
 import com.jixstreet.kolla.credit.OnGetBalance;
 import com.jixstreet.kolla.prefs.CPrefs;
+import com.jixstreet.kolla.topup.TopUpListActivity;
+import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -22,6 +24,7 @@ import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
@@ -121,7 +124,8 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RoomListActivity.requestCode) {
+            if (requestCode == RoomListActivity.requestCode ||
+                    requestCode == TopUpListActivity.requestCode) {
                 getBalance();
             }
         }
@@ -131,5 +135,11 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
     public void onSelect(BookingCategory bookingCategory) {
         ActivityUtils.startActivityWParamAndWait(this, RoomListActivity_.class,
                 BookingCategory.paramKey, bookingCategory, RoomListActivity.requestCode);
+    }
+
+    @Click(R.id.add_credit_tv)
+    protected void goToAddCreditPage() {
+        ActivityUtils.startActivityAndWait(getActivity(), TopUpListActivity_.class,
+                TopUpListActivity.requestCode);
     }
 }

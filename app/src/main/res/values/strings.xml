@@ -128,4 +128,6 @@
     <string name="how_big_the_office_space">How Big the Office Space?</string>
     <string name="minimum_pax_is_s">Minimum Pax is %s</string>
     <string name="office_size">Office Size</string>
+    <string name="redeem_voucher">Redeem Voucher</string>
+    <string name="bonus_s">Bonus: %s</string>
 </resources>
