@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking.room.payment;
+package com.jixstreet.kolla.payment;
 
 /**
  * Created by satryaway on 5/5/2017.

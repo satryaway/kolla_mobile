@@ -28,7 +28,7 @@ import com.jixstreet.kolla.booking.room.RoomDetailJson;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
 import com.jixstreet.kolla.booking.room.detail.map.RoomMapFragment;
-import com.jixstreet.kolla.booking.room.payment.OnGetRoomDetail;
+import com.jixstreet.kolla.payment.OnGetRoomDetail;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;

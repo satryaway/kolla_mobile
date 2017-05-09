@@ -11,7 +11,7 @@ import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
-import com.jixstreet.kolla.booking.room.payment.PaymentType;
+import com.jixstreet.kolla.payment.PaymentType;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.FormatUtils;

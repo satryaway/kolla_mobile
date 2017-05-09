@@ -2,7 +2,7 @@ package com.jixstreet.kolla.booking;
 
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomJson;
-import com.jixstreet.kolla.booking.room.payment.KollaPaymentJson;
+import com.jixstreet.kolla.payment.KollaPaymentJson;
 
 /**
  * Created by satryaway on 4/13/2017.

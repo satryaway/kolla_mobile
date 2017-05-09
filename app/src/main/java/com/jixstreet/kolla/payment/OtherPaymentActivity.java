@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking.room.payment;
+package com.jixstreet.kolla.payment;
 
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;

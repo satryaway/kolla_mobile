@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking.room.payment;
+package com.jixstreet.kolla.payment;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.utility.ImageUtils;
-import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;

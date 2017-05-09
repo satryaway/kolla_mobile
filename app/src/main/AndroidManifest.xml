@@ -58,7 +58,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".booking.room.payment.OtherPaymentActivity_"
+            android:name=".payment.OtherPaymentActivity_"
             android:label="@string/title_activity_other_payment"
             android:theme="@style/AppTheme" />
         <activity android:name=".booking.BookingConfirmationActivity_" />

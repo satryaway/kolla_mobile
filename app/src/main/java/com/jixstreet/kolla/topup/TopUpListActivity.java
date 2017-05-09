@@ -2,7 +2,6 @@ package com.jixstreet.kolla.topup;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity;
-import com.jixstreet.kolla.booking.room.payment.OtherPaymentActivity_;
+import com.jixstreet.kolla.payment.OtherPaymentActivity;
+import com.jixstreet.kolla.payment.OtherPaymentActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;

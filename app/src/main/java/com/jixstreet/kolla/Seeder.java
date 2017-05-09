@@ -7,7 +7,7 @@ import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomHeader;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailHeaderItem;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacility;
-import com.jixstreet.kolla.booking.room.payment.Banking;
+import com.jixstreet.kolla.payment.Banking;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 

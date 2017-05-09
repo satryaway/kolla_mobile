@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.booking.room.payment;
+package com.jixstreet.kolla.payment;
 
 import com.jixstreet.kolla.booking.Booking;
 
