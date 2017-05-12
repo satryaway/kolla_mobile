@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.payment;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.topup.CreditAmount;
+import com.jixstreet.kolla.topup.TopUpSuccessActivity;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
@@ -116,6 +118,17 @@ public class OtherPaymentActivity extends AppCompatActivity implements OnPayOthe
                     DialogUtils.makeToast(this, "Permission denied");
                     finish();
                 }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == TopUpSuccessActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
             }
         }
     }

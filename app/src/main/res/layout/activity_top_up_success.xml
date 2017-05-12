@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_top_up_success"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jixstreet.kolla.topup.TopUpSuccessActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            app:popupTheme="@style/BaseTheme"
+            app:theme="@style/BaseTheme">
+
+            <TextView
+                android:id="@+id/toolbar_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/success"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/medium_text" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/thank_you_for_payment_wording" />
+
+            <LinearLayout
+                android:id="@+id/top_up_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/credit_amount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableLeft="@mipmap/ic_launcher"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/massive_text"
+                    android:textStyle="bold"
+                    tools:text="50+20" />
+
+                <TextView
+                    android:id="@+id/credit_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    tools:text="Rp 100000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/params_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/primary">
+
+                <TextView
+                    android:id="@+id/back_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/back_to_booking"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/large_text" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/primary_border_white_layout">
+
+                <TextView
+                    android:id="@+id/see_booking_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/see_your_history"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/large_text" />
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

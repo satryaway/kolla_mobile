@@ -16,4 +16,6 @@ public class CreditAmount {
     public String is_active;
     public String created_at;
     public String updated_at;
+
+    public String payment_type;
 }

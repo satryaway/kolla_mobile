@@ -71,6 +71,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".topup.TopUpListActivity_" />
+        <activity android:name=".topup.TopUpSuccessActivity_" />
     </application>
 
 </manifest>

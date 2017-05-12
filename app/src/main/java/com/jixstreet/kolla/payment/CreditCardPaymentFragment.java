@@ -2,6 +2,7 @@ package com.jixstreet.kolla.payment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -15,11 +16,19 @@ import com.jixstreet.kolla.BuildConfig;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.BookingSuccessActivity;
+import com.jixstreet.kolla.booking.BookingSuccessActivity_;
 import com.jixstreet.kolla.msaku.MSakuCcData;
 import com.jixstreet.kolla.msaku.MSakuSessionData;
 import com.jixstreet.kolla.msaku.MSakuSessionJson;
+import com.jixstreet.kolla.msaku.MSakuSuccessfulTransaction;
 import com.jixstreet.kolla.msaku.OnGetMSakuSession;
 import com.jixstreet.kolla.topup.CreditAmount;
+import com.jixstreet.kolla.topup.TopUp;
+import com.jixstreet.kolla.topup.TopUpSuccessActivity;
+import com.jixstreet.kolla.topup.TopUpSuccessActivity_;
+import com.jixstreet.kolla.topup.TopUpSuccessInformation;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -86,6 +95,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     private MSakuCcData mSakuCcData;
     private MSakuSessionData mSakuSessionData;
     private MSakuSessionJson.Response mSakuResponse;
+    private TopUp topUp;
 
     public static CreditCardPaymentFragment newInstance(CreditAmount creditAmount) {
         Bundle args = new Bundle();
@@ -101,7 +111,10 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         if (!BuildConfig.DEBUG) ViewUtils.setVisibility(dummyWrapper, View.GONE);
 
         creditAmount = CastUtils.fromString(getArguments().getString(CREDIT_AMOUNT), CreditAmount.class);
+        creditAmount.payment_type = getContext().getString(R.string.credit_card);
         sessionJson = new MSakuSessionJson(getContext());
+        topUp = new TopUp();
+        topUp.creditAmount = creditAmount;
 
         initSpinners();
         MSakuLib.initlib(this, BuildConfig.DEBUG, BuildConfig.M_SAKU_APIKEY);
@@ -160,6 +173,18 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         ViewUtils.setTextIntoEditText(cityEt, mSakuCcData.city);
         ViewUtils.setTextIntoEditText(postalCodeEt, mSakuCcData.zip);
         ViewUtils.setTextIntoEditText(cvvEt, mSakuCcData.cvv);
+
+        firstNameEt.setEnabled(false);
+        lastNameEt.setEnabled(false);
+        emailEt.setEnabled(false);
+        phoneEt.setEnabled(false);
+        cardNumberEt.setEnabled(false);
+        monthSp.setEnabled(false);
+        yearSp.setEnabled(false);
+        addressEt.setEnabled(false);
+        cityEt.setEnabled(false);
+        postalCodeEt.setEnabled(false);
+        cvvEt.setEnabled(false);
     }
 
     private void setYear(String exp_year) {
@@ -293,9 +318,19 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     public void paymentcb(int errorCode, String errorMessage, String s1, String s2) {
         if (errorCode != ERROR_NONE) {
             DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ((Activity)getContext()).finish();
+                }
+            }, 1500);
         } else {
             //TODO : GO TO Payment successful page; save
-            DialogUtils.makeSnackBar(CommonConstant.success, getActivity(), "Yay!!!");
+
+            topUp.topUpSuccessInformation = CastUtils.fromString(s2, TopUpSuccessInformation.class);
+            topUp.transaction = CastUtils.fromString(s1, MSakuSuccessfulTransaction.class);
+            ActivityUtils.startActivityWParamAndWait(getActivity(), TopUpSuccessActivity_.class,
+                    TopUp.paramKey, topUp, TopUpSuccessActivity.requestCode);
         }
     }
 

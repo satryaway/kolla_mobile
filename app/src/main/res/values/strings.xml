@@ -141,4 +141,10 @@
     <string name="cvv">CVV</string>
     <string name="set_dummy_data">Set Dummy Data</string>
     <string name="buy_s_kolla_credit">Buy %s Kolla Credit</string>
+    <string name="success">Success</string>
+    <string name="thank_you_for_payment_wording">Thank you for your payment! You now have Kolla Credit and ready to book your co-working space. Enjoy your time in Kolla Space!</string>
+    <string name="see_your_history">See Your History</string>
+    <string name="trx_no">Trx no.</string>
+    <string name="trx_time">Transaction Time</string>
+    <string name="approval_code">Approval Code</string>
 </resources>

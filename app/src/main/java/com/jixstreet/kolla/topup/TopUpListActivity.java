@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.topup;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -89,5 +90,16 @@ public class TopUpListActivity extends AppCompatActivity implements SwipeRefresh
     public void onClick(CreditAmount creditAmount) {
         ActivityUtils.startActivityWParamAndWait(this, OtherPaymentActivity_.class,
                 CreditAmount.paramKey, creditAmount, OtherPaymentActivity.requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == OtherPaymentActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 }

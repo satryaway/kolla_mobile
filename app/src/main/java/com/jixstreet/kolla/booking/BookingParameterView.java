@@ -36,4 +36,8 @@ public class BookingParameterView extends LinearLayout {
         ViewUtils.setTextView(titleTv, title);
         ViewUtils.setTextView(valueTv, value);
     }
+
+    public void addMaxLines(int max) {
+        valueTv.setMaxLines(max);
+    }
 }
