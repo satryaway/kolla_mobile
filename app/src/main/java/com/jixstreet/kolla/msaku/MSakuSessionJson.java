@@ -72,9 +72,9 @@ public class MSakuSessionJson extends ModelJson {
         public Data data;
 
         public class Data {
-            public MSakuCcData ccData;
-            public MSakuSessionData sessionData;
-            public MSakuOperatorData operatorData;
+            public MSakuCcData reg_data;
+            public MSakuSessionData cc_data;
+            public MSakuOperatorData operator_data;
         }
     }
 

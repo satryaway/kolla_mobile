@@ -7,7 +7,7 @@ package com.jixstreet.kolla.msaku;
 
 public class MSakuOperatorData {
     public String customer_id;
-    public String mtrxid;
+    public String mtrx_id;
     public String operator_mid;
     public String bank;
     public String client_key;

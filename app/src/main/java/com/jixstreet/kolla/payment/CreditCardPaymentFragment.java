@@ -146,7 +146,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     private void fillForms(MSakuSessionJson.Response response) {
         if (response == null) return;
 
-        MSakuCcData mSakuCcData = response.data.ccData;
+        MSakuCcData mSakuCcData = response.data.reg_data;
         if (mSakuCcData == null) return;
 
         ViewUtils.setTextIntoEditText(firstNameEt, mSakuCcData.first_name);
@@ -239,16 +239,16 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         MSakuLib.paycard(getContext(),
                 R.layout.otpbrowser,
                 R.id.webview,
-                data.sessionData.card_rsa,
-                data.sessionData.session,
-                data.operatorData.customer_id,
+                data.cc_data.card_rsa,
+                data.cc_data.session,
+                data.operator_data.customer_id,
                 generatePaymentInfo(creditAmount),
-                data.operatorData.mtrxid,
-                data.operatorData.operator_mid,
-                data.operatorData.bank,
+                data.operator_data.mtrx_id,
+                data.operator_data.operator_mid,
+                data.operator_data.bank,
                 creditAmount.nominal,
-                data.sessionData.card_hash,
-                data.operatorData.client_key,
+                data.cc_data.card_hash,
+                data.operator_data.client_key,
                 true
         );
     }
@@ -294,6 +294,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         if (errorCode != ERROR_NONE) {
             DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
         } else {
+            //TODO : GO TO Payment successful page; save
             DialogUtils.makeSnackBar(CommonConstant.success, getActivity(), "Yay!!!");
         }
     }
