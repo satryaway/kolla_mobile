@@ -15,7 +15,10 @@ import com.jixstreet.kolla.BuildConfig;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.msaku.MSakuPreference;
+import com.jixstreet.kolla.msaku.MSakuCcData;
+import com.jixstreet.kolla.msaku.MSakuSessionData;
+import com.jixstreet.kolla.msaku.MSakuSessionJson;
+import com.jixstreet.kolla.msaku.OnGetMSakuSession;
 import com.jixstreet.kolla.topup.CreditAmount;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -75,7 +78,14 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
 
     @ViewById(R.id.dummy_wrapper)
     protected FrameLayout dummyWrapper;
+
     private CreditAmount creditAmount;
+    private MSakuSessionJson sessionJson;
+    private boolean isRegistered = false;
+
+    private MSakuCcData mSakuCcData;
+    private MSakuSessionData mSakuSessionData;
+    private MSakuSessionJson.Response mSakuResponse;
 
     public static CreditCardPaymentFragment newInstance(CreditAmount creditAmount) {
         Bundle args = new Bundle();
@@ -91,8 +101,11 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         if (!BuildConfig.DEBUG) ViewUtils.setVisibility(dummyWrapper, View.GONE);
 
         creditAmount = CastUtils.fromString(getArguments().getString(CREDIT_AMOUNT), CreditAmount.class);
+        sessionJson = new MSakuSessionJson(getContext());
+
         initSpinners();
-        MSakuLib.initlib(this, true, BuildConfig.M_SAKU_APIKEY);
+        MSakuLib.initlib(this, BuildConfig.DEBUG, BuildConfig.M_SAKU_APIKEY);
+        getData();
     }
 
     private void initSpinners() {
@@ -109,33 +122,157 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         spinner.setAdapter(dataAdapter);
     }
 
-    @Override
-    public void registercb(int errorCode, String errorMessage, String session, String cardHash, String cardRsa, String s4) {
-        if (errorCode == ERROR_NONE) {
-            MSakuLib.paycard(getContext(),
-                    R.layout.otpbrowser,R.id.webview,cardRsa, session, "jakarta@msaku.me",
-                    "CC TRX INFO","1234567890123456", "MIDDEV0000001", "bni", "25000", cardHash,
-                    "deec9713-6c96-4e48-aade-ecad25a0840c", true);
+    private void getData() {
+        if (sessionJson == null) return;
 
+        sessionJson.getData(new OnGetMSakuSession() {
+            @Override
+            public void onSuccess(MSakuSessionJson.Response response) {
+                if (response.data != null) {
+                    //TODO : Fill all form
+                    isRegistered = true;
+                    mSakuResponse = response;
+                    fillForms(response);
+                }
+            }
 
-            MSakuLib.paycard(getContext(),
-                    R.layout.otpbrowser,
-                    R.id.webview,
-                    cardRsa,
-                    session,
-                    MSakuPreference.CUSTOMER_ID,
-                    generatePaymentInfo(creditAmount),
-                    "",
-                    MSakuPreference.OPERATOR,
-                    "",
-                    creditAmount.nominal,
-                    cardHash,
-                    MSakuPreference.CLIENT_KEY,
-                    true
-                    );
-        } else {
-            DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+            }
+        });
+    }
+
+    private void fillForms(MSakuSessionJson.Response response) {
+        if (response == null) return;
+
+        MSakuCcData mSakuCcData = response.data.ccData;
+        if (mSakuCcData == null) return;
+
+        ViewUtils.setTextIntoEditText(firstNameEt, mSakuCcData.first_name);
+        ViewUtils.setTextIntoEditText(lastNameEt, mSakuCcData.last_name);
+        ViewUtils.setTextIntoEditText(emailEt, mSakuCcData.email);
+        ViewUtils.setTextIntoEditText(phoneEt, mSakuCcData.phone);
+        ViewUtils.setTextIntoEditText(cardNumberEt, mSakuCcData.cc_number);
+        setMonth(mSakuCcData.exp_month);
+        setYear(mSakuCcData.exp_year);
+        ViewUtils.setTextIntoEditText(addressEt, mSakuCcData.address);
+        ViewUtils.setTextIntoEditText(cityEt, mSakuCcData.city);
+        ViewUtils.setTextIntoEditText(postalCodeEt, mSakuCcData.zip);
+        ViewUtils.setTextIntoEditText(cvvEt, mSakuCcData.cvv);
+    }
+
+    private void setYear(String exp_year) {
+        List<String> years = Seeder.getYears();
+        String year = "";
+        for (int i = 0; i < years.size()-1; i++) {
+            year =  years.get(i).substring(2, 4);
+            if (exp_year.equals(year)) {
+                yearSp.setSelection(i);
+            }
         }
+    }
+
+    private void setMonth(String exp_month) {
+        int month = Integer.valueOf(exp_month);
+        monthSp.setSelection(month - 1);
+    }
+
+    private void registerCard() {
+        String errorMessage = MSakuLib.regcard(getActivity(),
+                getImsi(),
+                ViewUtils.getTextFromEditText(firstNameEt),
+                ViewUtils.getTextFromEditText(lastNameEt),
+                ViewUtils.getTextFromEditText(emailEt),
+                ViewUtils.getTextFromEditText(phoneEt),
+                ViewUtils.getTextFromEditText(cardNumberEt),
+                getMonth(),
+                getYear(),
+                ViewUtils.getTextFromEditText(addressEt),
+                ViewUtils.getTextFromEditText(cityEt),
+                ViewUtils.getTextFromEditText(postalCodeEt),
+                ViewUtils.getTextFromEditText(cvvEt)
+        );
+
+        if (errorMessage != null) {
+            DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+        } else {
+            mSakuCcData = new MSakuCcData(
+                    getImsi(),
+                    ViewUtils.getTextFromEditText(firstNameEt),
+                    ViewUtils.getTextFromEditText(lastNameEt),
+                    ViewUtils.getTextFromEditText(emailEt),
+                    ViewUtils.getTextFromEditText(phoneEt),
+                    ViewUtils.getTextFromEditText(cardNumberEt),
+                    getMonth(),
+                    getYear(),
+                    ViewUtils.getTextFromEditText(addressEt),
+                    ViewUtils.getTextFromEditText(cityEt),
+                    ViewUtils.getTextFromEditText(postalCodeEt),
+                    ViewUtils.getTextFromEditText(cvvEt)
+            );
+        }
+    }
+
+    private String getYear() {
+        String year = Seeder.getYears().get(yearSp.getSelectedItemPosition());
+        return year.substring(2, 4);
+    }
+
+    private String getImsi() {
+        TelephonyManager manager = (TelephonyManager) getContext().getSystemService(Activity.TELEPHONY_SERVICE);
+        return manager.getSubscriberId();
+    }
+
+    private String getMonth() {
+        String month = String.valueOf(monthSp.getSelectedItemPosition() + 1);
+        if (month.length() < 2)
+            month = "0" + month;
+
+        return month;
+    }
+
+    private void payCard(MSakuSessionJson.Response mSakuResponse) {
+        if (mSakuResponse == null) return;
+
+        MSakuSessionJson.Response.Data data = mSakuResponse.data;
+        MSakuLib.paycard(getContext(),
+                R.layout.otpbrowser,
+                R.id.webview,
+                data.sessionData.card_rsa,
+                data.sessionData.session,
+                data.operatorData.customer_id,
+                generatePaymentInfo(creditAmount),
+                data.operatorData.mtrxid,
+                data.operatorData.operator_mid,
+                data.operatorData.bank,
+                creditAmount.nominal,
+                data.sessionData.card_hash,
+                data.operatorData.client_key,
+                true
+        );
+    }
+
+    private void saveSessionData(MSakuSessionData mSakuSessionData) {
+        MSakuSessionJson.Request request = new MSakuSessionJson.Request();
+        request.sessionData = mSakuSessionData;
+        request.ccData = mSakuCcData;
+        sessionJson.saveData(request, new OnGetMSakuSession() {
+            @Override
+            public void onSuccess(MSakuSessionJson.Response response) {
+                if (response.data != null) {
+                    mSakuResponse = response;
+                    payCard(mSakuResponse);
+                } else {
+                    DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), response.message);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+            }
+        });
     }
 
     private String generatePaymentInfo(CreditAmount creditAmount) {
@@ -143,8 +280,22 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     }
 
     @Override
-    public void paymentcb(int i, String s, String s1, String s2) {
+    public void registercb(int errorCode, String errorMessage, String session, String cardHash, String cardRsa, String cardBin) {
+        if (errorCode == ERROR_NONE) {
+            mSakuSessionData = new MSakuSessionData(session, cardHash, cardRsa, cardBin);
+            saveSessionData(mSakuSessionData);
+        } else {
+            DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+        }
+    }
 
+    @Override
+    public void paymentcb(int errorCode, String errorMessage, String s1, String s2) {
+        if (errorCode != ERROR_NONE) {
+            DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+        } else {
+            DialogUtils.makeSnackBar(CommonConstant.success, getActivity(), "Yay!!!");
+        }
     }
 
     @Click(R.id.set_dummy_tv)
@@ -164,32 +315,10 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
 
     @Click(R.id.pay_tv)
     protected void pay() {
-        TelephonyManager manager = (TelephonyManager) getContext().getSystemService(Activity.TELEPHONY_SERVICE);
-        String imsi = manager.getSubscriberId();
-
-        String month = String.valueOf(monthSp.getSelectedItemPosition() + 1);
-        if (month.length() < 2)
-            month = "0" + month;
-
-        String year = Seeder.getYears().get(yearSp.getSelectedItemPosition());
-        year = year.substring(2, 4);
-
-        String errorMessage = MSakuLib.regcard(getActivity(),
-                imsi,
-                ViewUtils.getTextFromEditText(firstNameEt),
-                ViewUtils.getTextFromEditText(lastNameEt),
-                ViewUtils.getTextFromEditText(emailEt),
-                ViewUtils.getTextFromEditText(phoneEt),
-                ViewUtils.getTextFromEditText(cardNumberEt),
-                month,
-                year,
-                ViewUtils.getTextFromEditText(addressEt),
-                ViewUtils.getTextFromEditText(cityEt),
-                ViewUtils.getTextFromEditText(postalCodeEt),
-                ViewUtils.getTextFromEditText(cvvEt)
-        );
-        if (errorMessage != null) {
-            DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
+        if (isRegistered) {
+            payCard(mSakuResponse);
+        } else {
+            registerCard();
         }
     }
 }

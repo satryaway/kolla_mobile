@@ -127,4 +127,10 @@ public class ViewUtils {
             editText.setHint(string.isEmpty() ? "" : string);
         }
     }
+
+    public static void setTextIntoEditText(EditText editText, String s) {
+        if (editText != null) {
+            editText.setText(s == null ? "" : s);
+        }
+    }
 }
