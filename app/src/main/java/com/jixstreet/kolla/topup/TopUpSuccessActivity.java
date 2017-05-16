@@ -4,6 +4,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,9 @@ public class TopUpSuccessActivity extends AppCompatActivity {
     @ViewById(R.id.credit_price_tv)
     protected TextView creditPriceTv;
 
+    @ViewById(R.id.message_tv)
+    protected TextView messageTv;
+
     private TopUp topUp;
 
     @AfterViews
@@ -51,6 +55,7 @@ public class TopUpSuccessActivity extends AppCompatActivity {
     }
 
     private void setValue() {
+        ViewUtils.setTextView(messageTv, topUp.message);
         ViewUtils.setTextView(creditAmountTv, topUp.creditAmount.kolla_credit +
                 (!topUp.creditAmount.given_bonus.equals("0") ? "+" + topUp.creditAmount.given_bonus : ""));
         ViewUtils.setTextView(creditPriceTv, FormatUtils.formatCurrency(topUp.transaction.price_final));

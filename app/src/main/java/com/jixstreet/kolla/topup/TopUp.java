@@ -13,4 +13,5 @@ public class TopUp {
     public CreditAmount creditAmount;
     public MSakuSuccessfulTransaction transaction;
     public TopUpSuccessInformation topUpSuccessInformation;
+    public String message;
 }

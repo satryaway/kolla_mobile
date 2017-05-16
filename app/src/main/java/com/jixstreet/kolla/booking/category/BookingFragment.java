@@ -139,7 +139,7 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
 
     @Click(R.id.add_credit_tv)
     protected void goToAddCreditPage() {
-        ActivityUtils.startActivityAndWait(getActivity(), TopUpListActivity_.class,
+        ActivityUtils.startActivityAndWait(this, TopUpListActivity_.class,
                 TopUpListActivity.requestCode);
     }
 }

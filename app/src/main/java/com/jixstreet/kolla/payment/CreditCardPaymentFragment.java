@@ -16,15 +16,15 @@ import com.jixstreet.kolla.BuildConfig;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.booking.BookingSuccessActivity;
-import com.jixstreet.kolla.booking.BookingSuccessActivity_;
 import com.jixstreet.kolla.msaku.MSakuCcData;
 import com.jixstreet.kolla.msaku.MSakuSessionData;
 import com.jixstreet.kolla.msaku.MSakuSessionJson;
 import com.jixstreet.kolla.msaku.MSakuSuccessfulTransaction;
 import com.jixstreet.kolla.msaku.OnGetMSakuSession;
 import com.jixstreet.kolla.topup.CreditAmount;
+import com.jixstreet.kolla.topup.OnTopUp;
 import com.jixstreet.kolla.topup.TopUp;
+import com.jixstreet.kolla.topup.TopUpCreditJson;
 import com.jixstreet.kolla.topup.TopUpSuccessActivity;
 import com.jixstreet.kolla.topup.TopUpSuccessActivity_;
 import com.jixstreet.kolla.topup.TopUpSuccessInformation;
@@ -93,9 +93,9 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     private boolean isRegistered = false;
 
     private MSakuCcData mSakuCcData;
-    private MSakuSessionData mSakuSessionData;
     private MSakuSessionJson.Response mSakuResponse;
     private TopUp topUp;
+    private TopUpCreditJson topUpCreditJson;
 
     public static CreditCardPaymentFragment newInstance(CreditAmount creditAmount) {
         Bundle args = new Bundle();
@@ -114,6 +114,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         creditAmount.payment_type = getContext().getString(R.string.credit_card);
         sessionJson = new MSakuSessionJson(getContext());
         topUp = new TopUp();
+        topUpCreditJson = new TopUpCreditJson(getContext(), creditAmount.id);
         topUp.creditAmount = creditAmount;
 
         initSpinners();
@@ -142,7 +143,6 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
             @Override
             public void onSuccess(MSakuSessionJson.Response response) {
                 if (response.data != null) {
-                    //TODO : Fill all form
                     isRegistered = true;
                     mSakuResponse = response;
                     fillForms(response);
@@ -189,9 +189,9 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
 
     private void setYear(String exp_year) {
         List<String> years = Seeder.getYears();
-        String year = "";
-        for (int i = 0; i < years.size()-1; i++) {
-            year =  years.get(i).substring(2, 4);
+        String year;
+        for (int i = 0; i < years.size() - 1; i++) {
+            year = years.get(i).substring(2, 4);
             if (exp_year.equals(year)) {
                 yearSp.setSelection(i);
             }
@@ -268,7 +268,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
                 data.cc_data.session,
                 data.operator_data.customer_id,
                 generatePaymentInfo(creditAmount),
-                data.operator_data.mtrx_id,
+                generateTrxId(data.operator_data.mtrx_id),
                 data.operator_data.operator_mid,
                 data.operator_data.bank,
                 creditAmount.nominal,
@@ -304,10 +304,54 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         return getContext().getString(R.string.buy_s_kolla_credit, creditAmount.kolla_credit);
     }
 
+    private String generateTrxId(String trx_id) {
+        if (trx_id != null && creditAmount != null) {
+            return getContext().getString(R.string.mtrx_pattern, trx_id,
+                    PaymentLibrary.TOPUP,
+                    creditAmount.id);
+        } else return trx_id;
+    }
+
+    private void confirm(final TopUpSuccessInformation topUpSuccessInformation,
+                         final MSakuSuccessfulTransaction mSakuSuccessfulTransaction) {
+        TopUpCreditJson.Request request = new TopUpCreditJson.Request();
+        request.credit_id = creditAmount.id;
+        request.trxid = mSakuSuccessfulTransaction.trxid;
+        request.mtrxid = mSakuSuccessfulTransaction.mtrxid;
+        request.price_final = mSakuSuccessfulTransaction.price_final;
+        request.payment_type = creditAmount.payment_type;
+
+        topUpCreditJson.post(request, new OnTopUp() {
+            @Override
+            public void onSuccess(TopUpCreditJson.Response response) {
+                topUp.topUpSuccessInformation = topUpSuccessInformation;
+                topUp.transaction = mSakuSuccessfulTransaction;
+                topUp.message = response.message;
+                ActivityUtils.startActivityWParamAndWait(getActivity(), TopUpSuccessActivity_.class,
+                        TopUp.paramKey, topUp, TopUpSuccessActivity.requestCode);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+                delayFinish();
+            }
+        });
+    }
+
+    private void delayFinish() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((Activity) getContext()).finish();
+            }
+        }, 1500);
+    }
+
     @Override
     public void registercb(int errorCode, String errorMessage, String session, String cardHash, String cardRsa, String cardBin) {
         if (errorCode == ERROR_NONE) {
-            mSakuSessionData = new MSakuSessionData(session, cardHash, cardRsa, cardBin);
+            MSakuSessionData mSakuSessionData = new MSakuSessionData(session, cardHash, cardRsa, cardBin);
             saveSessionData(mSakuSessionData);
         } else {
             DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
@@ -318,19 +362,9 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     public void paymentcb(int errorCode, String errorMessage, String s1, String s2) {
         if (errorCode != ERROR_NONE) {
             DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), errorMessage);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ((Activity)getContext()).finish();
-                }
-            }, 1500);
+            delayFinish();
         } else {
-            //TODO : GO TO Payment successful page; save
-
-            topUp.topUpSuccessInformation = CastUtils.fromString(s2, TopUpSuccessInformation.class);
-            topUp.transaction = CastUtils.fromString(s1, MSakuSuccessfulTransaction.class);
-            ActivityUtils.startActivityWParamAndWait(getActivity(), TopUpSuccessActivity_.class,
-                    TopUp.paramKey, topUp, TopUpSuccessActivity.requestCode);
+            confirm(CastUtils.fromString(s2, TopUpSuccessInformation.class), CastUtils.fromString(s1, MSakuSuccessfulTransaction.class));
         }
     }
 

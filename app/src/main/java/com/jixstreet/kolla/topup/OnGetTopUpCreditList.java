@@ -6,7 +6,7 @@ package com.jixstreet.kolla.topup;
  */
 
 public interface OnGetTopUpCreditList {
-    void onSuccess(TopUpCreditJson.Response response);
+    void onSuccess(TopUpCreditListJson.Response response);
 
     void onFailure(String message);
 }

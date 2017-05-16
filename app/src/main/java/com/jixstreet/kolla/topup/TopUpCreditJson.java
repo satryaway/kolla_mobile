@@ -3,59 +3,82 @@ package com.jixstreet.kolla.topup;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
+import com.jixstreet.kolla.credit.GetBalanceJson;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
+import com.jixstreet.kolla.parent.DefaultRequest;
 import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.parent.ModelJson;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Created by satryaway on 5/8/2017.
+ * Created by satryaway on 5/16/2017.
  * satryaway@gmail.com
  */
 
 public class TopUpCreditJson extends ModelJson {
-    private ProgressOkHttp<Response, Void> httpGetTopUpList;
-    private OnGetTopUpCreditList onGetTopUpCreditList;
+    private ProgressOkHttp<Response, Void> topUpHttp;
+    private OnTopUp onTopUp;
 
-    public TopUpCreditJson(Context context) {
-        super(context);
-        httpGetTopUpList = new ProgressOkHttp<>(context, Response.class);
+    public TopUpCreditJson(Context context, String id) {
+        super(context, id + "/topup");
+        topUpHttp = new ProgressOkHttp<>(context, Response.class);
     }
 
     @Override
     public String getRoute() {
-        return "/credit/topup/available";
+        return "/credit/";
     }
-
-    public static class Response extends DefaultResponse {
-        public List<CreditAmount> data;
-    }
-
-    public void getList(OnGetTopUpCreditList onGetTopUpCreditList) {
-        this.onGetTopUpCreditList = onGetTopUpCreditList;
-        httpGetTopUpList.get(ROUTE, null, null,
-                onGetListFinishsed, "Fetching Top Up Credit List...", true);
-    }
-
-    private OnFinishedCallback<Response, Void> onGetListFinishsed = new OnFinishedCallback<Response, Void>() {
-        @Override
-        public void handle(@NonNull ResultType type, @Nullable Response response,
-                           @Nullable Void tag, @Nullable String errorMsg) {
-            if (ResultType.Success == type && response != null) {
-                if (RStatus.OK.equals(response.status))
-                    onGetTopUpCreditList.onSuccess(response);
-                else onGetTopUpCreditList.onFailure(response.message);
-            } else onGetTopUpCreditList.onFailure(errorMsg);
-        }
-    };
 
     @Override
     public void cancel() {
-        httpGetTopUpList.cancel();
+        topUpHttp.cancel();
     }
+
+    public static class Request extends DefaultRequest {
+        public String credit_id;
+        public String trxid;
+        public String mtrxid;
+        public String price_final;
+        public String payment_type;
+
+        @Override
+        public ArrayList<Pair<String, String>> getParams() {
+            ArrayList<Pair<String, String>> params = new ArrayList<>();
+            params.add(new Pair<>("credit_id", credit_id));
+            params.add(new Pair<>("trxid", trxid));
+            params.add(new Pair<>("mtrxid", mtrxid));
+            params.add(new Pair<>("price_final", price_final));
+            params.add(new Pair<>("payment_type", payment_type));
+
+            return params;
+        }
+    }
+
+    public static class Response extends DefaultResponse {
+        public GetBalanceJson.Data data;
+    }
+
+    public void post(Request request, OnTopUp onTopUp) {
+        this.onTopUp = onTopUp;
+        topUpHttp.post(ROUTE, request.getParams(), null,
+                onTopUpFinished, "Requesting top up...", true);
+    }
+
+    private OnFinishedCallback<Response, Void> onTopUpFinished = new OnFinishedCallback<Response, Void>() {
+        @Override
+        public void handle(@NonNull ResultType type, @Nullable Response response,
+                           @Nullable Void tag, @Nullable String errorMsg) {
+            if (type == ResultType.Success && response != null) {
+                if (RStatus.OK.equals(response.status)) {
+                    onTopUp.onSuccess(response);
+                } else onTopUp.onFailure(response.message);
+            } else onTopUp.onFailure(errorMsg);
+        }
+    };
 }

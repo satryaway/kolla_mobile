@@ -35,12 +35,12 @@ public class TopUpListActivity extends AppCompatActivity implements SwipeRefresh
     protected SwipeRefreshLayout refreshWrapper;
 
     private TopUpCreditListAdapter adapter;
-    private TopUpCreditJson topUpCreditJson;
+    private TopUpCreditListJson topUpCreditListJson;
 
     @AfterViews
     protected void onViewsChanged() {
         ViewUtils.setToolbar(this, toolbar);
-        topUpCreditJson = new TopUpCreditJson(this);
+        topUpCreditListJson = new TopUpCreditListJson(this);
         initAdapter();
         getData();
     }
@@ -65,9 +65,9 @@ public class TopUpListActivity extends AppCompatActivity implements SwipeRefresh
     }
 
     private void getData() {
-        topUpCreditJson.getList(new OnGetTopUpCreditList() {
+        topUpCreditListJson.getList(new OnGetTopUpCreditList() {
             @Override
-            public void onSuccess(TopUpCreditJson.Response response) {
+            public void onSuccess(TopUpCreditListJson.Response response) {
                 refreshWrapper.setRefreshing(false);
                 adapter.setItemList(response.data);
             }
