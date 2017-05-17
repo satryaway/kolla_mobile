@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/event_image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/room_detail_header_size"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/dummy_bg" />
+
+    <TextView
+        android:id="@+id/sold_out_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/event_image_iv"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparent_black_75"
+        android:gravity="center"
+        android:text="@string/sold_out"
+        android:textAllCaps="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/large_text"
+        android:fontFamily="sans-serif" />
+
+    <TextView
+        android:id="@+id/notes_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/primary"
+        android:padding="8dp"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        tools:text="Popular" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/event_image_iv"
+        android:background="@android:color/white"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@color/primary"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold"
+                tools:text="13:00" />
+
+            <TextView
+                android:id="@+id/date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                tools:text="20 Mar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="7"
+            android:background="@color/primary"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                tools:text="@string/dummy_short_text" />
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/primary_text"
+                tools:text="@string/dummy_long_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

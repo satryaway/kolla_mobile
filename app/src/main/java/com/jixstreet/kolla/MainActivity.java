@@ -17,15 +17,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.booking.category.BookingFragment;
+import com.jixstreet.kolla.event.EventFragment;
 import com.jixstreet.kolla.intro.IntroActivity_;
 import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
+import com.jixstreet.kolla.view.BottomNavigationHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -33,10 +36,13 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+        implements
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String BOOKING = "booking";
+    private static final String EVENT = "event";
+    private static final String NEWS = "news";
+
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -54,11 +60,10 @@ public class MainActivity extends AppCompatActivity
 
     @ViewById(R.id.appbar)
     protected AppBarLayout appBarLayout;
-
-    private static final String NEWS = "news";
     private Fragment previousFragment;
     private BookingFragment bookingFragment;
     private NewsFragment newsFragment;
+    private EventFragment eventFragment;
 
     @AfterViews
     void onViewsCreated() {
@@ -80,7 +85,8 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        BottomNavigationHelper.removeShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -122,6 +128,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     boolean doubleBackToExitPressedOnce = false;
+
+    private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
+            = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            int id = item.getItemId();
+            View view = bottomNavigationView.findViewById(id);
+            if (view != null) view.performClick();
+
+            return true;
+        }
+    };
 
     @Override
     public void onBackPressed() {
@@ -191,7 +209,7 @@ public class MainActivity extends AppCompatActivity
             if (newsFragment == null)
                 newsFragment = NewsFragment.newInstance();
             fragment = newsFragment;
-            toolbarTitle = "";
+            toolbarTitle = getString(R.string.news);
             tag = NEWS;
         } else if (id == R.id.action_booking) {
             if (bookingFragment == null)
@@ -201,7 +219,16 @@ public class MainActivity extends AppCompatActivity
             toolbarTitle = getString(R.string.your_kolla_credits);
             isTransparent = true;
             tag = BOOKING;
+        } else if (id == R.id.action_events) {
+            if (eventFragment == null)
+                eventFragment = EventFragment.newInstance();
+
+            fragment = eventFragment;
+            toolbarTitle = getString(R.string.events);
+            tag = EVENT;
         }
+
+        navigationView.setCheckedItem(id);
 
         if (fragment != null) {
             setContent(fragment, tag);

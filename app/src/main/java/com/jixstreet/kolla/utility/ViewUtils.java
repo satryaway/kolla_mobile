@@ -100,6 +100,15 @@ public class ViewUtils {
         }
     }
 
+    public static void setTextViewByVisibility(TextView textView, String text) {
+        if (textView != null && text != null) {
+            textView.setText(text);
+            if (text.isEmpty()) {
+                setVisibility(textView, View.GONE);
+            }
+        }
+    }
+
     public static void setVisibility(View view, int visibility) {
         if (view != null)
             view.setVisibility(visibility);
