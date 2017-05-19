@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -19,7 +22,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.jixstreet.kolla.Friend.Friend;
+import com.jixstreet.kolla.Friend.FriendThumbListAdapter;
+import com.jixstreet.kolla.Friend.FriendThumbView;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,7 +34,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_event_detail)
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends AppCompatActivity implements FriendThumbView.OnThumbClickListener {
+    private static final int OFFSET = 10;
+
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
@@ -61,8 +70,13 @@ public class EventDetailActivity extends AppCompatActivity {
     @ViewById(R.id.price_tv)
     protected TextView priceTv;
 
+    @ViewById(R.id.list_rv)
+    protected RecyclerView listRv;
+
     private Bundle bundle;
     private LatLng latlng = new LatLng(23.4352, 111.54322);
+    private FriendThumbListAdapter adapter;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +89,7 @@ public class EventDetailActivity extends AppCompatActivity {
         initToolbar();
         initSwipeLayout();
         initMap();
+        initAdapter();
 
         //TODO : this is dummy
         setDummy();
@@ -101,6 +116,29 @@ public class EventDetailActivity extends AppCompatActivity {
     private void initSwipeLayout() {
         swipeLayout.addDrag(SwipeLayout.DragEdge.Bottom, findViewById(R.id.bottom_wrapper));
         swipeLayout.setRightSwipeEnabled(false);
+    }
+
+    private void initAdapter() {
+        adapter = new FriendThumbListAdapter();
+        adapter.setOnThumbClickListener(this);
+        LinearLayoutManager layoutManager = ViewUtils.getHorizontalLayoutManager(this);
+        scrollListener = getScrollListener(layoutManager, OFFSET);
+
+        listRv.setNestedScrollingEnabled(false);
+        listRv.setClipToPadding(true);
+        listRv.setLayoutManager(layoutManager);
+        listRv.setItemAnimator(new DefaultItemAnimator());
+        listRv.addOnScrollListener(scrollListener);
+
+        listRv.setAdapter(adapter);
+    }
+
+    private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {
+        return new EndlessRecyclerViewScrollListener(layoutManager, offset) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+            }
+        };
     }
 
     private void initMap() {
@@ -138,5 +176,9 @@ public class EventDetailActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         mapView.onPause();
+    }
+
+    @Override
+    public void onClick(Friend friend) {
     }
 }

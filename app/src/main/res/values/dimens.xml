@@ -15,4 +15,5 @@
     <dimen name="news_item_width">108dp</dimen>
     <dimen name="room_detail_header_size">256dp</dimen>
     <dimen name="tab_layout_height">48dp</dimen>
+    <dimen name="friend_thumb_size">96dp</dimen>
 </resources>

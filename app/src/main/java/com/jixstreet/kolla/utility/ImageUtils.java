@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.network.StorageUtils;
 
 import java.io.BufferedInputStream;
@@ -266,10 +267,7 @@ public class ImageUtils {
     public static final void loadImageRoundCornerNoScale(
             final Context ctx, String url, final ImageView imageView) {
 
-        if (TextUtils.isEmpty(url))
-            return;
-
-        Glide.with(ctx).load(url).asBitmap().dontTransform().fitCenter()
+        Glide.with(ctx).load(url).asBitmap().dontTransform().fitCenter().placeholder(R.drawable.dummy_bg)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {

@@ -46,6 +46,10 @@ public class ViewUtils {
         };
     }
 
+    public static LinearLayoutManager getHorizontalLayoutManager(Context context) {
+       return new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+    }
+
     public static void hideSoftKeyboard(Activity activity) {
         View view = activity.getCurrentFocus();
         if (view != null) {

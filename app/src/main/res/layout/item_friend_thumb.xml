@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:id="@+id/content_wrapper"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/friend_image_iv"
+        android:layout_width="@dimen/friend_thumb_size"
+        android:layout_height="@dimen/friend_thumb_size"
+        android:src="@drawable/dummy_bg"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/friend_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_image_iv"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        tools:text="A friend name"/>
+</RelativeLayout>
