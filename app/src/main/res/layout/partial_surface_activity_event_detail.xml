@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/surface_wrapper"
     android:background="@drawable/dummy_bg"
     tools:showIn="@layout/activity_event_detail">
 

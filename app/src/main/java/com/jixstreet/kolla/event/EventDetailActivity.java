@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,12 +31,14 @@ import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_event_detail)
 public class EventDetailActivity extends AppCompatActivity implements FriendThumbView.OnThumbClickListener {
     private static final int OFFSET = 10;
+    private int swipeCount = 0;
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -72,6 +75,9 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
 
     @ViewById(R.id.list_rv)
     protected RecyclerView listRv;
+
+    @ViewById(R.id.scrollView)
+    protected NestedScrollView scrollView;
 
     private Bundle bundle;
     private LatLng latlng = new LatLng(23.4352, 111.54322);
@@ -180,5 +186,10 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
 
     @Override
     public void onClick(Friend friend) {
+    }
+
+    @Click(R.id.show_upper_iv)
+    protected void showUpperInfo() {
+        swipeLayout.close();
     }
 }
