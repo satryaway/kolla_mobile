@@ -22,6 +22,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     private final Context context;
     private List<Event> itemList = new ArrayList<>();
     private int lastPosition = -1;
+    private EventView.OnEventSelectedListener onEventSelectedListener;
 
     public EventListAdapter(Context context) {
         this.context = context;
@@ -30,6 +31,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         EventView view = EventView_.build(parent.getContext());
+        view.setOnEventSelectedListener(onEventSelectedListener);
         return new EventViewHolder(view);
     }
 
@@ -54,6 +56,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         this.itemList = new ArrayList<>();
         lastPosition = -1;
         notifyDataSetChanged();
+    }
+
+    public void setOnEventSelectedListener(EventView.OnEventSelectedListener onEventSelectedListener) {
+        this.onEventSelectedListener = onEventSelectedListener;
     }
 
     public void setAnimation(View viewToAnimate, int position) {

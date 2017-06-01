@@ -8,6 +8,7 @@ import com.jixstreet.kolla.booking.room.Room;
  */
 
 public class Event {
+    public static final String paramKey = Event.class.getName().concat("1");
     public String image;
     public String title;
     public String description;

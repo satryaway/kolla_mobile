@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,7 +23,8 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EFragment(R.layout.fragment_event)
-public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        EventView.OnEventSelectedListener{
 
     private static final int OFFSET = 10;
     @ViewById(R.id.item_found_tv)
@@ -56,6 +58,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private void initAdapter() {
         eventListAdapter = new EventListAdapter(getActivity());
+        eventListAdapter.setOnEventSelectedListener(this);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
@@ -87,5 +90,11 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         scrollListener.resetState();
         eventListAdapter.clearList();
         scrollListener.initScroll(listRv);
+    }
+
+    @Override
+    public void onClick(Event event) {
+        ActivityUtils.startActivityWParamAndWait(getActivity(), EventDetailActivity_.class,
+                Event.paramKey, event, EventDetailActivity.requestCode);
     }
 }

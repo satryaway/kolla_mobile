@@ -25,7 +25,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".event.EventDetailActivity_"
+            android:name=".intro.IntroActivity_"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -72,6 +72,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".topup.TopUpListActivity_" />
         <activity android:name=".topup.TopUpSuccessActivity_" />
+        <activity android:name=".event.EventDetailActivity_" />
     </application>
 
 </manifest>

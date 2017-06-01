@@ -28,6 +28,7 @@ import com.jixstreet.kolla.Friend.FriendThumbListAdapter;
 import com.jixstreet.kolla.Friend.FriendThumbView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,7 +39,7 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_event_detail)
 public class EventDetailActivity extends AppCompatActivity implements FriendThumbView.OnThumbClickListener {
     private static final int OFFSET = 10;
-    private int swipeCount = 0;
+    public static int requestCode = ActivityUtils.getRequestCode(EventDetailActivity.class, "1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
