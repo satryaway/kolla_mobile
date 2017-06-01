@@ -3,8 +3,10 @@ package com.jixstreet.kolla.event;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -12,9 +14,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.animation.Animation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -35,9 +39,12 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.AnimationRes;
 
 @EActivity(R.layout.activity_event_detail)
-public class EventDetailActivity extends AppCompatActivity implements FriendThumbView.OnThumbClickListener {
+public class EventDetailActivity extends AppCompatActivity
+        implements FriendThumbView.OnThumbClickListener{
+
     private static final int OFFSET = 10;
     public static int requestCode = ActivityUtils.getRequestCode(EventDetailActivity.class, "1");
 
@@ -46,9 +53,6 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
 
     @ViewById(R.id.appbar)
     protected AppBarLayout appBarLayout;
-
-    @ViewById(R.id.content_wrapper)
-    protected SwipeLayout swipeLayout;
 
     @ViewById(R.id.map_view)
     protected MapView mapView;
@@ -80,10 +84,23 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
     @ViewById(R.id.scrollView)
     protected NestedScrollView scrollView;
 
+    @ViewById(R.id.bottom_sheet)
+    protected NestedScrollView bottomSheet;
+
+    @ViewById(R.id.faded_layout)
+    protected RelativeLayout fadedLayout;
+
+    @AnimationRes(R.anim.fade_in_effect)
+    protected Animation fadeIn;
+
+    @AnimationRes(R.anim.fade_out_effect)
+    protected Animation fadeOut;
+
     private Bundle bundle;
     private LatLng latlng = new LatLng(23.4352, 111.54322);
     private FriendThumbListAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +111,7 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
     @AfterViews
     protected void onViewsCreated() {
         initToolbar();
-        initSwipeLayout();
+        initBottomSheet();
         initMap();
         initAdapter();
 
@@ -120,9 +137,9 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
 
-    private void initSwipeLayout() {
-        swipeLayout.addDrag(SwipeLayout.DragEdge.Bottom, findViewById(R.id.bottom_wrapper));
-        swipeLayout.setRightSwipeEnabled(false);
+    private void initBottomSheet() {
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setBottomSheetCallback(bottomSheetCallback);
     }
 
     private void initAdapter() {
@@ -174,6 +191,21 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
     };
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
@@ -189,8 +221,31 @@ public class EventDetailActivity extends AppCompatActivity implements FriendThum
     public void onClick(Friend friend) {
     }
 
-    @Click(R.id.show_upper_iv)
-    protected void showUpperInfo() {
-        swipeLayout.close();
+    @Click(R.id.expand_iv)
+    protected void expand() {
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            switch (newState) {
+                case BottomSheetBehavior.STATE_EXPANDED:
+                    setFadedLayout(true);
+                    break;
+                case BottomSheetBehavior.STATE_COLLAPSED:
+                    setFadedLayout(false);
+                    break;
+            }
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
+    };
+
+    private void setFadedLayout(boolean isShowing) {
+        fadedLayout.startAnimation(isShowing ? fadeIn : fadeOut);
+        fadedLayout.setVisibility(isShowing ? View.VISIBLE : View.INVISIBLE);
     }
 }
