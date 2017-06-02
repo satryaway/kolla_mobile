@@ -19,13 +19,45 @@
             android:textSize="@dimen/medium_text"
             tools:text="@string/dummy_long_text" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_rv"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:background="@color/primary" />
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:orientation="vertical">
 
-        <com.google.android.gms.maps.MapView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/guest_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:text="@string/s_people_already_book"
+                    android:textSize="@dimen/medium_text" />
+
+                <TextView
+                    android:id="@+id/more_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/white"
+                    android:text="@string/more"
+                    android:textSize="@dimen/medium_text" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="118dp" />
+        </LinearLayout>
+
+        <com.jixstreet.kolla.view.CustomMapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/room_detail_header_size" />

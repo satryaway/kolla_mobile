@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:clickable="true"
     android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:orientation="horizontal"
     android:padding="8dp">
 
     <com.jixstreet.kolla.view.SquareImageView
@@ -18,18 +19,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/news_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/dummy_long_text"
             android:lines="3"
             android:textSize="@dimen/medium_text"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@string/dummy_long_text" />
 
         <TextView
             android:id="@+id/news_date_tv"

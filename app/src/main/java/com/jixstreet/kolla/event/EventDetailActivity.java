@@ -81,9 +81,6 @@ public class EventDetailActivity extends AppCompatActivity
     @ViewById(R.id.list_rv)
     protected RecyclerView listRv;
 
-    @ViewById(R.id.scrollView)
-    protected NestedScrollView scrollView;
-
     @ViewById(R.id.bottom_sheet)
     protected NestedScrollView bottomSheet;
 
@@ -95,6 +92,9 @@ public class EventDetailActivity extends AppCompatActivity
 
     @AnimationRes(R.anim.fade_out_effect)
     protected Animation fadeOut;
+
+    @ViewById(R.id.guest_count_tv)
+    protected TextView guestCountTv;
 
     private Bundle bundle;
     private LatLng latlng = new LatLng(23.4352, 111.54322);
@@ -155,6 +155,8 @@ public class EventDetailActivity extends AppCompatActivity
         listRv.addOnScrollListener(scrollListener);
 
         listRv.setAdapter(adapter);
+        ViewUtils.setTextView(guestCountTv, getString(R.string.s_people_already_book,
+                String.valueOf(adapter.getItemCount())));
     }
 
     private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {

@@ -10,6 +10,7 @@ import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
@@ -29,6 +30,8 @@ public class NewsItemView extends LinearLayout {
     @ViewById(R.id.news_date_tv)
     protected TextView newsDateTv;
 
+    private OnNewsSelectedListener onNewsSelectedListener;
+
     public NewsDetail newsDetail;
 
     public NewsItemView(Context context) {
@@ -44,5 +47,18 @@ public class NewsItemView extends LinearLayout {
         newsTitleTv.setText(newsDetail.title);
         newsDateTv.setText(DateUtils.getDateTimeStrFromMillis(newsDetail.created_at, ""));
         ImageUtils.loadImage(getContext(), newsDetail.cover_image, newsImageIv);
+    }
+
+    public void setOnNewsSelectedListener(OnNewsSelectedListener onNewsSelectedListener) {
+        this.onNewsSelectedListener = onNewsSelectedListener;
+    }
+
+    public interface OnNewsSelectedListener {
+        void onSelect(NewsDetail newsDetail);
+    }
+
+    @Click(R.id.content_wrapper)
+    protected void openDetail() {
+        this.onNewsSelectedListener.onSelect(newsDetail);
     }
 }

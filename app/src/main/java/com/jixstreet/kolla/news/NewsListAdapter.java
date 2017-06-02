@@ -26,6 +26,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private ArrayList<NewsDetail> news = new ArrayList<>();
     private int lastPosition = -1;
+    private NewsItemView.OnNewsSelectedListener onNewsSelectedListener;
 
     public NewsListAdapter(Context context, SwipeRefreshLayout refreshWrapper) {
         this.context = context;
@@ -36,7 +37,9 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            return new NewsViewHolder(NewsItemView_.build(parent.getContext()));
+            NewsItemView newsItemView = NewsItemView_.build(parent.getContext());
+            newsItemView.setOnNewsSelectedListener(onNewsSelectedListener);
+            return new NewsViewHolder(newsItemView);
         } else {
             NewsHeaderView newsHeaderView = NewsHeaderView_.build(parent.getContext());
             newsHeaderView.setRefreshWrapper(refreshWrapper);
@@ -74,6 +77,10 @@ public class NewsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             ((NewsHeaderViewHolder) holder).getView().clearAnimation();
         }
+    }
+
+    public void setOnNewsSelectedListener(NewsItemView.OnNewsSelectedListener onNewsSelectedListener) {
+        this.onNewsSelectedListener = onNewsSelectedListener;
     }
 
     public void setAnimation(View viewToAnimate, int position) {

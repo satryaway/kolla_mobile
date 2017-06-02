@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -23,7 +25,8 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EFragment(R.layout.fragment_news)
-public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        NewsItemView.OnNewsSelectedListener {
 
     private static final int OFFSET = 10;
     @ViewById(R.id.news_rv)
@@ -48,6 +51,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private void initAdapter() {
         newsListAdapter = new NewsListAdapter(getActivity(), refreshWrapper);
+        newsListAdapter.setOnNewsSelectedListener(this);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
@@ -98,5 +102,11 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         scrollListener.resetState();
         newsListAdapter.clearList();
         scrollListener.initScroll(newsRv);
+    }
+
+    @Override
+    public void onSelect(NewsDetail newsDetail) {
+        ActivityUtils.startActivityWParamAndWait(this, NewsDetailActivity_.class, NewsDetail.paramKey,
+                newsDetail, NewsDetailActivity.requestCode);
     }
 }
