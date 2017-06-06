@@ -5,10 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,7 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.NewsDetail;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DateUtils;
+import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -60,21 +63,29 @@ public class NewsDetailActivity extends AppCompatActivity {
     @AnimationRes(R.anim.fade_out_effect)
     protected Animation fadeOut;
 
+    @ViewById(R.id.news_cover_iv)
+    protected ImageView newsCoverIv;
+
     private BottomSheetBehavior mBottomSheetBehavior;
+    private NewsDetail newsDetail;
 
     @AfterViews
     protected void onViewsCreated() {
+        newsDetail = ActivityUtils.getParam(this, NewsDetail.paramKey, NewsDetail.class);
         initToolbar();
         initBottomSheet();
 
-        setDummyData();
+        if (newsDetail != null) {
+            setData();
+        }else finish();
     }
 
-    private void setDummyData() {
-        ViewUtils.setTextView(dateTv, getString(R.string.posted_on_s, "25 Januari 2017"));
-        ViewUtils.setTextView(titleTv, "The Hash Slinging Slasher The Hash Singing");
-        ViewUtils.setTextView(summaryTv, "Awesome!");
-        ViewUtils.setTextView(descriptionTv, getString(R.string.dummy_long_text));
+    private void setData() {
+        ViewUtils.setTextView(dateTv, getString(R.string.posted_on_s, DateUtils.getDateTimeStrFromMillis(newsDetail.created_at, "")));
+        ViewUtils.setTextView(titleTv, newsDetail.title);
+        ViewUtils.setTextView(summaryTv, newsDetail.title);
+        ViewUtils.setTextView(descriptionTv, newsDetail.content);
+        ImageUtils.loadImage(this, newsDetail.cover_image, newsCoverIv);
     }
 
     private void initToolbar() {

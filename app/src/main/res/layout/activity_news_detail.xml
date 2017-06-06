@@ -5,13 +5,20 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dummy_bg"
     android:fitsSystemWindows="true">
 
     <!-- Surface View Start -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/news_cover_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy_bg"
+            android:contentDescription="@null" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"

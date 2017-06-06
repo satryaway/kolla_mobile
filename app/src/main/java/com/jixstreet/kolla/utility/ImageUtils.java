@@ -121,11 +121,10 @@ public class ImageUtils {
      * Load image into ImageView, scale down as necessary .
      */
     public static final void loadImage(Context ctx, String url, ImageView imageView) {
-        if (TextUtils.isEmpty(url))
-            return;
         Glide.with(ctx).load(url)
                 .skipMemoryCache(true)
-                .fitCenter()
+                .crossFade()
+                .centerCrop()
                 .into(imageView);
         Log.d("Image", url);
     }
@@ -147,8 +146,8 @@ public class ImageUtils {
         Glide.with(ctx).load(url)
                 .placeholder(placeHolderRes)
                 .skipMemoryCache(true)
-                .centerCrop()
                 .crossFade()
+                .centerCrop()
                 .into(imageView);
     }
 
