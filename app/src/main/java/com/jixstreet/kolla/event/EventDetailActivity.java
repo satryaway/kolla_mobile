@@ -66,8 +66,11 @@ public class EventDetailActivity extends AppCompatActivity
     @ViewById(R.id.notes_tv)
     protected TextView notesTv;
 
-    @ViewById(R.id.datetime_tv)
-    protected TextView dateTimeTv;
+    @ViewById(R.id.start_date_tv)
+    protected TextView startDateTv;
+
+    @ViewById(R.id.end_date_tv)
+    protected TextView endDateTv;
 
     @ViewById(R.id.title_tv)
     protected TextView titleTv;
@@ -122,7 +125,8 @@ public class EventDetailActivity extends AppCompatActivity
     private void setDummy() {
         ViewUtils.setTextView(descriptionTv, getString(R.string.dummy_long_text));
         ViewUtils.setTextView(buyNowTv, getString(R.string.buy_now_s, "Rp. 1.000.000"));
-        ViewUtils.setTextView(dateTimeTv, "25 August 2017, 11:00 - 16:00");
+        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s,"25 August 2017"));
+        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s,"27 August 2017"));
         ViewUtils.setTextView(locationTv, "Kolla Space - 7 Eleven Sabang, 2nd Floor KH. Agus Salim, Jakarta Pusat");
         ViewUtils.setTextView(priceTv, "Rp.100.000/guest");
         ViewUtils.setTextView(notesTv, "Most Valuable");

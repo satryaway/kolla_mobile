@@ -4,6 +4,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/action_credit"
+            android:icon="@drawable/ic_wallet"
+            android:checkable="false"
+            android:title="@string/kolla_credit" />
+        <item
             android:id="@+id/action_news"
             android:icon="@drawable/ic_news"
             android:checked="true"
@@ -23,14 +28,17 @@
         <item
             android:id="@+id/action_settings"
             android:icon="@drawable/ic_settings"
+            android:checkable="false"
             android:title="@string/settings" />
         <item
             android:id="@+id/action_help"
             android:icon="@drawable/ic_help"
+            android:checkable="false"
             android:title="@string/help" />
         <item
             android:id="@+id/action_logout"
             android:icon="@drawable/ic_logout"
+            android:checkable="false"
             android:title="@string/log_out" />
     </group>
 

@@ -62,7 +62,7 @@
             tools:text="@string/dummy_short_text" />
 
         <TextView
-            android:id="@+id/datetime_tv"
+            android:id="@+id/start_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_time"
@@ -70,9 +70,22 @@
             android:drawableTint="@android:color/white"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:text="@string/start_date_s"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/medium_text"
-            tools:text="@string/dummy_short_text" />
+            android:textSize="@dimen/medium_text" />
+
+        <TextView
+            android:id="@+id/end_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_time"
+            android:drawablePadding="8dp"
+            android:drawableTint="@android:color/white"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/end_date_s"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/medium_text" />
 
         <TextView
             android:id="@+id/location_tv"

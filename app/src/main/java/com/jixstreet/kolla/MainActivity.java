@@ -22,9 +22,9 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.booking.category.BookingFragment;
 import com.jixstreet.kolla.event.EventFragment;
-import com.jixstreet.kolla.intro.IntroActivity_;
-import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.news.NewsFragment;
+import com.jixstreet.kolla.topup.TopUpListActivity;
+import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -135,7 +135,16 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             int id = item.getItemId();
             View view = bottomNavigationView.findViewById(id);
-            if (view != null) view.performClick();
+            if (view != null)
+                view.performClick();
+            else {
+                if (id == R.id.action_credit) {
+                    ActivityUtils.startActivityAndWait(MainActivity.this, TopUpListActivity_.class,
+                            TopUpListActivity.requestCode);
+                }
+
+                drawer.closeDrawer(GravityCompat.START);
+            }
 
             return true;
         }
@@ -205,6 +214,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.action_logout) {
 
+        } else if (id == R.id.action_credit) {
+            ActivityUtils.startActivityAndWait(this, TopUpListActivity_.class,
+                    TopUpListActivity.requestCode);
         } else if (id == R.id.action_news) {
             if (newsFragment == null)
                 newsFragment = NewsFragment.newInstance();
