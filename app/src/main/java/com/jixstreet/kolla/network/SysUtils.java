@@ -99,7 +99,7 @@ public class SysUtils {
      */
     public static final boolean isOnline(@NonNull Context context) {
         final ConnectivityManager conMgr = Convert.as(ConnectivityManager.class,
-                context.getSystemService(Context.CONNECTIVITY_SERVICE));
+                context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         if (conMgr == null)
             return false;
 

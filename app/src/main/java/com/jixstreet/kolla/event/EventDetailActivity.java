@@ -1,5 +1,7 @@
 package com.jixstreet.kolla.event;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +36,8 @@ import com.jixstreet.kolla.Friend.FriendThumbView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.PermissionUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -43,7 +48,7 @@ import org.androidannotations.annotations.res.AnimationRes;
 
 @EActivity(R.layout.activity_event_detail)
 public class EventDetailActivity extends AppCompatActivity
-        implements FriendThumbView.OnThumbClickListener{
+        implements FriendThumbView.OnThumbClickListener {
 
     private static final int OFFSET = 10;
     public static int requestCode = ActivityUtils.getRequestCode(EventDetailActivity.class, "1");
@@ -125,8 +130,8 @@ public class EventDetailActivity extends AppCompatActivity
     private void setDummy() {
         ViewUtils.setTextView(descriptionTv, getString(R.string.dummy_long_text));
         ViewUtils.setTextView(buyNowTv, getString(R.string.buy_now_s, "Rp. 1.000.000"));
-        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s,"25 August 2017"));
-        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s,"27 August 2017"));
+        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s, "25 August 2017"));
+        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s, "27 August 2017"));
         ViewUtils.setTextView(locationTv, "Kolla Space - 7 Eleven Sabang, 2nd Floor KH. Agus Salim, Jakarta Pusat");
         ViewUtils.setTextView(priceTv, "Rp.100.000/guest");
         ViewUtils.setTextView(notesTv, "Most Valuable");
@@ -188,6 +193,18 @@ public class EventDetailActivity extends AppCompatActivity
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
+            if (ActivityCompat.checkSelfPermission(EventDetailActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(EventDetailActivity.this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
+                        PermissionUtils.REQUEST_LOCATION, "Access Location");
+
+                return;
+            }
+
+            googleMap.setMyLocationEnabled(false);
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title("Marker in Sydney")
@@ -195,6 +212,23 @@ public class EventDetailActivity extends AppCompatActivity
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PermissionUtils.REQUEST_LOCATION: {
+                if (grantResults.length < 1
+                        && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    DialogUtils.makeToast(this, "Permission denied");
+                    finish();
+                } {
+                    mapView.getMapAsync(onMapReadyCallBack);
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -249,6 +283,12 @@ public class EventDetailActivity extends AppCompatActivity
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
         }
     };
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        System.gc();
+    }
 
     private void setFadedLayout(boolean isShowing) {
         fadedLayout.startAnimation(isShowing ? fadeIn : fadeOut);

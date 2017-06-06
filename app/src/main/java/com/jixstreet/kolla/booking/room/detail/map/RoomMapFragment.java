@@ -1,7 +1,11 @@
 package com.jixstreet.kolla.booking.room.detail.map;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +21,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.event.EventDetailActivity;
 import com.jixstreet.kolla.utility.CastUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.PermissionUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -106,6 +113,18 @@ public class RoomMapFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
+            if (ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                PermissionUtils.requestPermissions(getActivity(), PermissionUtils.PERMISSIONS_LOCATION,
+                        PermissionUtils.REQUEST_LOCATION, "Access Location");
+
+                return;
+            }
+
+            googleMap.setMyLocationEnabled(false);
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title("Marker in Sydney")
@@ -113,6 +132,23 @@ public class RoomMapFragment extends Fragment {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
     };
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PermissionUtils.REQUEST_LOCATION: {
+                if (grantResults.length < 1
+                        && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    DialogUtils.makeToast(getContext(), "Permission denied");
+                    getActivity().finish();
+                } {
+                    mapView.getMapAsync(onMapReadyCallBack);
+                }
+            }
+        }
+    }
 
     @Override
     public void onResume() {
