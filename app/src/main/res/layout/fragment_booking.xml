@@ -11,15 +11,22 @@
         android:layout_height="wrap_content"
         android:src="@drawable/dummy_bg"
         android:scaleType="centerCrop"
-        android:layout_above="@+id/booking_category_rv"
+        android:layout_above="@+id/swipe_layout"
         android:contentDescription="@null" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/booking_category_rv"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/booking_header_wrapper"
-        android:padding="8dp"/>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/booking_category_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/booking_header_wrapper"
@@ -31,7 +38,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
 
         <LinearLayout
             android:layout_width="match_parent"

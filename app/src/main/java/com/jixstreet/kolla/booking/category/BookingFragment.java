@@ -3,6 +3,7 @@ package com.jixstreet.kolla.booking.category;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 
 @EFragment(R.layout.fragment_booking)
-public class BookingFragment extends Fragment implements OnCategorySelected {
+public class BookingFragment extends Fragment implements OnCategorySelected, SwipeRefreshLayout.OnRefreshListener {
     @ViewById(R.id.booking_category_rv)
     protected RecyclerView bookingCategoryRv;
 
@@ -45,6 +46,9 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
 
     @ViewById(R.id.last_update_tv)
     protected TextView lastUpdateTv;
+
+    @ViewById(R.id.swipe_layout)
+    protected SwipeRefreshLayout swipeRefreshLayout;
 
     private BookingCategoryAdapter bookingCategoryAdapter;
     private GetBalanceJson getBalanceJson;
@@ -56,6 +60,7 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
     @AfterViews
     void onViewsCreated() {
         getBalanceJson = new GetBalanceJson(getContext());
+        swipeRefreshLayout.setOnRefreshListener(this);
         initAdapter();
         getBalance();
         getCategories();
@@ -78,6 +83,7 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
         getBalanceJson.get(new OnGetBalance() {
             @Override
             public void onSuccess(GetBalanceJson.Response response) {
+                swipeRefreshLayout.setRefreshing(false);
                 ViewUtils.setTextView(balanceTv, FormatUtils.formatDecimal(response.data.main_credit));
                 ViewUtils.setTextView(lastUpdateTv,
                         getString(R.string.last_update_s,
@@ -86,6 +92,7 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
 
             @Override
             public void onFailure(String message) {
+                swipeRefreshLayout.setRefreshing(false);
                 DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
             }
         });
@@ -141,5 +148,10 @@ public class BookingFragment extends Fragment implements OnCategorySelected {
     protected void goToAddCreditPage() {
         ActivityUtils.startActivityAndWait(this, TopUpListActivity_.class,
                 TopUpListActivity.requestCode);
+    }
+
+    @Override
+    public void onRefresh() {
+        getBalance();
     }
 }
