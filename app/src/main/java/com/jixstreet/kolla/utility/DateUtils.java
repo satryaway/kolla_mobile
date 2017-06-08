@@ -225,6 +225,10 @@ public class DateUtils {
         return sdf.format(c.getTime());
     }
 
+    public static final String getDateTimeFromMillis(String time, String format) {
+        return getDateTimeStr(Long.valueOf(time), format);
+    }
+
     /**
      * Get datetime string from another datetime string, possibly in different format (in local time).
      *

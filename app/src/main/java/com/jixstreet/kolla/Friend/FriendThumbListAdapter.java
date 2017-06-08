@@ -1,7 +1,9 @@
-package com.jixstreet.kolla.Friend;
+package com.jixstreet.kolla.friend;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import com.jixstreet.kolla.model.UserData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  */
 
 public class FriendThumbListAdapter extends RecyclerView.Adapter<FriendThumbListAdapter.FriendThumbViewHolder> {
-    private List<Friend> itemList = new ArrayList<>();
+    private List<UserData> itemList = new ArrayList<>();
     private FriendThumbView.OnThumbClickListener onThumbClickListener;
 
     @Override
@@ -24,22 +26,20 @@ public class FriendThumbListAdapter extends RecyclerView.Adapter<FriendThumbList
 
     @Override
     public void onBindViewHolder(FriendThumbViewHolder holder, int position) {
-//        holder.getView().setFriend(itemList.get(position));
-        holder.getView().setFriend(null);
+        holder.getView().setUserData(itemList.get(position));
     }
 
     @Override
     public int getItemCount() {
-//        return itemList.size();
-        return 20;
+        return itemList.size();
     }
 
     public void setOnThumbClickListener(FriendThumbView.OnThumbClickListener onThumbClickListener) {
         this.onThumbClickListener = onThumbClickListener;
     }
 
-    public void setItemList(List<Friend> itemList) {
-        this.itemList.addAll(itemList);
+    public void setItemList(List<UserData> itemList) {
+        this.itemList = itemList;
         notifyDataSetChanged();
     }
 

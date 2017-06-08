@@ -83,11 +83,13 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void getData(int page) {
-        eventListJson.get(new OnGetEventList() {
+        EventListJson.Request request = new EventListJson.Request();
+        request.page = String.valueOf(page);
+        eventListJson.get(request, new OnGetEventList() {
             @Override
             public void onSuccess(EventListJson.Response response) {
                 refreshWrapper.setRefreshing(false);
-                eventListAdapter.addItems(response.data);
+                eventListAdapter.addItems(response.data.data);
                 ViewUtils.setTextView(itemFoundTv, getString(R.string.event_found_s,
                         String.valueOf(eventListAdapter.getItemCount())));
             }

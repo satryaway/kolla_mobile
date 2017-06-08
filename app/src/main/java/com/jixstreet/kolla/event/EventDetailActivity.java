@@ -31,12 +31,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jixstreet.kolla.Friend.Friend;
-import com.jixstreet.kolla.Friend.FriendThumbListAdapter;
-import com.jixstreet.kolla.Friend.FriendThumbView;
+import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.friend.FriendThumbListAdapter;
+import com.jixstreet.kolla.friend.FriendThumbView;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
+import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
@@ -48,6 +49,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.AnimationRes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EActivity(R.layout.activity_event_detail)
 public class EventDetailActivity extends AppCompatActivity
@@ -113,9 +117,9 @@ public class EventDetailActivity extends AppCompatActivity
     private Bundle bundle;
     private LatLng latlng;
     private FriendThumbListAdapter adapter;
-    private EndlessRecyclerViewScrollListener scrollListener;
     private BottomSheetBehavior mBottomSheetBehavior;
     private Event event;
+    private EventDetailJson eventDetailJson;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,19 +135,21 @@ public class EventDetailActivity extends AppCompatActivity
             return;
         }
 
+        eventDetailJson = new EventDetailJson(this, event.id);
         initToolbar();
         initBottomSheet();
         initAdapter();
-
-        //TODO : this is dummy
         setData();
+        getEventDetail();
     }
 
     private void setData() {
         ViewUtils.setTextView(descriptionTv, event.description);
         ViewUtils.setTextView(buyNowTv, getString(R.string.buy_now_s, event.booking_fee));
-        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s, event.date));
-        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s, event.end_time));
+        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s,
+                DateUtils.getDateTimeStrFromMillis(event.start_datetime, "dd MMM yyyy, hh:mm")));
+        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s,
+                DateUtils.getDateTimeStrFromMillis(event.end_datetime, "dd MMM yyyy, hh:mm")));
         ViewUtils.setTextView(locationTv, event.location);
         ViewUtils.setTextView(priceTv, getString(R.string.s_per_guest, FormatUtils.formatCurrency(event.booking_fee)));
         ViewUtils.setTextView(notesTv, event.notes);
@@ -172,25 +178,13 @@ public class EventDetailActivity extends AppCompatActivity
         adapter = new FriendThumbListAdapter();
         adapter.setOnThumbClickListener(this);
         LinearLayoutManager layoutManager = ViewUtils.getHorizontalLayoutManager(this);
-        scrollListener = getScrollListener(layoutManager, OFFSET);
 
         listRv.setNestedScrollingEnabled(false);
         listRv.setClipToPadding(true);
         listRv.setLayoutManager(layoutManager);
         listRv.setItemAnimator(new DefaultItemAnimator());
-        listRv.addOnScrollListener(scrollListener);
 
         listRv.setAdapter(adapter);
-        ViewUtils.setTextView(guestCountTv, getString(R.string.s_people_already_book,
-                String.valueOf(adapter.getItemCount())));
-    }
-
-    private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {
-        return new EndlessRecyclerViewScrollListener(layoutManager, offset) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-            }
-        };
     }
 
     private void initMap() {
@@ -238,6 +232,37 @@ public class EventDetailActivity extends AppCompatActivity
         }
     };
 
+    private void getEventDetail() {
+        eventDetailJson.get(new OnGetEventDetail() {
+            @Override
+            public void onSuccess(EventDetailJson.Response response) {
+                event = response.data;
+                setFullData();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                DialogUtils.makeSnackBar(CommonConstant.failed, EventDetailActivity.this, message);
+            }
+        });
+    }
+
+    private void setFullData() {
+        setData();
+        adapter.setItemList(getPeople());
+        ViewUtils.setTextView(guestCountTv, getString(R.string.s_people_already_book,
+                String.valueOf(adapter.getItemCount())));
+    }
+
+    private List<UserData> getPeople() {
+        List<UserData> list = new ArrayList<>();
+        for (Event.WhoComes who_come : event.who_comes) {
+            list.add(who_come.user);
+        }
+
+        return list;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -284,7 +309,7 @@ public class EventDetailActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(Friend friend) {
+    public void onClick(UserData friend) {
     }
 
     @Click(R.id.expand_iv)

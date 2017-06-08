@@ -54,7 +54,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_rv"
                 android:layout_width="match_parent"
-                android:layout_height="118dp" />
+                tools:listitem="@layout/item_friend_thumb"
+                android:layout_height="112dp" />
         </LinearLayout>
 
         <com.jixstreet.kolla.view.CustomMapView

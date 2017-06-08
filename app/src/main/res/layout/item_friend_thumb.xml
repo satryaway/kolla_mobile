@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/friend_image_iv"
         android:layout_marginTop="8dp"
+        android:textColor="@color/primary_text"
         android:layout_centerHorizontal="true"
         tools:text="A friend name"/>
 </RelativeLayout>

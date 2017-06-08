@@ -41,13 +41,29 @@ public class EventListJson extends ModelJson {
 
     }
 
-    public static class Response extends DefaultResponse {
-        public List<Event> data;
+    public static class Request extends DefaultRequest {
+        public String page;
+
+        @Override
+        public ArrayList<Pair<String, String>> getParams() {
+            ArrayList<Pair<String, String>> params = new ArrayList<>();
+            params.add(new Pair<>("page", page));
+
+            return params;
+        }
     }
 
-    public void get(OnGetEventList onGetEventList) {
+    public static class Response extends DefaultResponse {
+        public Data data;
+
+        public class Data extends DefaultPagingResponse {
+            public List<Event> data;
+        }
+    }
+
+    public void get(Request request, OnGetEventList onGetEventList) {
         this.onGetEventList = onGetEventList;
-        httpEventList.get(ROUTE, null, null, onGetEventDone, "Retrieving events...", true);
+        httpEventList.get(ROUTE, request.getParams(), null, onGetEventDone, "Retrieving events...", true);
     }
 
     private OnFinishedCallback<Response, Void> onGetEventDone = new OnFinishedCallback<Response, Void>() {

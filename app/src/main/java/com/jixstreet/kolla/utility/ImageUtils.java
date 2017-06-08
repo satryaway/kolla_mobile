@@ -207,22 +207,19 @@ public class ImageUtils {
 
         ImageView imageView = Convert.as(ImageView.class, parent.findViewById(imageViewResId));
         if (imageView != null)
-            loadImageRound(ctx, url, imageView, placeholderImgResId);
+            loadImageRound(ctx, url, imageView);
     }
 
     /**
      * Load scaled image into ImageView, with placeholder image, and crop it circular.
      */
     public static final void loadImageRound(
-            final Context ctx, String url, final ImageView imageView, int placeholderImgResId) {
+            final Context ctx, String url, final ImageView imageView) {
 
-        if (TextUtils.isEmpty(url))
-            return;
         Glide.with(ctx).load(url)
                 .asBitmap()
                 .skipMemoryCache(true)
-                .placeholder(placeholderImgResId)
-                .fitCenter()
+                .centerCrop()
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {

@@ -1,6 +1,6 @@
 package com.jixstreet.kolla.event;
 
-import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.model.UserData;
 
 import java.util.List;
 
@@ -19,14 +19,19 @@ public class Event {
     public String room_id;
     public String map;
     public String date;
-    public String start_time;
-    public String end_time;
+    public String start_datetime;
+    public String end_datetime;
     public String booking_fee;
+    public String payment_type;
     public String notes;
     public String available_capacity;
     public String created_at;
     public String updated_at;
     public List<Image> images;
+
+    //Event Detail
+    public List<Tag> tags;
+    public List<WhoComes> who_comes;
 
     public class Image {
         public String id;
@@ -35,5 +40,31 @@ public class Event {
         public String caption;
         public String created_at;
         public String updated;
+    }
+
+    public class Tag {
+        public String id;
+        public String name;
+        public String created_at;
+        public String updated_at;
+    }
+
+    public class WhoComes {
+        public String id;
+        public String event_id;
+        public String user_id;
+        public UserData user;
+        public List<Guest> guests;
+    }
+
+    public class Guest {
+        public String id;
+        public String event_id;
+        public String book_id;
+        public String full_name;
+        public String email;
+        public String phone_no;
+        public String created_at;
+        public String updated_at;
     }
 }

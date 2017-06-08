@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.Friend;
+package com.jixstreet.kolla.friend;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -22,7 +23,7 @@ import org.androidannotations.annotations.ViewById;
 public class FriendThumbView extends RelativeLayout {
 
     private final Context context;
-    private Friend friend;
+    private UserData userData;
 
     @ViewById(R.id.friend_image_iv)
     protected ImageView friendImageIv;
@@ -37,26 +38,20 @@ public class FriendThumbView extends RelativeLayout {
         this.context = context;
     }
 
-    public void setFriend(Friend friend) {
-        this.friend = friend;
-//        setValue();
-        setDummy();
-    }
-
-    private void setDummy() {
-        ViewUtils.setTextView(friendNameTv, "");
-        ImageUtils.loadImageRoundCornerNoScale(context, "", friendImageIv);
+    public void setUserData(UserData userData) {
+        this.userData = userData;
+        setValue();
     }
 
     private void setValue() {
-        if (friend == null) return;
+        if (userData == null) return;
 
-        ViewUtils.setTextView(friendNameTv, friend.name);
-        ImageUtils.loadImageRoundCornerNoScale(context, friend.imageUrl, friendImageIv);
+        ViewUtils.setTextView(friendNameTv, userData.name);
+        ImageUtils.loadImageRound(context, userData.profile_picture, friendImageIv);
     }
 
     public interface OnThumbClickListener {
-        void onClick(Friend friend);
+        void onClick(UserData userData);
     }
 
     public void setOnThumbClickListener(OnThumbClickListener onThumbClickListener) {
@@ -65,6 +60,6 @@ public class FriendThumbView extends RelativeLayout {
 
     @Click(R.id.content_wrapper)
     protected void selectItem() {
-        this.onThumbClickListener.onClick(friend);
+        this.onThumbClickListener.onClick(userData);
     }
 }

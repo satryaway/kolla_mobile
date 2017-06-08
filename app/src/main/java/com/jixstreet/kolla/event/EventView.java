@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -44,7 +45,7 @@ public class EventView extends RelativeLayout {
     private final Context context;
     private Event item;
 
-    private static final String SOLD_OUT = "1";
+    private static final String SOLD_OUT = "Sold Out";
     private OnEventSelectedListener onEventSelectedListener;
 
     public interface OnEventSelectedListener {
@@ -66,10 +67,10 @@ public class EventView extends RelativeLayout {
 
         ViewUtils.setTextView(titleTv, item.name);
         ViewUtils.setTextView(locationTv, item.location);
-//        ViewUtils.setTextView(timeTv, item.start_time);
-//        ViewUtils.setTextView(dateTv, item.date);
+        ViewUtils.setTextView(timeTv, DateUtils.getDateTimeFromMillis(item.start_datetime, "hh:mm"));
+        ViewUtils.setTextView(dateTv, DateUtils.getDateTimeFromMillis(item.start_datetime, "dd MMM"));
         ViewUtils.setTextViewByVisibility(notesTv, item.notes);
-//        ViewUtils.setVisibility(soldOutTv, item.status.equals(SOLD_OUT) ? VISIBLE : GONE);
+        ViewUtils.setVisibility(soldOutTv, item.notes.equals(SOLD_OUT) ? VISIBLE : GONE);
 
         if (item.images.size() > 0)
             ImageUtils.loadImage(context, item.images.get(0).file, eventImageIv);
