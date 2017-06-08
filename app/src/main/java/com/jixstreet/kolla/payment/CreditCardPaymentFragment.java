@@ -204,7 +204,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     }
 
     private void registerCard() {
-        String errorMessage = MSakuLib.regcard(getActivity(),
+        String errorMessage = MSakuLib.regcard(getContext().getApplicationContext(),
                 getImsi(),
                 ViewUtils.getTextFromEditText(firstNameEt),
                 ViewUtils.getTextFromEditText(lastNameEt),
@@ -268,7 +268,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
                 data.cc_data.session,
                 data.operator_data.customer_id,
                 generatePaymentInfo(creditAmount),
-                generateTrxId(data.operator_data.mtrx_id),
+                data.operator_data.mtrx_id,
                 data.operator_data.operator_mid,
                 data.operator_data.bank,
                 creditAmount.nominal,

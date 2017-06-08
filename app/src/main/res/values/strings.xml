@@ -157,4 +157,5 @@
     <string name="kolla_credit">Kolla Credit</string>
     <string name="end_date_s">End Date : %s</string>
     <string name="start_date_s">Start Date : %s</string>
+    <string name="insufficient_balance">Insufficient Balance</string>
 </resources>

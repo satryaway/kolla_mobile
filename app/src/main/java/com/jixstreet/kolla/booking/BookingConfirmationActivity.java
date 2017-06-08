@@ -206,7 +206,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     }
 
     private void showTopupDialog(CheckBalanceJson.Response response) {
-        DialogUtils.makeTwoButtonDialog(this, getString(R.string.error), response.message,
+        DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), response.message,
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
                     public void run(@Nullable Boolean param) {
