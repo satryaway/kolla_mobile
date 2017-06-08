@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:showIn="@layout/activity_event_detail">
 
+    <ImageView
+        android:id="@+id/event_image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@null" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -39,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
+        android:background="@drawable/transparent_black_gradient"
         android:padding="8dp">
 
         <TextView

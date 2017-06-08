@@ -58,21 +58,21 @@ public class EventView extends RelativeLayout {
 
     public void setItem(Event item) {
         this.item = item;
-        //TODO : TO BE DELETED
-        setDummy();
-//        setValue();
+        setValue();
     }
 
     private void setValue() {
         if (item == null) return;
 
-        ViewUtils.setTextView(titleTv, item.title);
-        ViewUtils.setTextView(locationTv, item.room.location);
-        ViewUtils.setTextView(timeTv, item.time);
-        ViewUtils.setTextView(dateTv, item.date);
+        ViewUtils.setTextView(titleTv, item.name);
+        ViewUtils.setTextView(locationTv, item.location);
+//        ViewUtils.setTextView(timeTv, item.start_time);
+//        ViewUtils.setTextView(dateTv, item.date);
         ViewUtils.setTextViewByVisibility(notesTv, item.notes);
-        ViewUtils.setVisibility(soldOutTv, item.status.equals(SOLD_OUT) ? VISIBLE : GONE);
-        ImageUtils.loadImageWithPlaceHolder(context, item.image, eventImageIv, R.drawable.dummy_bg);
+//        ViewUtils.setVisibility(soldOutTv, item.status.equals(SOLD_OUT) ? VISIBLE : GONE);
+
+        if (item.images.size() > 0)
+            ImageUtils.loadImage(context, item.images.get(0).file, eventImageIv);
     }
 
     //TODO : TO BE DELETED

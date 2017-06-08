@@ -8,9 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,9 +26,10 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_event)
 public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        EventView.OnEventSelectedListener{
+        EventView.OnEventSelectedListener {
 
     private static final int OFFSET = 10;
+    private static final int STARTING_PAGE_INDEX = 1;
     @ViewById(R.id.item_found_tv)
     protected TextView itemFoundTv;
 
@@ -38,6 +41,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private EndlessRecyclerViewScrollListener scrollListener;
     private EventListAdapter eventListAdapter;
+    private EventListJson eventListJson;
 
     public static EventFragment newInstance() {
         Bundle args = new Bundle();
@@ -48,12 +52,9 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @AfterViews
     protected void onViewsCreated() {
+        eventListJson = new EventListJson(getContext());
         initAdapter();
-        setDummy();
-    }
-
-    private void setDummy() {
-        ViewUtils.setTextView(itemFoundTv, getContext().getString(R.string.event_found_s, "10"));
+        getData(STARTING_PAGE_INDEX);
     }
 
     private void initAdapter() {
@@ -73,7 +74,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {
-        return new EndlessRecyclerViewScrollListener(layoutManager, offset) {
+        return new EndlessRecyclerViewScrollListener(layoutManager, offset, STARTING_PAGE_INDEX) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 getData(page);
@@ -82,7 +83,21 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void getData(int page) {
-        refreshWrapper.setRefreshing(false);
+        eventListJson.get(new OnGetEventList() {
+            @Override
+            public void onSuccess(EventListJson.Response response) {
+                refreshWrapper.setRefreshing(false);
+                eventListAdapter.addItems(response.data);
+                ViewUtils.setTextView(itemFoundTv, getString(R.string.event_found_s,
+                        String.valueOf(eventListAdapter.getItemCount())));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                refreshWrapper.setRefreshing(false);
+                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+            }
+        });
     }
 
     @Override

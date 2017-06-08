@@ -37,14 +37,13 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-        //holder.getView().setItem(itemList.get(position));
-        holder.getView().setItem(new Event());
+        holder.getView().setItem(itemList.get(position));
         setAnimation(holder.getView(), position);
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return itemList.size();
     }
 
     public void addItems(List<Event> itemList) {

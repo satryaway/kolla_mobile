@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
+import com.jixstreet.kolla.utility.FormatUtils;
+import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.PermissionUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -104,11 +107,15 @@ public class EventDetailActivity extends AppCompatActivity
     @ViewById(R.id.guest_count_tv)
     protected TextView guestCountTv;
 
+    @ViewById(R.id.event_image_iv)
+    protected ImageView eventImageIv;
+
     private Bundle bundle;
-    private LatLng latlng = new LatLng(23.4352, 111.54322);
+    private LatLng latlng;
     private FriendThumbListAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private Event event;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,24 +125,34 @@ public class EventDetailActivity extends AppCompatActivity
 
     @AfterViews
     protected void onViewsCreated() {
+        event = ActivityUtils.getParam(this, Event.paramKey, Event.class);
+        if (event == null) {
+            finish();
+            return;
+        }
+
         initToolbar();
         initBottomSheet();
-        initMap();
         initAdapter();
 
         //TODO : this is dummy
-        setDummy();
+        setData();
     }
 
-    private void setDummy() {
-        ViewUtils.setTextView(descriptionTv, getString(R.string.dummy_long_text));
-        ViewUtils.setTextView(buyNowTv, getString(R.string.buy_now_s, "Rp. 1.000.000"));
-        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s, "25 August 2017"));
-        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s, "27 August 2017"));
-        ViewUtils.setTextView(locationTv, "Kolla Space - 7 Eleven Sabang, 2nd Floor KH. Agus Salim, Jakarta Pusat");
-        ViewUtils.setTextView(priceTv, "Rp.100.000/guest");
-        ViewUtils.setTextView(notesTv, "Most Valuable");
-        ViewUtils.setTextView(titleTv, getString(R.string.dummy_short_text));
+    private void setData() {
+        ViewUtils.setTextView(descriptionTv, event.description);
+        ViewUtils.setTextView(buyNowTv, getString(R.string.buy_now_s, event.booking_fee));
+        ViewUtils.setTextView(startDateTv, getString(R.string.start_date_s, event.date));
+        ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s, event.end_time));
+        ViewUtils.setTextView(locationTv, event.location);
+        ViewUtils.setTextView(priceTv, getString(R.string.s_per_guest, FormatUtils.formatCurrency(event.booking_fee)));
+        ViewUtils.setTextView(notesTv, event.notes);
+        ViewUtils.setTextView(titleTv, event.name);
+
+        if (event.images.size() > 0)
+            ImageUtils.loadImage(this, event.images.get(0).file, eventImageIv);
+
+        initMap();
     }
 
     private void initToolbar() {
@@ -180,6 +197,14 @@ public class EventDetailActivity extends AppCompatActivity
         mapView.onCreate(bundle);
         mapView.onResume();
 
+        String[] latLngArray = event.map.split(",");
+        if (latLngArray[0] != null && latLngArray[1] != null) {
+            Double lat = Double.valueOf(latLngArray[0]);
+            Double lng = Double.valueOf(latLngArray[1]);
+
+            latlng = new LatLng(lat, lng);
+        } else return;
+
         try {
             MapsInitializer.initialize(getApplicationContext());
         } catch (Exception e) {
@@ -207,7 +232,7 @@ public class EventDetailActivity extends AppCompatActivity
             googleMap.setMyLocationEnabled(false);
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
-                    .title("Marker in Sydney")
+                    .title(event.name)
                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
@@ -223,7 +248,8 @@ public class EventDetailActivity extends AppCompatActivity
 
                     DialogUtils.makeToast(this, "Permission denied");
                     finish();
-                } {
+                }
+                {
                     mapView.getMapAsync(onMapReadyCallBack);
                 }
             }

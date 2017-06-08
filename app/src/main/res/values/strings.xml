@@ -80,6 +80,7 @@
     <string name="s_guest">%s Person</string>
     <string name="s_durations">%s Hours</string>
     <string name="s_duration">%s Hour</string>
+    <string name="s_per_guest">%s/guest</string>
 
     <string name="dummy_date">25 August 2016</string>
     <string name="dummy_time">10:00</string>

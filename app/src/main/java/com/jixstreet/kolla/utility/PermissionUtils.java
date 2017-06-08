@@ -22,6 +22,7 @@ public class PermissionUtils {
     public static final int REQUEST_CAMERA = 2;
     public static final int REQUEST_CONTACT = 3;
     public static final int REQUEST_PHONE_STATE = 4;
+    public static final int REQUEST_LOCATION = 5;
 
     public static final String[] PERMISSIONS_STORAGE = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -33,6 +34,9 @@ public class PermissionUtils {
     public static final String[] PERMISSIONS_CONTACTS = {Manifest.permission.READ_CONTACTS};
 
     public static final String[] PERMISSIONS_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE};
+
+    public static final String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_FINE_LOCATION,
+    Manifest.permission.ACCESS_COARSE_LOCATION};
 
     /**
      * Check that all given permissions have been granted by verifying that each entry in the

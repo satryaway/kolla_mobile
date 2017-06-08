@@ -30,6 +30,12 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         this.visibleThreshold = offset;
     }
 
+    public EndlessRecyclerViewScrollListener(LinearLayoutManager layoutManager, int offset, int startingPageIndex) {
+        this.mLayoutManager = layoutManager;
+        this.visibleThreshold = offset;
+        this.startingPageIndex = startingPageIndex;
+    }
+
     public EndlessRecyclerViewScrollListener(GridLayoutManager layoutManager, int offset) {
         this.mLayoutManager = layoutManager;
         this.visibleThreshold = offset * layoutManager.getSpanCount();
