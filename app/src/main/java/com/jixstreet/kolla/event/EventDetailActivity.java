@@ -120,6 +120,7 @@ public class EventDetailActivity extends AppCompatActivity
     private BottomSheetBehavior mBottomSheetBehavior;
     private Event event;
     private EventDetailJson eventDetailJson;
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -209,21 +210,11 @@ public class EventDetailActivity extends AppCompatActivity
     }
 
     private OnMapReadyCallback onMapReadyCallBack = new OnMapReadyCallback() {
+
         @Override
         public void onMapReady(GoogleMap googleMap) {
-
-            if (ActivityCompat.checkSelfPermission(EventDetailActivity.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(EventDetailActivity.this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
-                        PermissionUtils.REQUEST_LOCATION, "Access Location");
-
-                return;
-            }
-
-            googleMap.setMyLocationEnabled(false);
+            EventDetailActivity.this.googleMap = googleMap;
+            disableLocation(googleMap);
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title(event.name)
@@ -231,6 +222,23 @@ public class EventDetailActivity extends AppCompatActivity
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 12.0f));
         }
     };
+
+    //This method is used to avoid google Map memory leak
+    private void disableLocation(GoogleMap googleMap) {
+        if (googleMap == null) return;
+        if (ActivityCompat.checkSelfPermission(EventDetailActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(EventDetailActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
+                    PermissionUtils.REQUEST_LOCATION, "Access Location");
+
+            return;
+        }
+
+        googleMap.setMyLocationEnabled(false);
+    }
 
     private void getEventDetail() {
         eventDetailJson.get(new OnGetEventDetail() {
