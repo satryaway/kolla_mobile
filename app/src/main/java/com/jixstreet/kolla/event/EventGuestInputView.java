@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.event;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;

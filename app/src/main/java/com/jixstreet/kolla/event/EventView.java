@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.event;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +55,11 @@ public class EventView extends RelativeLayout {
 
     public EventView(Context context) {
         super(context);
+        this.context = context;
+    }
+
+    public EventView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         this.context = context;
     }
 

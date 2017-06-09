@@ -41,7 +41,7 @@ public class DialogUtils {
         if (statusType.equals(CommonConstant.success))
             color = ContextCompat.getColor(activity, R.color.color_success);
 
-        Snackbar sb = Snackbar.make(ViewUtils.getRootView(activity), text, Snackbar.LENGTH_SHORT);
+        Snackbar sb = Snackbar.make(ViewUtils.getRootView(activity), text, Snackbar.LENGTH_LONG);
         sb.getView().setBackgroundColor(color);
         sb.show();
     }

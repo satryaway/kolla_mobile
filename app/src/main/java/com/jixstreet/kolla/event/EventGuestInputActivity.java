@@ -1,7 +1,7 @@
 package com.jixstreet.kolla.event;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.jixstreet.kolla.R;
@@ -23,7 +22,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +69,20 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
         guestWrapperList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             EventGuestInputView guestInputView = EventGuestInputView_.build(this);
-            guestInputView.setForm(i+1);
+            guestInputView.setForm(i + 1);
             guestWrapperList.add(guestInputView);
             guestWrapper.addView(guestInputView);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == EventBookingConfirmationActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
+            }
         }
     }
 
@@ -85,7 +94,7 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        setGuestsWrapper(position+1);
+        setGuestsWrapper(position + 1);
     }
 
     @Override
@@ -109,9 +118,16 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
 
         if (!isCompleted) return;
         Gson gson = new Gson();
-            JsonElement element= gson.toJsonTree(guests, new TypeToken<List<Guest>>() {}.getType());
+        JsonElement element = gson.toJsonTree(guests, new TypeToken<List<Guest>>() {
+        }.getType());
 
         String guestValue = element.getAsJsonArray().toString();
         Log.d("Guest Array", guestValue);
+
+        event.guests = guests;
+        event.guestsCount = String.valueOf(guests.size()*Integer.valueOf(event.booking_fee));
+        event.guestArray = guestValue;
+        ActivityUtils.startActivityWParamAndWait(this, EventBookingConfirmationActivity_.class,
+                Event.paramKey, event, EventBookingConfirmationActivity.requestCode);
     }
 }

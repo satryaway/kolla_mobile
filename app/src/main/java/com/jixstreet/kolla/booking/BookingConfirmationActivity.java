@@ -21,6 +21,7 @@ import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
 import com.jixstreet.kolla.credit.OnCheckBalance;
 import com.jixstreet.kolla.library.Callback;
+import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -210,7 +211,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
                     public void run(@Nullable Boolean param) {
-                        //TODO : Go to TopUp Page
+                        ActivityUtils.startActivity(BookingConfirmationActivity.this, TopUpListActivity_.class);
                     }
                 });
     }

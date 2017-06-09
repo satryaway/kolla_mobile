@@ -75,6 +75,8 @@
         <activity android:name=".event.EventDetailActivity_" />
         <activity android:name=".news.NewsDetailActivity_" />
         <activity android:name=".event.EventGuestInputActivity_" />
+        <activity android:name=".event.EventBookingConfirmationActivity_" />
+        <activity android:name=".event.EventBookingSuccessActivity_" />
     </application>
 
 </manifest>

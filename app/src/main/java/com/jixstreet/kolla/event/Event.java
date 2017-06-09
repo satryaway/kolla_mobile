@@ -33,6 +33,15 @@ public class Event {
     public List<Tag> tags;
     public List<WhoComes> who_comes;
 
+    //For Request
+    public List<Guest> guests;
+    public String guestsCount;
+    public String guestArray;
+
+    //For Response
+    public String status;
+    public String message;
+
     public class Image {
         public String id;
         public String event_id;

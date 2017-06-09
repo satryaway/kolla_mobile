@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.event;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -39,7 +40,6 @@ import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
-import com.jixstreet.kolla.utility.FormatUtils;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.PermissionUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -57,7 +57,6 @@ import java.util.List;
 public class EventDetailActivity extends AppCompatActivity
         implements FriendThumbView.OnThumbClickListener {
 
-    private static final int OFFSET = 10;
     public static int requestCode = ActivityUtils.getRequestCode(EventDetailActivity.class, "1");
 
     @ViewById(R.id.toolbar)
@@ -152,7 +151,7 @@ public class EventDetailActivity extends AppCompatActivity
         ViewUtils.setTextView(endDateTv, getString(R.string.end_date_s,
                 DateUtils.getDateTimeStrFromMillis(event.end_datetime, "dd MMM yyyy, hh:mm")));
         ViewUtils.setTextView(locationTv, event.location);
-        ViewUtils.setTextView(priceTv, getString(R.string.s_per_guest, FormatUtils.formatCurrency(event.booking_fee)));
+        ViewUtils.setTextView(priceTv, getString(R.string.s_per_guest, event.booking_fee));
         ViewUtils.setTextView(notesTv, event.notes);
         ViewUtils.setTextView(titleTv, event.name);
 
@@ -269,6 +268,17 @@ public class EventDetailActivity extends AppCompatActivity
         }
 
         return list;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == EventGuestInputActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 
     @Override

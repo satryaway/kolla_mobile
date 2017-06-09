@@ -162,4 +162,6 @@
     <string name="your_detail">Your Detail</string>
     <string name="s_person_s">%1$s person - %2$s</string>
     <string name="guest_s">Guest %s</string>
+    <string name="fee">Fee</string>
+    <string name="back_to_event_list">Back to event list</string>
 </resources>
