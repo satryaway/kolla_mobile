@@ -151,7 +151,7 @@
     <string name="mtrx_pattern">%1$s-%2$s-%3$s</string>
     <string name="event_found_s">Event Found: %s</string>
     <string name="sold_out">Sold Out</string>
-    <string name="buy_now_s">Buy Now (%s)</string>
+    <string name="buy_now_s">Buy Now K %s</string>
     <string name="posted_on_s">Posted on %s</string>
     <string name="s_people_already_book">%s people  already book</string>
     <string name="more">More</string>

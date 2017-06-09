@@ -104,7 +104,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
-        scrollListener.resetState();
+        scrollListener.resetStateWithParams(STARTING_PAGE_INDEX);
         eventListAdapter.clearList();
         scrollListener.initScroll(listRv);
     }

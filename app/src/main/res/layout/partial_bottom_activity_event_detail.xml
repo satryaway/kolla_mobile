@@ -62,26 +62,26 @@
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/room_detail_header_size" />
-    </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/primary">
-
-        <TextView
-            android:id="@+id/buy_now_tv"
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/buy_now_s"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/large_text" />
-    </RelativeLayout>
+            android:layout_margin="16dp"
+            android:background="@color/primary">
+
+            <TextView
+                android:id="@+id/buy_now_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/buy_now_s"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text" />
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

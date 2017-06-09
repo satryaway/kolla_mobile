@@ -32,9 +32,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.friend.FriendThumbListAdapter;
 import com.jixstreet.kolla.friend.FriendThumbView;
-import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
@@ -214,7 +214,7 @@ public class EventDetailActivity extends AppCompatActivity
         @Override
         public void onMapReady(GoogleMap googleMap) {
             EventDetailActivity.this.googleMap = googleMap;
-            disableLocation(googleMap);
+            disableLocation();
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title(event.name)
@@ -224,7 +224,7 @@ public class EventDetailActivity extends AppCompatActivity
     };
 
     //This method is used to avoid google Map memory leak
-    private void disableLocation(GoogleMap googleMap) {
+    private void disableLocation() {
         if (googleMap == null) return;
         if (ActivityCompat.checkSelfPermission(EventDetailActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -281,8 +281,7 @@ public class EventDetailActivity extends AppCompatActivity
 
                     DialogUtils.makeToast(this, "Permission denied");
                     finish();
-                }
-                {
+                } else {
                     mapView.getMapAsync(onMapReadyCallBack);
                 }
             }
@@ -346,7 +345,15 @@ public class EventDetailActivity extends AppCompatActivity
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        System.gc();
+        disableLocation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disableLocation();
+        if (googleMap != null)
+            googleMap.clear();
     }
 
     private void setFadedLayout(boolean isShowing) {
