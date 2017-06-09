@@ -10,6 +10,7 @@ import com.jixstreet.kolla.booking.room.detail.facility.RoomFacility;
 import com.jixstreet.kolla.intro.IntroBackgroundItem;
 import com.jixstreet.kolla.news.NewsHeaderItem;
 import com.jixstreet.kolla.payment.Banking;
+import com.jixstreet.kolla.utility.Convert;
 import com.jixstreet.kolla.utility.DateUtils;
 
 import java.util.ArrayList;
@@ -155,6 +156,18 @@ public class Seeder {
 
         for (int i = currentYear; i <= currentYear+10; i++) {
             list.add("" + i);
+        }
+
+        return list;
+    }
+
+    public static List<String> getGuestWithPrice(Context context, String booking_fee, int count) {
+        List<String> list = new ArrayList<>();
+        int bookingFee = Integer.valueOf(booking_fee);
+        for (int i = 1; i <= count; i++) {
+            String iteration = String.valueOf(i);
+            String fee = String.valueOf(i*bookingFee);
+            list.add(context.getString(R.string.s_person_s, iteration, fee));
         }
 
         return list;

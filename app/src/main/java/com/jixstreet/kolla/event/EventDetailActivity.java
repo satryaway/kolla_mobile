@@ -356,8 +356,16 @@ public class EventDetailActivity extends AppCompatActivity
             googleMap.clear();
     }
 
+    @Click(R.id.buy_now_tv)
+    protected void inputGuest() {
+        ActivityUtils.startActivityWParamAndWait(this, EventGuestInputActivity_.class,
+                Event.paramKey, event, EventGuestInputActivity.requestCode);
+    }
+
     private void setFadedLayout(boolean isShowing) {
         fadedLayout.startAnimation(isShowing ? fadeIn : fadeOut);
         fadedLayout.setVisibility(isShowing ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 }

@@ -56,15 +56,4 @@ public class Event {
         public UserData user;
         public List<Guest> guests;
     }
-
-    public class Guest {
-        public String id;
-        public String event_id;
-        public String book_id;
-        public String full_name;
-        public String email;
-        public String phone_no;
-        public String created_at;
-        public String updated_at;
-    }
 }
