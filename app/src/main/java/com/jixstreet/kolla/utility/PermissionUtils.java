@@ -2,6 +2,7 @@ package com.jixstreet.kolla.utility;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -117,7 +118,8 @@ public class PermissionUtils {
             ActivityCompat.requestPermissions(activity, permission, requestCode);
         } else {
             DialogUtils.modalCancelable(activity, "Alert", message, false, new Callback<Boolean>() {
-                @Override public void run(@Nullable Boolean param) {
+                @Override
+                public void run(@Nullable DialogInterface dialog, @Nullable Boolean param) {
                     ActivityCompat.requestPermissions(activity, permission, requestCode);
                 }
             });

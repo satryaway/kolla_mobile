@@ -56,13 +56,13 @@ public class DialogUtils {
         alert.setButton(DialogInterface.BUTTON_POSITIVE, okTitle, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                helper.execute(true);
+                helper.execute(dialog, true);
             }
         });
         alert.setButton(DialogInterface.BUTTON_NEGATIVE, cancelTitle, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                helper.execute(false);
+                helper.execute(dialog, false);
             }
         });
         alert.show();
@@ -72,9 +72,9 @@ public class DialogUtils {
         public Callback<Boolean> callback;
         private boolean executed = false;
 
-        public void execute(boolean param) {
+        public void execute(DialogInterface dialog, boolean param) {
             if (!executed && callback != null)
-                callback.run(param);
+                callback.run(dialog, param);
             executed = true;
         }
     }
@@ -103,13 +103,13 @@ public class DialogUtils {
         alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mc.execute(true);
+                mc.execute(dialog, true);
             }
         });
         alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                mc.execute(false);
+                mc.execute(dialog, false);
             }
         });
 

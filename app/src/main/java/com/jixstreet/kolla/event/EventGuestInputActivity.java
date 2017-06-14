@@ -40,8 +40,10 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
     @ViewById(R.id.guest_count_spinner)
     protected Spinner guestSpinner;
 
+    private Guest[] guests = new Guest[GUEST_COUNT];
     private Event event;
     private List<EventGuestInputView> guestWrapperList;
+    private int currentPosition;
 
     @AfterViews
     protected void onViewsCreated() {
@@ -94,7 +96,27 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        currentPosition = position;
+        collectTemporaryData();
         setGuestsWrapper(position + 1);
+        putData();
+    }
+
+    private void putData() {
+        if (guestWrapperList != null && guestWrapperList.size() != 0) {
+            for (int i = 0; i < guestWrapperList.size(); i++) {
+                if (guests[i] == null) guests[i] = new Guest();
+                guestWrapperList.get(i).setGuest(guests[i]);
+            }
+        }
+    }
+
+    private void collectTemporaryData() {
+        if (guestWrapperList != null && guestWrapperList.size() != 0) {
+            for (int i = 0; i < guestWrapperList.size(); i++) {
+                guests[i] = guestWrapperList.get(i).getGuest();
+            }
+        }
     }
 
     @Override
@@ -124,8 +146,8 @@ public class EventGuestInputActivity extends AppCompatActivity implements Adapte
         String guestValue = element.getAsJsonArray().toString();
         Log.d("Guest Array", guestValue);
 
-        event.guests = guests;
-        event.guestsCount = String.valueOf(guests.size()*Integer.valueOf(event.booking_fee));
+        event.who_comes = guests;
+        event.guestsCount = String.valueOf(guests.size() * Integer.valueOf(event.booking_fee));
         event.guestArray = guestValue;
         ActivityUtils.startActivityWParamAndWait(this, EventBookingConfirmationActivity_.class,
                 Event.paramKey, event, EventBookingConfirmationActivity.requestCode);

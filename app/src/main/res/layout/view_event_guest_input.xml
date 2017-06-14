@@ -97,4 +97,14 @@
             android:textColor="@android:color/black"
             android:textSize="@dimen/medium_text" />
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/self_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/i_book_this_event"
+        android:layout_marginTop="-8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp" />
 </LinearLayout>

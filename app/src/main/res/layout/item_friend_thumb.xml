@@ -17,8 +17,11 @@
 
     <TextView
         android:id="@+id/friend_name_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/friend_thumb_size"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center"
         android:layout_below="@+id/friend_image_iv"
         android:layout_marginTop="8dp"
         android:textColor="@color/primary_text"

@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.event;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -70,7 +71,7 @@ public class EventBookingConfirmationActivity extends AppCompatActivity {
 
     private ArrayList<Pair<String, String>> buildParams() {
         ArrayList<Pair<String, String>> params = new ArrayList<>();
-        params.add(new Pair<>(getString(R.string.guest), String.valueOf(event.guests.size())));
+        params.add(new Pair<>(getString(R.string.guest), String.valueOf(event.who_comes.size())));
         params.add(new Pair<>(getString(R.string.fee), event.guestsCount));
         params.add(new Pair<>(getString(R.string.payment), getString(R.string.kolla_credit)));
 
@@ -83,16 +84,13 @@ public class EventBookingConfirmationActivity extends AppCompatActivity {
         eventBookingJson.post(request, new OnEventBooking() {
             @Override
             public void onSuccess(EventBookingJson.Response response) {
-                //TODO Add condition to check if balance is sufficient
-               /* if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
+                if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
                     event.message = response.message;
                     ActivityUtils.startActivityWParamAndWait(EventBookingConfirmationActivity.this,
                             EventBookingSuccessActivity_.class, Event.paramKey, event, EventBookingSuccessActivity.requestCode);
                 } else {
                     showTopupDialog(response.message);
-                }*/
-                ActivityUtils.startActivityWParamAndWait(EventBookingConfirmationActivity.this,
-                        EventBookingSuccessActivity_.class, Event.paramKey, event, EventBookingSuccessActivity.requestCode);
+                }
             }
 
             @Override
@@ -107,8 +105,10 @@ public class EventBookingConfirmationActivity extends AppCompatActivity {
         DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), message,
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
-                    public void run(@Nullable Boolean param) {
-                        ActivityUtils.startActivity(EventBookingConfirmationActivity.this, TopUpListActivity_.class);
+                    public void run(@Nullable DialogInterface dialog, @Nullable Boolean param) {
+                        if (param)
+                            ActivityUtils.startActivity(EventBookingConfirmationActivity.this, TopUpListActivity_.class);
+                        else dialog.dismiss();
                     }
                 });
     }

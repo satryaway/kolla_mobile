@@ -76,6 +76,10 @@ public class LoginJson extends ModelJson {
         public static void saveUserData(Context ctx, UserData data) {
             CPrefs.write(ctx, UserData.PrefKey, data, UserData.class);
         }
+
+        public static UserData getUserData(Context ctx) {
+            return CPrefs.read(ctx, UserData.PrefKey, UserData.class);
+        }
     }
 
     public void post(Request request, OnLogin onLogin) {

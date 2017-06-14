@@ -46,7 +46,7 @@ public class FriendThumbView extends RelativeLayout {
     private void setValue() {
         if (userData == null) return;
 
-        ViewUtils.setTextView(friendNameTv, userData.name);
+        ViewUtils.setTextView(friendNameTv, userData.full_name);
         ImageUtils.loadImageRound(context, userData.profile_picture, friendImageIv);
     }
 

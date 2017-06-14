@@ -65,6 +65,7 @@
                     android:id="@+id/guest_count_spinner"
                     style="@style/Base.Widget.AppCompat.DropDownItem.Spinner"
                     android:layout_width="match_parent"
+                    android:prompt="@string/select_guest"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 

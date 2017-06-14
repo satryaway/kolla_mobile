@@ -23,4 +23,6 @@ public class UserData {
     public String created_at;
     public String updated_at;
     public String deleted_at;
+    public String phone_no;
+    public String full_name;
 }

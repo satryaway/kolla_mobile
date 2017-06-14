@@ -61,7 +61,7 @@ public class EventBookingSuccessActivity extends AppCompatActivity {
 
     private ArrayList<Pair<String, String>> buildParams() {
         ArrayList<Pair<String, String>> params = new ArrayList<>();
-        params.add(new Pair<>(getString(R.string.guest), String.valueOf(event.guests.size())));
+        params.add(new Pair<>(getString(R.string.guest), String.valueOf(event.who_comes.size())));
         params.add(new Pair<>(getString(R.string.fee), event.guestsCount));
         params.add(new Pair<>(getString(R.string.payment), getString(R.string.kolla_credit)));
 

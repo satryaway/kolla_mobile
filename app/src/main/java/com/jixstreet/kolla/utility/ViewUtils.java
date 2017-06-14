@@ -146,4 +146,10 @@ public class ViewUtils {
             editText.setText(s == null ? "" : s);
         }
     }
+
+    public static void setEditTextEditability(EditText editText, boolean editable) {
+        if (editText != null) {
+            editText.setEnabled(editable);
+        }
+    }
 }

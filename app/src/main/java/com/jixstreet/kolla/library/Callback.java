@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.library;
 
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 
 /**
@@ -8,5 +9,5 @@ import android.support.annotation.Nullable;
  */
 
 public interface Callback<P> {
-    void run(@Nullable P param);
+    void run(@Nullable DialogInterface dialog, @Nullable P param);
 }

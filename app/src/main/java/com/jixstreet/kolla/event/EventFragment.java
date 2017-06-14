@@ -96,8 +96,10 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
             @Override
             public void onFailure(String message) {
-                refreshWrapper.setRefreshing(false);
-                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+                if (refreshWrapper != null && getActivity() != null) {
+                    refreshWrapper.setRefreshing(false);
+                    DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+                }
             }
         });
     }
@@ -107,6 +109,7 @@ public class EventFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         scrollListener.resetStateWithParams(STARTING_PAGE_INDEX);
         eventListAdapter.clearList();
         scrollListener.initScroll(listRv);
+        getData(STARTING_PAGE_INDEX);
     }
 
     @Override

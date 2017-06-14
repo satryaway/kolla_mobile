@@ -31,10 +31,9 @@ public class Event {
 
     //Event Detail
     public List<Tag> tags;
-    public List<WhoComes> who_comes;
 
     //For Request
-    public List<Guest> guests;
+    public List<Guest> who_comes;
     public String guestsCount;
     public String guestArray;
 
@@ -56,13 +55,5 @@ public class Event {
         public String name;
         public String created_at;
         public String updated_at;
-    }
-
-    public class WhoComes {
-        public String id;
-        public String event_id;
-        public String user_id;
-        public UserData user;
-        public List<Guest> guests;
     }
 }

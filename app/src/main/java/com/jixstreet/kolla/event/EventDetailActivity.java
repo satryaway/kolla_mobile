@@ -230,8 +230,8 @@ public class EventDetailActivity extends AppCompatActivity
                 && ActivityCompat.checkSelfPermission(EventDetailActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
-                    PermissionUtils.REQUEST_LOCATION, "Access Location");
+            /*PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
+                    PermissionUtils.REQUEST_LOCATION, "Access Location");*/
 
             return;
         }
@@ -263,8 +263,9 @@ public class EventDetailActivity extends AppCompatActivity
 
     private List<UserData> getPeople() {
         List<UserData> list = new ArrayList<>();
-        for (Event.WhoComes who_come : event.who_comes) {
-            list.add(who_come.user);
+        for (Guest who_come : event.who_comes) {
+            if (who_come.profile_picture != null)
+                list.add(who_come);
         }
 
         return list;
@@ -286,8 +287,8 @@ public class EventDetailActivity extends AppCompatActivity
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PermissionUtils.REQUEST_LOCATION: {
-                if (grantResults.length < 1
-                        && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length < 1 && !PermissionUtils.checkPermissions(EventDetailActivity.this,
+                        PermissionUtils.PERMISSIONS_LOCATION)) {
 
                     DialogUtils.makeToast(this, "Permission denied");
                     finish();

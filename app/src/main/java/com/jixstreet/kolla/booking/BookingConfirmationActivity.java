@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
@@ -14,13 +15,14 @@ import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
-import com.jixstreet.kolla.payment.KollaPaymentJson;
-import com.jixstreet.kolla.payment.OnKollaPay;
-import com.jixstreet.kolla.payment.PaymentType;
 import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
 import com.jixstreet.kolla.credit.OnCheckBalance;
+import com.jixstreet.kolla.event.EventBookingConfirmationActivity;
 import com.jixstreet.kolla.library.Callback;
+import com.jixstreet.kolla.payment.KollaPaymentJson;
+import com.jixstreet.kolla.payment.OnKollaPay;
+import com.jixstreet.kolla.payment.PaymentType;
 import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
@@ -210,8 +212,10 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), response.message,
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
-                    public void run(@Nullable Boolean param) {
-                        ActivityUtils.startActivity(BookingConfirmationActivity.this, TopUpListActivity_.class);
+                    public void run(@Nullable DialogInterface dialog, @Nullable Boolean param) {
+                        if (param)
+                            ActivityUtils.startActivity(BookingConfirmationActivity.this, TopUpListActivity_.class);
+                        else dialog.dismiss();
                     }
                 });
     }

@@ -1,13 +1,15 @@
 package com.jixstreet.kolla.event;
 
 import android.content.Context;
-import android.util.AttributeSet;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.utility.Convert;
+import com.jixstreet.kolla.login.LoginJson;
+import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.TextUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -20,7 +22,7 @@ import org.androidannotations.annotations.ViewById;
  */
 
 @EViewGroup(R.layout.view_event_guest_input)
-public class EventGuestInputView extends LinearLayout {
+public class EventGuestInputView extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
     @ViewById(R.id.full_name_et)
     protected EditText fullNameEt;
 
@@ -33,8 +35,23 @@ public class EventGuestInputView extends LinearLayout {
     @ViewById(R.id.guest_number_tv)
     protected TextView guestCountTv;
 
+    @ViewById(R.id.self_cb)
+    protected CheckBox selfCb;
+
+    private Context context;
+
     public EventGuestInputView(Context context) {
         super(context);
+        this.context = context;
+    }
+
+    public Guest getGuest() {
+        Guest guest = new Guest();
+        guest.full_name = ViewUtils.getTextFromEditText(fullNameEt);
+        guest.email = ViewUtils.getTextFromEditText(emailEt);
+        guest.phone_no = ViewUtils.getTextFromEditText(phoneEt);
+
+        return guest;
     }
 
     public Guest getGuestDetail() {
@@ -66,5 +83,37 @@ public class EventGuestInputView extends LinearLayout {
 
     public void setForm(int i) {
         ViewUtils.setTextView(guestCountTv, getContext().getString(R.string.guest_s, String.valueOf(i)));
+        if (i == 1) {
+            selfCb.setVisibility(VISIBLE);
+            selfCb.setOnCheckedChangeListener(this);
+        } else selfCb.setVisibility(GONE);
+    }
+
+    private void setValue(String full_name, String email, String phone) {
+        ViewUtils.setTextView(fullNameEt, full_name);
+        ViewUtils.setTextView(emailEt, email);
+        ViewUtils.setTextView(phoneEt, phone);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        UserData userData = LoginJson.Response.getUserData(context);
+        if (isChecked) {
+            setValue(userData.name, userData.email, userData.phone_no);
+            setEditable(false);
+        } else {
+            setValue("", "", "");
+            setEditable(true);
+        }
+    }
+
+    private void setEditable(boolean editable) {
+        ViewUtils.setEditTextEditability(fullNameEt, editable);
+        ViewUtils.setEditTextEditability(emailEt, editable);
+        ViewUtils.setEditTextEditability(phoneEt, editable);
+    }
+
+    public void setGuest(Guest guest) {
+        setValue(guest.full_name, guest.email, guest.phone_no);
     }
 }
