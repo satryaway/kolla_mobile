@@ -166,4 +166,5 @@
     <string name="back_to_event_list">Back to event list</string>
     <string name="i_book_this_event">I book this event for myself</string>
     <string name="select_guest">- Select Guest -</string>
+    <string name="grant_permission_warning">This app was designed for an older version of Android. Denying permission may cause it to no longer function as intended</string>
 </resources>

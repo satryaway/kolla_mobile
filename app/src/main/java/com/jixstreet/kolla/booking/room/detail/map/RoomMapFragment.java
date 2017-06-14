@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.room.Room;
-import com.jixstreet.kolla.event.EventDetailActivity;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.PermissionUtils;
@@ -45,6 +44,7 @@ public class RoomMapFragment extends Fragment {
     private Bundle bundle;
     private Room room;
     private LatLng latlng;
+    private GoogleMap gMap;
 
     public static RoomMapFragment newInstance(Room room) {
         Bundle args = new Bundle();
@@ -112,19 +112,8 @@ public class RoomMapFragment extends Fragment {
     private OnMapReadyCallback onMapReadyCallBack = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
-
-            if (ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                PermissionUtils.requestPermissions(getActivity(), PermissionUtils.PERMISSIONS_LOCATION,
-                        PermissionUtils.REQUEST_LOCATION, "Access Location");
-
-                return;
-            }
-
-            googleMap.setMyLocationEnabled(false);
+            gMap = googleMap;
+            disableLocation();
             googleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title("Marker in Sydney")
@@ -133,17 +122,35 @@ public class RoomMapFragment extends Fragment {
         }
     };
 
+    private void disableLocation() {
+        if (gMap == null) return;
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            PermissionUtils.requestPermissions(getActivity(), PermissionUtils.PERMISSIONS_LOCATION,
+                    PermissionUtils.REQUEST_LOCATION, getString(R.string.grant_permission_warning));
+
+            return;
+        }
+
+        gMap.setMyLocationEnabled(false);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PermissionUtils.REQUEST_LOCATION: {
-                if (grantResults.length < 1
-                        && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length < 1)
+                    return;
+                if (!PermissionUtils.checkPermissions(getActivity(),
+                        PermissionUtils.PERMISSIONS_LOCATION)) {
 
                     DialogUtils.makeToast(getContext(), "Permission denied");
                     getActivity().finish();
-                } {
+                } else {
                     mapView.getMapAsync(onMapReadyCallBack);
                 }
             }
@@ -160,5 +167,19 @@ public class RoomMapFragment extends Fragment {
     public void onPause() {
         super.onPause();
         mapView.onPause();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        disableLocation();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disableLocation();
+        if (gMap != null)
+            gMap.clear();
     }
 }

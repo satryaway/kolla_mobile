@@ -140,6 +140,7 @@ public class EventDetailActivity extends AppCompatActivity
         initBottomSheet();
         initAdapter();
         setData();
+        initMap();
         getEventDetail();
     }
 
@@ -157,8 +158,6 @@ public class EventDetailActivity extends AppCompatActivity
 
         if (event.images.size() > 0)
             ImageUtils.loadImage(this, event.images.get(0).file, eventImageIv);
-
-        initMap();
     }
 
     private void initToolbar() {
@@ -230,8 +229,8 @@ public class EventDetailActivity extends AppCompatActivity
                 && ActivityCompat.checkSelfPermission(EventDetailActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            /*PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
-                    PermissionUtils.REQUEST_LOCATION, "Access Location");*/
+            PermissionUtils.requestPermissions(EventDetailActivity.this, PermissionUtils.PERMISSIONS_LOCATION,
+                    PermissionUtils.REQUEST_LOCATION, getString(R.string.grant_permission_warning));
 
             return;
         }
@@ -287,7 +286,9 @@ public class EventDetailActivity extends AppCompatActivity
                                            @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PermissionUtils.REQUEST_LOCATION: {
-                if (grantResults.length < 1 && !PermissionUtils.checkPermissions(EventDetailActivity.this,
+                if (grantResults.length < 1)
+                    return;
+                if (!PermissionUtils.checkPermissions(EventDetailActivity.this,
                         PermissionUtils.PERMISSIONS_LOCATION)) {
 
                     DialogUtils.makeToast(this, "Permission denied");
