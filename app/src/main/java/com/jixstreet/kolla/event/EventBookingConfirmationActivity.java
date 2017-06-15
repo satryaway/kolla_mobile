@@ -27,7 +27,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 @EActivity(R.layout.activity_event_booking_confirmation)
-public class EventBookingConfirmationActivity extends AppCompatActivity {
+public class EventBookingConfirmationActivity extends AppCompatActivity implements EventView.OnEventSelectedListener {
     public static int requestCode = ActivityUtils.getRequestCode(EventBookingConfirmationActivity.class, "1");
 
     @ViewById(R.id.toolbar)
@@ -57,6 +57,7 @@ public class EventBookingConfirmationActivity extends AppCompatActivity {
 
     private void setValue() {
         eventView.setItem(event);
+        eventView.setOnEventSelectedListener(this);
         makeViews(buildParams());
     }
 
@@ -133,5 +134,12 @@ public class EventBookingConfirmationActivity extends AppCompatActivity {
     @Click(R.id.submit_tv)
     protected void submitBooking() {
         requestBooking();
+    }
+
+    @Override
+    public void onClick(Event event) {
+        event.isActive = false;
+        ActivityUtils.startActivityWParamAndWait(this, EventDetailActivity_.class,
+                Event.paramKey, event, EventDetailActivity.requestCode);
     }
 }

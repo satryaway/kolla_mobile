@@ -41,6 +41,9 @@ public class Event {
     public String status;
     public String message;
 
+    //Local need
+    public boolean isActive = true;
+
     public class Image {
         public String id;
         public String event_id;

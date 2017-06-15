@@ -111,10 +111,10 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         if (!BuildConfig.DEBUG) ViewUtils.setVisibility(dummyWrapper, View.GONE);
 
         creditAmount = CastUtils.fromString(getArguments().getString(CREDIT_AMOUNT), CreditAmount.class);
-        creditAmount.payment_type = getContext().getString(R.string.credit_card);
-        sessionJson = new MSakuSessionJson(getContext());
+        creditAmount.payment_type = getActivity().getString(R.string.credit_card);
+        sessionJson = new MSakuSessionJson(getActivity());
         topUp = new TopUp();
-        topUpCreditJson = new TopUpCreditJson(getContext(), creditAmount.id);
+        topUpCreditJson = new TopUpCreditJson(getActivity(), creditAmount.id);
         topUp.creditAmount = creditAmount;
 
         initSpinners();
@@ -129,7 +129,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
 
     private void initSpinner(List<String> collections, Spinner spinner,
                              AdapterView.OnItemSelectedListener itemListener) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(),
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item, collections);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setOnItemSelectedListener(itemListener);
@@ -204,7 +204,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     }
 
     private void registerCard() {
-        String errorMessage = MSakuLib.regcard(getContext().getApplicationContext(),
+        String errorMessage = MSakuLib.regcard(getActivity(),
                 getImsi(),
                 ViewUtils.getTextFromEditText(firstNameEt),
                 ViewUtils.getTextFromEditText(lastNameEt),
@@ -245,7 +245,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     }
 
     private String getImsi() {
-        TelephonyManager manager = (TelephonyManager) getContext().getSystemService(Activity.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) getActivity().getSystemService(Activity.TELEPHONY_SERVICE);
         return manager.getSubscriberId();
     }
 
@@ -261,7 +261,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         if (mSakuResponse == null) return;
 
         MSakuSessionJson.Response.Data data = mSakuResponse.data;
-        MSakuLib.paycard(getContext(),
+        MSakuLib.paycard(getActivity(),
                 R.layout.otpbrowser,
                 R.id.webview,
                 data.cc_data.card_rsa,
@@ -301,12 +301,12 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
     }
 
     private String generatePaymentInfo(CreditAmount creditAmount) {
-        return getContext().getString(R.string.buy_s_kolla_credit, creditAmount.kolla_credit);
+        return getActivity().getString(R.string.buy_s_kolla_credit, creditAmount.kolla_credit);
     }
 
     private String generateTrxId(String trx_id) {
         if (trx_id != null && creditAmount != null) {
-            return getContext().getString(R.string.mtrx_pattern, trx_id,
+            return getActivity().getString(R.string.mtrx_pattern, trx_id,
                     PaymentLibrary.TOPUP,
                     creditAmount.id);
         } else return trx_id;
@@ -343,7 +343,7 @@ public class CreditCardPaymentFragment extends Fragment implements MSakuListener
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((Activity) getContext()).finish();
+                getActivity().finish();
             }
         }, 1500);
     }

@@ -113,6 +113,9 @@ public class EventDetailActivity extends AppCompatActivity
     @ViewById(R.id.event_image_iv)
     protected ImageView eventImageIv;
 
+    @ViewById(R.id.button_wrapper)
+    protected RelativeLayout buttonWrapper;
+
     private Bundle bundle;
     private LatLng latlng;
     private FriendThumbListAdapter adapter;
@@ -140,6 +143,7 @@ public class EventDetailActivity extends AppCompatActivity
         initBottomSheet();
         initAdapter();
         setData();
+        setActiveButton();
         initMap();
         getEventDetail();
     }
@@ -158,6 +162,10 @@ public class EventDetailActivity extends AppCompatActivity
 
         if (event.images.size() > 0)
             ImageUtils.loadImage(this, event.images.get(0).file, eventImageIv);
+    }
+
+    private void setActiveButton() {
+        ViewUtils.setVisibility(buttonWrapper, event.isActive ? View.VISIBLE : View.GONE);
     }
 
     private void initToolbar() {
