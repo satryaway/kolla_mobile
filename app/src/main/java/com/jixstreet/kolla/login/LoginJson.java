@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
+import com.crashlytics.android.Crashlytics;
 import com.jixstreet.kolla.parent.DefaultRequest;
 import com.jixstreet.kolla.parent.ModelJson;
 import com.jixstreet.kolla.model.UserData;
@@ -13,6 +14,7 @@ import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.network.RStatus;
 import com.jixstreet.kolla.network.ResultType;
 import com.jixstreet.kolla.prefs.CPrefs;
+import com.jixstreet.kolla.utility.CrashUtils;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,7 @@ public class LoginJson extends ModelJson {
         public static void saveData(Context ctx, String access_token, UserData data) {
             saveAccessToken(ctx, access_token);
             saveUserData(ctx, data);
+            CrashUtils.logUser(data.id, data.email, data.name);
         }
 
         public static void saveAccessToken(Context ctx, String accessToken) {
