@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -63,7 +64,12 @@ public class BookingSizeActivity extends AppCompatActivity implements DatePicker
     @AfterViews
     protected void onViewsCreated() {
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
+        if (booking == null) {
+            finish();
+            return;
+        }
 
+        booking.bookingRequest = new BookingJson.Request();
         ViewUtils.setToolbar(this, toolbar);
         setValue();
         initCalendar();

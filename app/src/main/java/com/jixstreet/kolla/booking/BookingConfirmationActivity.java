@@ -51,12 +51,15 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     @AfterViews
     protected void onViewsCreated() {
-        ViewUtils.setToolbar(this, toolbar);
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        bookingJson = new BookingJson(this, booking.room.id);
-        if (booking != null) {
-            setValue();
+        if (booking == null) {
+            finish();
+            return;
         }
+
+        ViewUtils.setToolbar(this, toolbar);
+        bookingJson = new BookingJson(this, booking.room.id);
+        setValue();
     }
 
     @Override
@@ -66,12 +69,12 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
     }
 
     private void setValue() {
-        if (booking.room != null && booking.bookingRequest != null) {
+        if (booking != null && booking.roomRequest != null) {
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
 
-            switch (booking.room.category.id) {
+            switch (booking.bookingCategory.id) {
                 case BookingEntity.HALL:
                     makeViews(buildHallParams());
                     break;
@@ -141,7 +144,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
             @Override
             public void onSuccess(BookingJson.Response response) {
                 if (response.data.status.equals(CreditSufficientStatus.NOT_ENOUGH)) {
-                    showTopupDialog(response.message);
+                    showTopUpDialog(response.message);
                 } else {
                     booking.bookingResponse = response;
                     ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
@@ -158,7 +161,7 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         });
     }
 
-    private void showTopupDialog(String message) {
+    private void showTopUpDialog(String message) {
         DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), message,
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
@@ -183,9 +186,8 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     @Override
     public void onSelect(Room room) {
-        booking.room = room;
         ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
-                Booking.paramKey, booking);
+                Room.paramKey, room);
     }
 
     @Click(R.id.submit_tv)

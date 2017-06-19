@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking.room;
 
+import com.jixstreet.kolla.booking.BookingJson;
 import com.jixstreet.kolla.booking.category.BookingCategory;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  */
 
 public class Room {
+    public static String paramKey = Room.class.getName().concat("1");
+
     public String id;
     public String category_id;
     public String name;

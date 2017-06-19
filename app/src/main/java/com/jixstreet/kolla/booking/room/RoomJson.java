@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
+import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -43,6 +44,9 @@ public class RoomJson extends ModelJson {
     }
 
     public static class Request extends DefaultRequest {
+        public static String paramKey = Request.class.getName().concat("1");
+        public BookingCategory bookingCategory;
+
         public String category;
         public String location;
         public String date;

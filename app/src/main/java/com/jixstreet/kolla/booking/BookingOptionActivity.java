@@ -1,5 +1,6 @@
 package com.jixstreet.kolla.booking;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
+import com.jixstreet.kolla.booking.category.BookingCategory;
 import com.jixstreet.kolla.booking.category.BookingEntity;
+import com.jixstreet.kolla.booking.room.RoomJson;
+import com.jixstreet.kolla.booking.room.RoomListActivity;
+import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -36,7 +41,6 @@ public class BookingOptionActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public static final int requestCode = ActivityUtils.getRequestCode(BookingOptionActivity.class, "1");
-    public static final String resultKey = BookingOptionActivity.class.getName().concat("1");
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -60,23 +64,27 @@ public class BookingOptionActivity extends AppCompatActivity
     protected LinearLayout moreWrapper;
 
     private Calendar certainDate;
-    private Booking booking;
+    private BookingCategory bookingCategory;
+    private Booking booking = new Booking();
 
     @AfterViews
     void onViewsCreated() {
-        booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        if (booking == null)
+        bookingCategory = ActivityUtils.getParam(this, BookingCategory.paramKey, BookingCategory.class);
+        if (bookingCategory == null) {
             finish();
+            return;
+        }
 
+        booking.bookingCategory = bookingCategory;
         setLayout();
         initCalendar();
         initView();
     }
 
     private void setLayout() {
-        if (booking.room.category != null &&
-                (booking.room.category.id.equals(BookingEntity.OFFICE) ||
-                        booking.room.category.id.equals(BookingEntity.HALL)))
+        if (bookingCategory.id != null &&
+                (bookingCategory.id.equals(BookingEntity.OFFICE) ||
+                        bookingCategory.id.equals(BookingEntity.HALL)))
             moreWrapper.setVisibility(View.GONE);
     }
 
@@ -123,17 +131,33 @@ public class BookingOptionActivity extends AppCompatActivity
     }
 
     private void collectInformation() {
-        booking.roomRequest.location = Seeder.getLocations().get(locationSpinner.getSelectedItemPosition());
-        booking.roomRequest.date = getString(R.string.date_builder,
+        RoomJson.Request request = new RoomJson.Request();
+        request.location = Seeder.getLocations().get(locationSpinner.getSelectedItemPosition());
+        request.date = getString(R.string.date_builder,
                 certainDate.get(Calendar.DAY_OF_MONTH),
                 certainDate.get(Calendar.MONTH) + 1,
                 certainDate.get(Calendar.YEAR));
-        booking.roomRequest.time = ViewUtils.getTextFromTextView(bookingTimeTv);
-        booking.roomRequest.duration = String.valueOf(durationSpinner.getSelectedItemPosition() + 1);
-        booking.roomRequest.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition() + 1);
-        booking.roomRequest.isInitial = false;
+        request.time = ViewUtils.getTextFromTextView(bookingTimeTv);
+        request.duration = String.valueOf(durationSpinner.getSelectedItemPosition() + 1);
+        request.guest = String.valueOf(guestCountSpinner.getSelectedItemPosition() + 1);
+        request.category = bookingCategory.id;
+        request.bookingCategory = bookingCategory;
+        request.isInitial = false;
 
-        ActivityUtils.returnWithResult(this, resultKey, booking.roomRequest);
+        booking.roomRequest = request;
+        ActivityUtils.startActivityWParamAndWait(this, RoomListActivity_.class,
+                Booking.paramKey, booking, RoomListActivity.requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RoomListActivity.requestCode) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
     }
 
     @Override
@@ -153,16 +177,6 @@ public class BookingOptionActivity extends AppCompatActivity
         bookingTimeTv.setText(DateUtils.getTimeStr(hourOfDay, minute, second));
         certainDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
         certainDate.set(Calendar.MINUTE, 0);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (booking.roomRequest.isInitial) {
-            setResult(RESULT_CANCELED);
-            super.onBackPressed();
-        } else {
-            collectInformation();
-        }
     }
 
     @Click(R.id.booking_date_tv)

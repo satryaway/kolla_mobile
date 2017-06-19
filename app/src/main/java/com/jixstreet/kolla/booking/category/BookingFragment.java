@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.BookingOptionActivity;
+import com.jixstreet.kolla.booking.BookingOptionActivity_;
 import com.jixstreet.kolla.booking.room.RoomListActivity;
 import com.jixstreet.kolla.booking.room.RoomListActivity_;
 import com.jixstreet.kolla.credit.GetBalanceJson;
@@ -131,7 +133,7 @@ public class BookingFragment extends Fragment implements OnCategorySelected, Swi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == RoomListActivity.requestCode ||
+            if (requestCode == BookingOptionActivity.requestCode ||
                     requestCode == TopUpListActivity.requestCode) {
                 getBalance();
             }
@@ -140,8 +142,8 @@ public class BookingFragment extends Fragment implements OnCategorySelected, Swi
 
     @Override
     public void onSelect(BookingCategory bookingCategory) {
-        ActivityUtils.startActivityWParamAndWait(this, RoomListActivity_.class,
-                BookingCategory.paramKey, bookingCategory, RoomListActivity.requestCode);
+        ActivityUtils.startActivityWParamAndWait(this, BookingOptionActivity_.class,
+                BookingCategory.paramKey, bookingCategory, BookingOptionActivity.requestCode);
     }
 
     @Click(R.id.add_credit_tv)

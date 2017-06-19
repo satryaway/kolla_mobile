@@ -14,6 +14,8 @@ import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
+import com.jixstreet.kolla.booking.BookingJson;
+import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -55,7 +57,12 @@ public class SurveyRequestOptionActivity extends AppCompatActivity implements Da
     @AfterViews
     protected void onViewsCreated() {
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
+        if (booking == null) {
+            finish();
+            return;
+        }
 
+        booking.bookingRequest = new BookingJson.Request();
         ViewUtils.setToolbar(this, toolbar);
         initCalendar();
         initSpinners();

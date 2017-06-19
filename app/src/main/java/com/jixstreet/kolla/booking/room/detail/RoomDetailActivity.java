@@ -18,6 +18,7 @@ import com.jixstreet.kolla.Seeder;
 import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity;
 import com.jixstreet.kolla.booking.BookingConfirmationActivity_;
+import com.jixstreet.kolla.booking.BookingJson;
 import com.jixstreet.kolla.booking.BookingSizeActivity;
 import com.jixstreet.kolla.booking.BookingSizeActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
@@ -67,27 +68,27 @@ public class RoomDetailActivity extends AppCompatActivity {
     @ViewById(R.id.confirm_tv)
     protected TextView bookTv;
 
-    private Room room;
+    private Booking booking;
     private RoomDetailFragment roomDetailFragment;
     private RoomFacilityFragment roomFacilityFragment;
     private RoomMapFragment roomMapFragment;
-    private Booking booking;
-
     private RoomDetailJson roomDetailJson;
 
     @AfterViews
     protected void onViewsCreated() {
-        ViewUtils.setToolbar(this, toolbar);
-
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        if (booking != null && booking.room != null) {
-            room = booking.room;
-            roomDetailJson = new RoomDetailJson(this, room.id);
-            setValue();
-            initFragments();
-            setupViewPager();
-            getRoomDetail();
+        if (booking == null) {
+            finish();
+            return;
         }
+
+        ViewUtils.setToolbar(this, toolbar);
+        roomDetailJson = new RoomDetailJson(this, booking.room.id);
+
+        setValue();
+        initFragments();
+        setupViewPager();
+        getRoomDetail();
     }
 
     @Override
@@ -97,23 +98,22 @@ public class RoomDetailActivity extends AppCompatActivity {
     }
 
     private void setValue() {
-        toolbar.setTitle(room.name);
+        toolbar.setTitle(booking.room.name);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.expandedappbar);
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsedappbar);
-        ViewUtils.setTextView(toolbarTitleTv, room.name);
-        ViewUtils.setVisibility(bookTv, room.isOnlyView ? View.GONE : View.VISIBLE);
+        ViewUtils.setTextView(toolbarTitleTv, booking.room.name);
+        ViewUtils.setVisibility(bookTv, booking.room.isOnlyView ? View.GONE : View.VISIBLE);
 
         if (booking.roomRequest.category.equals(BookingEntity.OFFICE))
             bookTv.setText(R.string.request_a_survey);
         else if (booking.roomRequest.category.equals(BookingEntity.HALL))
             bookTv.setText(R.string.booking_this_hall);
-
     }
 
     private void initFragments() {
-        roomDetailFragment = RoomDetailFragment.newInstance(room);
-        roomFacilityFragment = RoomFacilityFragment.newInstance(room);
-        roomMapFragment = RoomMapFragment.newInstance(room);
+        roomDetailFragment = RoomDetailFragment.newInstance(booking.room);
+        roomFacilityFragment = RoomFacilityFragment.newInstance(booking.room);
+        roomMapFragment = RoomMapFragment.newInstance(booking.room);
     }
 
     private void setupViewPager() {
@@ -135,8 +135,7 @@ public class RoomDetailActivity extends AppCompatActivity {
         roomDetailJson.getRoomDetail(new OnGetRoomDetail() {
             @Override
             public void onSuccess(RoomDetailJson.Response response) {
-                room = response.data;
-                booking.room = room;
+                booking.room = response.data;
                 refreshFragments();
             }
 
@@ -149,24 +148,29 @@ public class RoomDetailActivity extends AppCompatActivity {
     }
 
     private void refreshFragments() {
-        roomDetailFragment.setValue(room);
-        roomFacilityFragment.setValue(room);
-        roomMapFragment.setValue(room);
+        roomDetailFragment.setValue(booking.room);
+        roomFacilityFragment.setValue(booking.room);
+        roomMapFragment.setValue(booking.room);
     }
 
     @Click(R.id.confirm_tv)
     void bookThisSpace() {
-        Class destinationClass = BookingConfirmationActivity_.class;
-        int requestCode = BookingConfirmationActivity.requestCode;
+        Class destinationClass;
+        int requestCode;
 
-        switch (booking.roomRequest.category) {
-            case BookingEntity.HALL :
+        switch (booking.bookingCategory.id) {
+            case BookingEntity.HALL:
                 destinationClass = BookingSizeActivity_.class;
                 requestCode = BookingSizeActivity.requestCode;
                 break;
-            case BookingEntity.OFFICE :
+            case BookingEntity.OFFICE:
                 destinationClass = SurveyRequestOptionActivity_.class;
                 requestCode = SurveyRequestOptionActivity.requestCode;
+                break;
+            default:
+                collectBookingRequest();
+                destinationClass = BookingConfirmationActivity_.class;
+                requestCode = BookingConfirmationActivity.requestCode;
                 break;
         }
 
@@ -174,6 +178,17 @@ public class RoomDetailActivity extends AppCompatActivity {
                 destinationClass,
                 Booking.paramKey, booking,
                 requestCode);
+    }
+
+    private void collectBookingRequest() {
+        BookingJson.Request request = new BookingJson.Request();
+        request.location = booking.roomRequest.location;
+        request.date = booking.roomRequest.date;
+        request.time = booking.roomRequest.time;
+        request.duration = booking.roomRequest.duration;
+        request.guest = booking.roomRequest.guest;
+
+        booking.bookingRequest = request;
     }
 
     @Override

@@ -41,21 +41,23 @@ public class BookingSuccessActivity extends AppCompatActivity implements OnRoomS
 
     @AfterViews
     protected void onViewsCreated() {
-        ViewUtils.setToolbarNoUpButton(this, toolbar);
-
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        if (booking != null) {
-            setValue();
+        if (booking == null) {
+            finish();
+            return;
         }
+
+        ViewUtils.setToolbarNoUpButton(this, toolbar);
+        setValue();
     }
 
     private void setValue() {
-        if (booking.room != null && booking.bookingRequest != null) {
+        if (booking != null && booking.bookingRequest != null) {
             roomView.setRoom(booking.room);
             roomView.setOnRoomSelected(this);
             roomView.setIsOnlyView(true);
 
-            switch (booking.room.category.id) {
+            switch (booking.bookingCategory.id) {
                 case BookingEntity.HALL:
                     makeViews(buildHallParams());
                     break;
@@ -128,9 +130,8 @@ public class BookingSuccessActivity extends AppCompatActivity implements OnRoomS
 
     @Override
     public void onSelect(Room room) {
-        booking.room = room;
         ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
-                Booking.paramKey, booking);
+                Room.paramKey, room);
     }
 
     @Click(R.id.back_tv)

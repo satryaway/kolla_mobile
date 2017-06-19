@@ -48,6 +48,7 @@ public class BookingJson extends ModelJson {
         public String booking_type;
         public String full_name;
         public String payment_type;
+        public String location;
 
         @Override
         public ArrayList<Pair<String, String>> getParams() {
