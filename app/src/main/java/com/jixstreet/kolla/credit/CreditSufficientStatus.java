@@ -7,4 +7,5 @@ package com.jixstreet.kolla.credit;
 
 public class CreditSufficientStatus {
     public static final String ENOUGH = "ENOUGH";
+    public static final String NOT_ENOUGH = "NOT ENOUGH";
 }

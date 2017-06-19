@@ -15,13 +15,8 @@ import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomView;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
-import com.jixstreet.kolla.credit.CheckBalanceJson;
 import com.jixstreet.kolla.credit.CreditSufficientStatus;
-import com.jixstreet.kolla.credit.OnCheckBalance;
-import com.jixstreet.kolla.event.EventBookingConfirmationActivity;
 import com.jixstreet.kolla.library.Callback;
-import com.jixstreet.kolla.payment.KollaPaymentJson;
-import com.jixstreet.kolla.payment.OnKollaPay;
 import com.jixstreet.kolla.payment.PaymentType;
 import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
@@ -52,15 +47,12 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     public static String paramKey = BookingConfirmationActivity.class.getName().concat("1");
     private Booking booking;
-    private CheckBalanceJson checkBalanceJson;
     private BookingJson bookingJson;
-    private KollaPaymentJson kollaPaymentJson;
 
     @AfterViews
     protected void onViewsCreated() {
         ViewUtils.setToolbar(this, toolbar);
         booking = ActivityUtils.getParam(this, Booking.paramKey, Booking.class);
-        checkBalanceJson = new CheckBalanceJson(this);
         bookingJson = new BookingJson(this, booking.room.id);
         if (booking != null) {
             setValue();
@@ -144,42 +136,18 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         return params;
     }
 
-    private void checkBalance() {
-        CheckBalanceJson.Request request = new CheckBalanceJson.Request();
-        request.room_id = booking.room.id;
-        checkBalanceJson.get(request, new OnCheckBalance() {
-            @Override
-            public void onSuccess(CheckBalanceJson.Response response) {
-                if (response.data.status.equals(CreditSufficientStatus.ENOUGH)) {
-                    //TODO : If enough, do booking!
-                    doBooking();
-                } else {
-                    showTopupDialog(response);
-                }
-            }
-
-            @Override
-            public void onFailure(String message) {
-                DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this,
-                        ViewUtils.getRootView(BookingConfirmationActivity.this), message);
-            }
-        });
-    }
-
     private void doBooking() {
         bookingJson.setBooking(booking.bookingRequest, new OnBooking() {
             @Override
             public void onSuccess(BookingJson.Response response) {
-                booking.bookingResponse = response;
-                if (booking.room.category.id.equals(BookingEntity.COMMON_SPACE)
-                        || booking.room.category.id.equals(BookingEntity.MEETING_ROOM)) {
-                    payWithKolla(response);
-                    return;
+                if (response.data.status.equals(CreditSufficientStatus.NOT_ENOUGH)) {
+                    showTopupDialog(response.message);
+                } else {
+                    booking.bookingResponse = response;
+                    ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
+                            BookingSuccessActivity_.class, Booking.paramKey, booking,
+                            BookingSuccessActivity.requestCode);
                 }
-
-                ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
-                        BookingSuccessActivity_.class, Booking.paramKey, booking,
-                        BookingSuccessActivity.requestCode);
             }
 
             @Override
@@ -190,26 +158,8 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
         });
     }
 
-    private void payWithKolla(BookingJson.Response response) {
-        kollaPaymentJson = new KollaPaymentJson(BookingConfirmationActivity.this, response.data.id);
-        kollaPaymentJson.payWithKolla(new OnKollaPay() {
-            @Override
-            public void onSuccess(KollaPaymentJson.Response response) {
-                booking.kollaPaymentResponse = response;
-                ActivityUtils.startActivityWParamAndWait(BookingConfirmationActivity.this,
-                        BookingSuccessActivity_.class, Booking.paramKey, booking,
-                        BookingSuccessActivity.requestCode);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                DialogUtils.makeSnackBar(CommonConstant.failed, BookingConfirmationActivity.this, message);
-            }
-        });
-    }
-
-    private void showTopupDialog(CheckBalanceJson.Response response) {
-        DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), response.message,
+    private void showTopupDialog(String message) {
+        DialogUtils.makeTwoButtonDialog(this, getString(R.string.insufficient_balance), message,
                 getString(R.string.top_up_kolla_credit), getString(R.string.cancel), new Callback<Boolean>() {
                     @Override
                     public void run(@Nullable DialogInterface dialog, @Nullable Boolean param) {
@@ -240,14 +190,6 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     @Click(R.id.submit_tv)
     protected void submitBooking() {
-        switch (booking.room.category.id) {
-            case BookingEntity.HALL:
-            case BookingEntity.OFFICE:
-                doBooking();
-                break;
-            default:
-                checkBalance();
-                break;
-        }
+        doBooking();
     }
 }
