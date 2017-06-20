@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.booking.category.BookingFragment;
 import com.jixstreet.kolla.event.EventFragment;
 import com.jixstreet.kolla.news.NewsFragment;
+import com.jixstreet.kolla.profile.ProfileFragment;
 import com.jixstreet.kolla.topup.TopUpListActivity;
 import com.jixstreet.kolla.topup.TopUpListActivity_;
 import com.jixstreet.kolla.utility.ActivityUtils;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private static final String BOOKING = "booking";
     private static final String EVENT = "event";
     private static final String NEWS = "news";
+    private static final String PROFILE = "profile";
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private BookingFragment bookingFragment;
     private NewsFragment newsFragment;
     private EventFragment eventFragment;
+    private ProfileFragment profileFragment;
 
     @AfterViews
     void onViewsCreated() {
@@ -208,6 +211,11 @@ public class MainActivity extends AppCompatActivity
         boolean isTransparent = false;
 
         if (id == R.id.action_profile) {
+            if (profileFragment == null)
+                profileFragment = ProfileFragment.newInstance();
+            fragment = profileFragment;
+            toolbarTitle = getString(R.string.profile);
+            tag = PROFILE;
         } else if (id == R.id.action_settings) {
 
         } else if (id == R.id.action_help) {

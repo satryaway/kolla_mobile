@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
+import com.jixstreet.kolla.model.Balance;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -54,7 +55,7 @@ public class CheckBalanceJson extends ModelJson {
     }
 
     public static class Response extends DefaultResponse {
-        public GetBalanceJson.Data data;
+        public Balance data;
     }
 
     public void get(Request request, OnCheckBalance onCheckBalance) {

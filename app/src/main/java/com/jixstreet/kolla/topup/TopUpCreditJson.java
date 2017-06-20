@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 
 import com.jixstreet.kolla.credit.GetBalanceJson;
+import com.jixstreet.kolla.model.Balance;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -61,7 +62,7 @@ public class TopUpCreditJson extends ModelJson {
     }
 
     public static class Response extends DefaultResponse {
-        public GetBalanceJson.Data data;
+        public Balance data;
     }
 
     public void post(Request request, OnTopUp onTopUp) {

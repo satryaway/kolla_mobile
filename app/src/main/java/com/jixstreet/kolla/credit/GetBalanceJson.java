@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.jixstreet.kolla.model.Balance;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -36,17 +37,7 @@ public class GetBalanceJson extends ModelJson {
     }
 
     public static class Response extends DefaultResponse {
-        public Data data;
-    }
-
-    public class Data {
-        public String user_id;
-        public String main_credit;
-        public String bonus_credit;
-        public String notes;
-        public String created_at;
-        public String updated_at;
-        public String status;
+        public Balance data;
     }
 
     public void get(OnGetBalance onGetBalance) {
