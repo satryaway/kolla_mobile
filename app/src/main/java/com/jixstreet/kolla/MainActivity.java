@@ -1,9 +1,11 @@
 package com.jixstreet.kolla;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -22,7 +24,13 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.booking.category.BookingFragment;
 import com.jixstreet.kolla.event.EventFragment;
+import com.jixstreet.kolla.intro.IntroActivity_;
+import com.jixstreet.kolla.library.Callback;
+import com.jixstreet.kolla.login.LoginJson;
+import com.jixstreet.kolla.logout.LogOutJson;
+import com.jixstreet.kolla.logout.OnLogOut;
 import com.jixstreet.kolla.news.NewsFragment;
+import com.jixstreet.kolla.parent.DefaultResponse;
 import com.jixstreet.kolla.profile.ProfileFragment;
 import com.jixstreet.kolla.topup.TopUpListActivity;
 import com.jixstreet.kolla.topup.TopUpListActivity_;
@@ -144,6 +152,8 @@ public class MainActivity extends AppCompatActivity
                 if (id == R.id.action_credit) {
                     ActivityUtils.startActivityAndWait(MainActivity.this, TopUpListActivity_.class,
                             TopUpListActivity.requestCode);
+                } else if (id == R.id.action_logout) {
+                    showLogoutConfirmation();
                 }
 
                 drawer.closeDrawer(GravityCompat.START);
@@ -220,8 +230,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.action_help) {
 
-        } else if (id == R.id.action_logout) {
-
         } else if (id == R.id.action_credit) {
             ActivityUtils.startActivityAndWait(this, TopUpListActivity_.class,
                     TopUpListActivity.requestCode);
@@ -258,6 +266,32 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showLogoutConfirmation() {
+        DialogUtils.makeTwoButtonDialog(this, getString(R.string.confirmation),
+                getString(R.string.logout_message_confirmation), getString(R.string.log_out),
+                getString(R.string.cancel), new Callback<Boolean>() {
+                    @Override
+                    public void run(@Nullable DialogInterface dialog, @Nullable Boolean param) {
+                        if (param) {
+                            new LogOutJson(MainActivity.this).logOut(new OnLogOut() {
+                                @Override
+                                public void onSuccess(DefaultResponse response) {
+                                    LoginJson.Response.clearAccessToken(MainActivity.this);
+                                    ActivityUtils.returnClearTopFinish(MainActivity.this, IntroActivity_.class);
+                                }
+
+                                @Override
+                                public void onFailure(String message) {
+                                    DialogUtils.makeSnackBar(CommonConstant.failed, MainActivity.this, message);
+                                }
+                            });
+                        } else {
+                            dialog.dismiss();
+                        }
+                    }
+                });
     }
 
     @Override

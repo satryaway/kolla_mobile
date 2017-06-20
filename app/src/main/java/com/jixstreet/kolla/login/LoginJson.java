@@ -69,7 +69,7 @@ public class LoginJson extends ModelJson {
         }
 
         public static void clearAccessToken(Context ctx) {
-            CPrefs.write(ctx, PrefKey, null, String.class);
+            CPrefs.write(ctx, LoginJson.PrefKey, null, String.class);
         }
 
         public static String getAccessToken(Context ctx) {
