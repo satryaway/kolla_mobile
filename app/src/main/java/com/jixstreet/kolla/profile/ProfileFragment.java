@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.model.UserData;
+import com.jixstreet.kolla.profile.detail.ProfileDetailFragment;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -50,6 +51,8 @@ public class ProfileFragment extends Fragment {
     @ViewById(R.id.job_tv)
     protected TextView jobTv;
 
+    private UserData userData;
+
     public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment_();
@@ -59,12 +62,12 @@ public class ProfileFragment extends Fragment {
 
     @AfterViews
     protected void onViewsCreated() {
-        setupViewPager();
         setValue();
+        setupViewPager();
     }
 
     private void setValue() {
-        UserData userData = LoginJson.Response.getUserData(getActivity());
+        userData = LoginJson.Response.getUserData(getActivity());
         ViewUtils.setTextView(nameTv, userData.name);
         ViewUtils.setTextView(jobTv, userData.job_title);
         ImageUtils.loadImageRound(getActivity(), userData.profile_picture, profileImageIv);
@@ -72,11 +75,10 @@ public class ProfileFragment extends Fragment {
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(ProfileDetailFragment.newInstance(), getString(R.string.detail));
-        adapter.addFragment(ProfileDetailFragment.newInstance(), getString(R.string.detail));
-        adapter.addFragment(ProfileDetailFragment.newInstance(), getString(R.string.detail));
-        adapter.addFragment(ProfileDetailFragment.newInstance(), getString(R.string.detail));
-        adapter.addFragment(ProfileDetailFragment.newInstance(), getString(R.string.detail));
+        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
 
         viewPager.setOffscreenPageLimit(adapter.mFragmentList.size());
         viewPager.setAdapter(adapter);
