@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "218762500333",
+    "firebase_url": "https://kolla-mobile-8e3fe.firebaseio.com",
+    "project_id": "kolla-mobile-8e3fe",
+    "storage_bucket": "kolla-mobile-8e3fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218762500333:android:d18b7516d642546c",
+        "android_client_info": {
+          "package_name": "com.jixstreet.kolla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218762500333-4feeogfqg1d7afdrpdcac55cr3upkpoo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jixstreet.kolla",
+            "certificate_hash": "bfea000c6dbad495089688c05ff914ff1a08f492"
+          }
+        },
+        {
+          "client_id": "218762500333-fl3l0qeg3vpim7l92dfp6m996i95i50m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASp3c27gZoiqQn6onHV2kDY7APleo7VnE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "218762500333-fl3l0qeg3vpim7l92dfp6m996i95i50m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
