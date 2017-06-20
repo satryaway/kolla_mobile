@@ -34,9 +34,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@+id/appbar"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/relativeLayout"
-        android:layout_height="wrap_content">
+        android:layout_below="@+id/appbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,21 +55,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/event_name" />
 
-                    <EditText
-                        android:id="@+id/event_name_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/gray_border_layout"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="8dp"
-                        android:textSize="@dimen/medium_text"
-                        android:inputType="text"
-                        android:textColorHint="@color/disabled_text"
-                        android:hint="@string/your_event_name_here"
-                        android:textColor="@android:color/black" />
+                <EditText
+                    android:id="@+id/event_name_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/gray_border_layout"
+                    android:hint="@string/your_event_name_here"
+                    android:inputType="text"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="8dp"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/disabled_text"
+                    android:textSize="@dimen/medium_text" />
             </LinearLayout>
 
             <LinearLayout
@@ -219,14 +219,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/gray_border_layout"
+                    android:inputType="number"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="8dp"
                     android:paddingTop="8dp"
-                    android:inputType="number"
+                    android:textColor="@android:color/black"
                     android:textColorHint="@color/disabled_text"
-                    android:hint="@string/dummy_pax"
-                    android:textColor="@android:color/black" />
+                    tools:hint="@string/dummy_pax" />
             </LinearLayout>
 
             <LinearLayout

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.Seeder;
-import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -129,12 +128,6 @@ public class BookingSizeActivity extends AppCompatActivity implements DatePicker
         if (ViewUtils.getTextFromEditText(paxEt).isEmpty()) {
             ViewUtils.setError(paxEt, getString(R.string.field_required));
             return false;
-        } else {
-            int inputtedPax = Integer.valueOf(ViewUtils.getTextFromEditText(paxEt));
-            if (inputtedPax < minPax) {
-                ViewUtils.setError(paxEt, getString(R.string.minimum_pax_is_s, booking.room.size));
-                return false;
-            }
         }
 
         booking.bookingRequest.event_name = ViewUtils.getTextFromEditText(eventNameEt);

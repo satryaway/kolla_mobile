@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.booking.Booking;
+import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
 import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
@@ -84,6 +85,10 @@ public class RoomListActivity extends AppCompatActivity implements
         roomRv.setLayoutManager(layoutManager);
         roomRv.setItemAnimator(new DefaultItemAnimator());
         roomRv.addOnScrollListener(scrollListener);
+
+        if (booking.bookingCategory.id.equals(BookingEntity.COMMON_SPACE)
+                || booking.bookingCategory.id.equals(BookingEntity.MEETING_ROOM))
+            roomListAdapter.setAvailableSeatCount(booking.roomRequest.guest);
 
         roomRv.setAdapter(roomListAdapter);
     }

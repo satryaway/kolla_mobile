@@ -27,6 +27,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private BookingCategory bookingCategory = new BookingCategory();
     private int lastPosition = -1;
     private OnRoomSelected onRoomSelected;
+    private String size;
 
     public RoomListAdapter(Context context) {
         this.context = context;
@@ -46,6 +47,9 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof RoomViewHolder) {
             ((RoomViewHolder) holder).getView().setRoom(list.get(position - 1));
             ((RoomViewHolder) holder).getView().setOnRoomSelected(onRoomSelected);
+            if (size != null)
+                ((RoomViewHolder) holder).getView().setColorCount(size);
+
             setAnimation(holder.itemView, position);
         } else if (holder instanceof RoomHeaderViewHolder) {
             ((RoomHeaderViewHolder) holder).getView().setBookingCategory(bookingCategory);
@@ -104,6 +108,10 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setOnRoomSelected(OnRoomSelected onRoomSelected) {
         this.onRoomSelected = onRoomSelected;
+    }
+
+    public void setAvailableSeatCount(String size) {
+        this.size = size;
     }
 
     public class RoomViewHolder extends RecyclerView.ViewHolder {

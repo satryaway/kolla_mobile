@@ -24,7 +24,6 @@ import com.jixstreet.kolla.booking.BookingSizeActivity_;
 import com.jixstreet.kolla.booking.category.BookingEntity;
 import com.jixstreet.kolla.booking.office.SurveyRequestOptionActivity;
 import com.jixstreet.kolla.booking.office.SurveyRequestOptionActivity_;
-import com.jixstreet.kolla.booking.room.Room;
 import com.jixstreet.kolla.booking.room.RoomDetailJson;
 import com.jixstreet.kolla.booking.room.detail.description.RoomDetailFragment;
 import com.jixstreet.kolla.booking.room.detail.facility.RoomFacilityFragment;
@@ -104,9 +103,9 @@ public class RoomDetailActivity extends AppCompatActivity {
         ViewUtils.setTextView(toolbarTitleTv, booking.room.name);
         ViewUtils.setVisibility(bookTv, booking.room.isOnlyView ? View.GONE : View.VISIBLE);
 
-        if (booking.roomRequest.category.equals(BookingEntity.OFFICE))
+        if (booking.room.category_id.equals(BookingEntity.OFFICE))
             bookTv.setText(R.string.request_a_survey);
-        else if (booking.roomRequest.category.equals(BookingEntity.HALL))
+        else if (booking.room.category_id.equals(BookingEntity.HALL))
             bookTv.setText(R.string.booking_this_hall);
     }
 

@@ -1,6 +1,7 @@
 package com.jixstreet.kolla.booking.room;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -35,6 +36,9 @@ public class RoomView extends RelativeLayout {
     @ViewById(R.id.full_booked_state_tv)
     protected TextView fullBookedStateTv;
 
+    @ViewById(R.id.warning_iv)
+    protected ImageView warningIv;
+
     private OnRoomSelected onRoomSelected;
 
     private Room room;
@@ -60,13 +64,21 @@ public class RoomView extends RelativeLayout {
         seatCountTv.setText(getContext().getString(R.string.seat_available, room.size, room.measurement));
         roomDescriptionTv.setText(room.description);
         roomTitleTv.setText(room.name);
-        if (room.isFullBooked) {
+        if (room.size.equals("0")) {
+            room.isOnlyView = true;
             fullBookedStateTv.setVisibility(VISIBLE);
             seatCountTv.setVisibility(GONE);
         } else {
             fullBookedStateTv.setVisibility(GONE);
             seatCountTv.setVisibility(VISIBLE);
         }
+    }
+
+    public void setColorCount(String expectedSize) {
+        int expectedSizeCount = Integer.valueOf(expectedSize);
+        int availableSizeCount = Integer.valueOf(room.size);
+        warningIv.setVisibility(expectedSizeCount < availableSizeCount ? GONE : VISIBLE);
+
     }
 
     public void setOnRoomSelected(OnRoomSelected onRoomSelected) {

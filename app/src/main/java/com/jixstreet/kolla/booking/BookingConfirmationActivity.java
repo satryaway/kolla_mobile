@@ -186,8 +186,10 @@ public class BookingConfirmationActivity extends AppCompatActivity implements On
 
     @Override
     public void onSelect(Room room) {
+        Booking booking = new Booking();
+        booking.room = room;
         ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
-                Room.paramKey, room);
+                Booking.paramKey, booking);
     }
 
     @Click(R.id.submit_tv)

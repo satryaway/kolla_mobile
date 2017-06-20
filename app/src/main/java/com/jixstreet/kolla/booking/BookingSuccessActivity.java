@@ -130,8 +130,10 @@ public class BookingSuccessActivity extends AppCompatActivity implements OnRoomS
 
     @Override
     public void onSelect(Room room) {
+        Booking booking = new Booking();
+        booking.room = room;
         ActivityUtils.startActivityWParam(this, RoomDetailActivity_.class,
-                Room.paramKey, room);
+                Booking.paramKey, booking);
     }
 
     @Click(R.id.back_tv)

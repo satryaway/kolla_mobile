@@ -17,6 +17,7 @@
     <color name="default_ripple">#c9c9c9</color>
     <color name="transparent_bg_90">#E6000000</color>
     <color name="transparent_primary_90">#e6FF9800</color>
+    <color name="transparent_green_90">#e664dd17</color>
     <color name="transparent_primary_50">#7bFF9800</color>
     <color name="transparent_primary_25">#41FF9800</color>
     <color name="black_alpha_40">#66000000</color>

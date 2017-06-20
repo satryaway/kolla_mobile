@@ -113,7 +113,7 @@
     <string name="booking_type">Booking Type</string>
     <string name="event_name">Event Name</string>
     <string name="your_event_name_here">Your event name here…</string>
-    <string name="number_of_pax_s">Number of Pax (Min. %s)</string>
+    <string name="number_of_pax_s">Number of Pax (Max. %s)</string>
     <string name="dummy_pax">50</string>
     <string name="next">Next</string>
     <string name="payment_type">Payment Type</string>
