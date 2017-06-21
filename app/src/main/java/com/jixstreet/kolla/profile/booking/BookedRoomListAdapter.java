@@ -8,7 +8,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.booking.category.BookingCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ public class BookedRoomListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ((RoomViewHolder) holder).getView().setRoom(list.get(position));
         ((RoomViewHolder) holder).getView().setOnRoomSelected(onRoomSelected);
         if (size != null)
-            ((RoomViewHolder) holder).getView().setColorCount(size);
+            ((RoomViewHolder) holder).getView().setWarning(size);
 
         setAnimation(holder.itemView, position);
     }

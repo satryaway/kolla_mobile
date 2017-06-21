@@ -175,4 +175,5 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="space">Space</string>
     <string name="logout_message_confirmation">Are you sure want to log out?</string>
+    <string name="booking_s">Booking (%s)</string>
 </resources>

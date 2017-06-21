@@ -74,7 +74,7 @@ public class RoomView extends RelativeLayout {
         }
     }
 
-    public void setColorCount(String expectedSize) {
+    public void setWarning(String expectedSize) {
         int expectedSizeCount = Integer.valueOf(expectedSize);
         int availableSizeCount = Integer.valueOf(room.size);
         warningIv.setVisibility(expectedSizeCount < availableSizeCount ? GONE : VISIBLE);

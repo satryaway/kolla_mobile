@@ -48,7 +48,7 @@ public class RoomListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((RoomViewHolder) holder).getView().setRoom(list.get(position - 1));
             ((RoomViewHolder) holder).getView().setOnRoomSelected(onRoomSelected);
             if (size != null)
-                ((RoomViewHolder) holder).getView().setColorCount(size);
+                ((RoomViewHolder) holder).getView().setWarning(size);
 
             setAnimation(holder.itemView, position);
         } else if (holder instanceof RoomHeaderViewHolder) {

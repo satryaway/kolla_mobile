@@ -9,12 +9,16 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.booking.Booking;
 import com.jixstreet.kolla.booking.room.BookedRoomListAdapter;
 import com.jixstreet.kolla.booking.room.OnRoomSelected;
 import com.jixstreet.kolla.booking.room.Room;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity;
+import com.jixstreet.kolla.booking.room.detail.RoomDetailActivity_;
 import com.jixstreet.kolla.model.BookedRoom;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -48,7 +52,7 @@ public class BookedRoomFragment extends Fragment implements SwipeRefreshLayout.O
     private EndlessRecyclerViewScrollListener scrollListener;
     private BookedRoomListAdapter roomListAdapter;
     private BookedRoomJson bookedRoomJson;
-    private UserData userData;
+    private OnGetBookedRoomDoneListener onGetBookedRoomDoneListener;
 
     public static BookedRoomFragment newInstance(UserData userData) {
         Bundle args = new Bundle();
@@ -60,7 +64,7 @@ public class BookedRoomFragment extends Fragment implements SwipeRefreshLayout.O
 
     @AfterViews
     protected void onViewsCreated() {
-        userData = CastUtils.fromString(getArguments().getString(ROOM), UserData.class);
+        UserData userData = CastUtils.fromString(getArguments().getString(ROOM), UserData.class);
         if (userData != null) {
             bookedRoomJson = new BookedRoomJson(getActivity(), userData.id);
             initAdapter();
@@ -75,7 +79,6 @@ public class BookedRoomFragment extends Fragment implements SwipeRefreshLayout.O
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
 
-//        listRv.setNestedScrollingEnabled(false);
         listRv.setClipToPadding(true);
         listRv.setLayoutManager(layoutManager);
         listRv.setItemAnimator(new DefaultItemAnimator());
@@ -93,12 +96,15 @@ public class BookedRoomFragment extends Fragment implements SwipeRefreshLayout.O
         };
     }
 
-    private void getData(int page) {
+    private void getData(final int page) {
         BookedRoomJson.Request request = new BookedRoomJson.Request();
         request.page = String.valueOf(page);
         bookedRoomJson.get(request, new OnGetBookedRooms() {
             @Override
             public void onSuccess(BookedRoomJson.Response response) {
+                if(page == 1) {
+                    onGetBookedRoomDoneListener.onGetBookedRoom(response.data.total);
+                }
                 refreshWrapper.setRefreshing(false);
                 setValue(getRooms(response.data.data));
             }
@@ -136,6 +142,19 @@ public class BookedRoomFragment extends Fragment implements SwipeRefreshLayout.O
 
     @Override
     public void onSelect(Room room) {
+        Booking booking = new Booking();
+        room.isOnlyView = true;
+        booking.room = room;
 
+        ActivityUtils.startActivityWParamAndWait(this, RoomDetailActivity_.class,
+                Booking.paramKey, booking, RoomDetailActivity.requestCode);
+    }
+
+    public interface OnGetBookedRoomDoneListener {
+        void onGetBookedRoom(String total);
+    }
+
+    public void setOnGetBookedRoomDoneListener(OnGetBookedRoomDoneListener onGetBookedRoomDoneListener) {
+        this.onGetBookedRoomDoneListener = onGetBookedRoomDoneListener;
     }
 }

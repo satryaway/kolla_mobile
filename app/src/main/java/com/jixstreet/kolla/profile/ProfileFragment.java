@@ -30,7 +30,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 @EFragment(R.layout.fragment_profile)
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGetBookedRoomDoneListener {
+    private static final int BOOKING_SECTION = 1;
     @ViewById(R.id.tabs)
     protected TabLayout tabs;
 
@@ -53,6 +54,7 @@ public class ProfileFragment extends Fragment {
     protected TextView jobTv;
 
     private UserData userData;
+    private BookedRoomFragment bookedRoomFragment;
 
     public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -64,6 +66,7 @@ public class ProfileFragment extends Fragment {
     @AfterViews
     protected void onViewsCreated() {
         setValue();
+        initFragments();
         setupViewPager();
     }
 
@@ -74,16 +77,29 @@ public class ProfileFragment extends Fragment {
         ImageUtils.loadImageRound(getActivity(), userData.profile_picture, profileImageIv);
     }
 
+    private void initFragments() {
+        bookedRoomFragment = BookedRoomFragment.newInstance(userData);
+        bookedRoomFragment.setOnGetBookedRoomDoneListener(this);
+    }
+
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
-        adapter.addFragment(BookedRoomFragment.newInstance(userData), getString(R.string.booking));
+        adapter.addFragment(bookedRoomFragment, getString(R.string.booking));
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
 
         viewPager.setOffscreenPageLimit(adapter.mFragmentList.size());
         viewPager.setAdapter(adapter);
         tabs.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onGetBookedRoom(String total) {
+        if (tabs != null) {
+            tabs.getTabAt(BOOKING_SECTION).setText(getString(R.string.booking_s, total));
+            ViewUtils.setTextView(spaceCountTv, total);
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
