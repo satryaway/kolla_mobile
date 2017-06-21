@@ -15,6 +15,7 @@ import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.profile.booking.BookedRoomFragment;
 import com.jixstreet.kolla.profile.detail.ProfileDetailFragment;
+import com.jixstreet.kolla.profile.event.BookedEventFragment;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -30,8 +31,10 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 @EFragment(R.layout.fragment_profile)
-public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGetBookedRoomDoneListener {
+public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGetBookedRoomDoneListener,
+        BookedEventFragment.OnGetBookedEventListener{
     private static final int BOOKING_SECTION = 1;
+    private static final int EVENT_SECTION = 2;
     @ViewById(R.id.tabs)
     protected TabLayout tabs;
 
@@ -55,6 +58,7 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
 
     private UserData userData;
     private BookedRoomFragment bookedRoomFragment;
+    private BookedEventFragment bookedEventFragment;
 
     public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -80,13 +84,16 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
     private void initFragments() {
         bookedRoomFragment = BookedRoomFragment.newInstance(userData);
         bookedRoomFragment.setOnGetBookedRoomDoneListener(this);
+
+        bookedEventFragment = BookedEventFragment.newInstance(userData);
+        bookedEventFragment.setOnGetBookedEventListener(this);
     }
 
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
         adapter.addFragment(bookedRoomFragment, getString(R.string.booking));
-        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(bookedEventFragment, getString(R.string.events));
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
 
         viewPager.setOffscreenPageLimit(adapter.mFragmentList.size());
@@ -98,8 +105,16 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
     public void onGetBookedRoom(String total) {
         if (tabs != null) {
             tabs.getTabAt(BOOKING_SECTION).setText(getString(R.string.booking_s, total));
-            ViewUtils.setTextView(spaceCountTv, total);
         }
+        ViewUtils.setTextView(spaceCountTv, total);
+    }
+
+    @Override
+    public void onGetBookedEvent(String total) {
+        if (tabs != null) {
+            tabs.getTabAt(EVENT_SECTION).setText(getString(R.string.event_s, total));
+        }
+        ViewUtils.setTextView(eventCountTv, total);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

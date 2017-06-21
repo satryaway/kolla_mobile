@@ -160,7 +160,7 @@ public class EventDetailActivity extends AppCompatActivity
         ViewUtils.setTextView(notesTv, event.notes);
         ViewUtils.setTextView(titleTv, event.name);
 
-        if (event.images.size() > 0)
+        if (event.images != null && event.images.size() > 0)
             ImageUtils.loadImage(this, event.images.get(0).file, eventImageIv);
     }
 

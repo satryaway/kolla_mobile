@@ -78,7 +78,7 @@ public class EventView extends RelativeLayout {
         ViewUtils.setTextViewByVisibility(notesTv, item.notes);
         ViewUtils.setVisibility(soldOutTv, item.notes.equals(SOLD_OUT) ? VISIBLE : GONE);
 
-        if (item.images.size() > 0)
+        if (item.images != null && item.images.size() > 0)
             ImageUtils.loadImage(context, item.images.get(0).file, eventImageIv);
     }
 
