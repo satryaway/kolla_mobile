@@ -124,8 +124,7 @@ public class RoomListActivity extends AppCompatActivity implements
                     if (refreshWrapper != null)
                         refreshWrapper.setRefreshing(false);
 
-                    DialogUtils.makeSnackBar(CommonConstant.failed, RoomListActivity.this,
-                            getWindow().getDecorView(), message);
+                    DialogUtils.makeSnackBar(CommonConstant.failed, RoomListActivity.this, message);
                 }
             });
         }

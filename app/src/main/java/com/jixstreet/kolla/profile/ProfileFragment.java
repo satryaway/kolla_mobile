@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.model.UserData;
+import com.jixstreet.kolla.profile.booking.BookedRoomFragment;
 import com.jixstreet.kolla.profile.detail.ProfileDetailFragment;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -76,7 +77,7 @@ public class ProfileFragment extends Fragment {
     private void setupViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
-        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(BookedRoomFragment.newInstance(userData), getString(R.string.booking));
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
 

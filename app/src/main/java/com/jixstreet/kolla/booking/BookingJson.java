@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Pair;
 
+import com.jixstreet.kolla.model.BookedRoom;
 import com.jixstreet.kolla.network.OnFinishedCallback;
 import com.jixstreet.kolla.network.ProgressOkHttp;
 import com.jixstreet.kolla.network.RStatus;
@@ -67,26 +68,7 @@ public class BookingJson extends ModelJson {
     }
 
     public static class Response extends DefaultResponse {
-        public Data data;
-
-        public class Data {
-            public String user_id;
-            public String room_id;
-            public String date;
-            public String start_time;
-            public String end_time;
-            public String duration;
-            public String total_guests;
-            public String price;
-            public String price_type;
-            public String status;
-            public String full_name;
-            public String event_name;
-            public String booking_type;
-            public String created_at;
-            public String updated_at;
-            public String id;
-        }
+        public BookedRoom data;
     }
 
     public void setBooking(Request request, OnBooking onBooking) {
