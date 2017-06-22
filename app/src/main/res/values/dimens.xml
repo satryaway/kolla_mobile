@@ -16,4 +16,5 @@
     <dimen name="room_detail_header_size">256dp</dimen>
     <dimen name="tab_layout_height">48dp</dimen>
     <dimen name="friend_thumb_size">72dp</dimen>
+    <dimen name="profile_image_size">112dp</dimen>
 </resources>

@@ -179,4 +179,6 @@
     <string name="event_s">Event (%s)</string>
     <string name="following">Following</string>
     <string name="following_s">Following (%s)</string>
+    <string name="view_profile">View Profile</string>
+    <string name="follow">Follow</string>
 </resources>
