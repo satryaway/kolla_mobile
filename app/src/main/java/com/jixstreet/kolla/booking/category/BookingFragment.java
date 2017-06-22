@@ -94,8 +94,10 @@ public class BookingFragment extends Fragment implements OnCategorySelected, Swi
 
             @Override
             public void onFailure(String message) {
-                swipeRefreshLayout.setRefreshing(false);
-                DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+                if (swipeRefreshLayout != null && getActivity() != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    DialogUtils.makeSnackBar(CommonConstant.failed, getActivity(), message);
+                }
             }
         });
     }
