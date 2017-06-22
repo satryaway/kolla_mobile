@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/user_image_iv"
+        android:layout_width="@dimen/friend_thumb_size"
+        android:layout_height="@dimen/friend_thumb_size"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/dummy_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/friend_thumb_size"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/user_image_iv"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
+            tools:text="Satria Agung" />
+
+        <TextView
+            android:id="@+id/user_job_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxLines="1"
+            android:textColor="@color/secondary_text"
+            tools:text="Project Manager" />
+
+        <TextView
+            android:id="@+id/user_company_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textColor="@color/secondary_text"
+            tools:text="Jixstreet, inc" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package com.jixstreet.kolla.profile.event;
+package com.jixstreet.kolla.profile.following;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,14 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.event.Event;
-import com.jixstreet.kolla.event.EventDetailActivity;
-import com.jixstreet.kolla.event.EventDetailActivity_;
-import com.jixstreet.kolla.event.EventListAdapter;
-import com.jixstreet.kolla.event.EventView;
 import com.jixstreet.kolla.model.BookedEvent;
+import com.jixstreet.kolla.model.FollowedUser;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
-import com.jixstreet.kolla.utility.ActivityUtils;
+import com.jixstreet.kolla.user.OnUserSelectedListener;
+import com.jixstreet.kolla.user.UserListAdapter;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -34,9 +32,12 @@ import java.util.List;
  * satryaway@gmail.com
  */
 
-@EFragment(R.layout.fragment_booked_event)
-public class BookedEventFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
-        EventView.OnEventSelectedListener {
+@EFragment(R.layout.fragment_following)
+public class FollowingFragment extends Fragment implements OnUserSelectedListener,
+        SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String USER = "user";
+
 
     private static final int OFFSET = 10;
     private static final int STARTING_PAGE_INDEX = 1;
@@ -49,41 +50,41 @@ public class BookedEventFragment extends Fragment implements SwipeRefreshLayout.
     protected SwipeRefreshLayout refreshWrapper;
 
     private EndlessRecyclerViewScrollListener scrollListener;
-    private EventListAdapter eventListAdapter;
-    private BookedEventJson bookedEventJson;
-    private OnGetBookedEventListener onGetBookedEventListener;
+    private UserListAdapter adapter;
+    private FollowedUserJson followedUserJson;
 
-    public static BookedEventFragment newInstance(UserData userData) {
+    public static FollowingFragment newInstance(UserData userData) {
         Bundle args = new Bundle();
-        args.putString(EVENT, CastUtils.toString(userData));
-        BookedEventFragment fragment = new BookedEventFragment_();
+        args.putString(USER, CastUtils.toString(userData));
+        FollowingFragment fragment = new FollowingFragment_();
         fragment.setArguments(args);
         return fragment;
     }
 
     @AfterViews
     protected void onViewsCreated() {
-        UserData userData = CastUtils.fromString(getArguments().getString(EVENT), UserData.class);
+        UserData userData = CastUtils.fromString(getArguments().getString(USER), UserData.class);
         if (userData != null) {
-            bookedEventJson = new BookedEventJson(getContext(), userData.id);
+            followedUserJson = new FollowedUserJson(getContext(), userData.id);
             initAdapter();
             getData(STARTING_PAGE_INDEX);
         }
     }
 
     private void initAdapter() {
-        eventListAdapter = new EventListAdapter(getActivity());
-        eventListAdapter.setOnEventSelectedListener(this);
+        adapter = new UserListAdapter(getActivity());
+        adapter.setOnUserSelectedListener(this);
         LinearLayoutManager layoutManager = ViewUtils.getLayoutManager(getActivity(), true);
         scrollListener = getScrollListener(layoutManager, OFFSET);
         refreshWrapper.setOnRefreshListener(this);
+        ViewUtils.setRecyclerViewDivider(listRv, layoutManager);
 
         listRv.setClipToPadding(true);
         listRv.setLayoutManager(layoutManager);
         listRv.setItemAnimator(new DefaultItemAnimator());
         listRv.addOnScrollListener(scrollListener);
 
-        listRv.setAdapter(eventListAdapter);
+        listRv.setAdapter(adapter);
     }
 
     private EndlessRecyclerViewScrollListener getScrollListener(LinearLayoutManager layoutManager, int offset) {
@@ -96,15 +97,15 @@ public class BookedEventFragment extends Fragment implements SwipeRefreshLayout.
     }
 
     private void getData(final int page) {
-        BookedEventJson.Request request = new BookedEventJson.Request();
+        FollowedUserJson.Request request = new FollowedUserJson.Request();
         request.page = String.valueOf(page);
-        bookedEventJson.get(request, new OnGetBookedEvent() {
+        followedUserJson.get(request, new OnGetFollowedUser() {
             @Override
-            public void onSuccess(BookedEventJson.Response response) {
+            public void onSuccess(FollowedUserJson.Response response) {
                 if (page == 1)
-                    onGetBookedEventListener.onGetBookedEvent(response.data.total);
+                    onGetFollowedUserDone.OnGetFollowedUser(response.data.total);
                 refreshWrapper.setRefreshing(false);
-                eventListAdapter.addItems(getEvents(response.data.data));
+                adapter.addItems(getUsers(response.data.data));
             }
 
             @Override
@@ -117,35 +118,34 @@ public class BookedEventFragment extends Fragment implements SwipeRefreshLayout.
         });
     }
 
-    private List<Event> getEvents(List<BookedEvent> data) {
-        List<Event> eventList = new ArrayList<>();
-        for (BookedEvent bookedEvent : data) {
-            eventList.add(bookedEvent.event);
+    private List<UserData> getUsers(List<FollowedUser> data) {
+        List<UserData> list = new ArrayList<>();
+        for (FollowedUser followedUser: data) {
+            list.add(followedUser.followed_user);
         }
 
-        return eventList;
+        return list;
     }
 
     @Override
     public void onRefresh() {
         scrollListener.resetStateWithParams(STARTING_PAGE_INDEX);
-        eventListAdapter.clearList();
+        adapter.clearList();
         scrollListener.initScroll(listRv);
         getData(STARTING_PAGE_INDEX);
     }
 
     @Override
-    public void onClick(Event event) {
-        event.isActive = false;
-        ActivityUtils.startActivityWParamAndWait(getActivity(), EventDetailActivity_.class,
-                Event.paramKey, event, EventDetailActivity.requestCode);
+    public void onClick(UserData userData) {
     }
 
-    public interface OnGetBookedEventListener {
-        void onGetBookedEvent(String total);
+    private OnGetFollowedUserDone onGetFollowedUserDone;
+
+    public interface OnGetFollowedUserDone{
+        void OnGetFollowedUser(String total);
     }
 
-    public void setOnGetBookedEventListener(OnGetBookedEventListener onGetBookedEventListener) {
-        this.onGetBookedEventListener = onGetBookedEventListener;
+    public void setOnGetFollowedUserDone(OnGetFollowedUserDone onGetFollowedUserDone) {
+        this.onGetFollowedUserDone = onGetFollowedUserDone;
     }
 }

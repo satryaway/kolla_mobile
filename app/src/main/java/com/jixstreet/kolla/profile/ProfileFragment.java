@@ -16,6 +16,7 @@ import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.profile.booking.BookedRoomFragment;
 import com.jixstreet.kolla.profile.detail.ProfileDetailFragment;
 import com.jixstreet.kolla.profile.event.BookedEventFragment;
+import com.jixstreet.kolla.profile.following.FollowingFragment;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
 
@@ -32,9 +33,10 @@ import java.util.List;
  */
 @EFragment(R.layout.fragment_profile)
 public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGetBookedRoomDoneListener,
-        BookedEventFragment.OnGetBookedEventListener{
+        BookedEventFragment.OnGetBookedEventListener, FollowingFragment.OnGetFollowedUserDone{
     private static final int BOOKING_SECTION = 1;
     private static final int EVENT_SECTION = 2;
+    private static final int FOLLOWING_SECTION = 3;
     @ViewById(R.id.tabs)
     protected TabLayout tabs;
 
@@ -59,6 +61,7 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
     private UserData userData;
     private BookedRoomFragment bookedRoomFragment;
     private BookedEventFragment bookedEventFragment;
+    private FollowingFragment followedUserFragment;
 
     public static ProfileFragment newInstance() {
         Bundle args = new Bundle();
@@ -87,6 +90,9 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
 
         bookedEventFragment = BookedEventFragment.newInstance(userData);
         bookedEventFragment.setOnGetBookedEventListener(this);
+
+        followedUserFragment = FollowingFragment.newInstance(userData);
+        followedUserFragment.setOnGetFollowedUserDone(this);
     }
 
     private void setupViewPager() {
@@ -94,7 +100,7 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
         adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
         adapter.addFragment(bookedRoomFragment, getString(R.string.booking));
         adapter.addFragment(bookedEventFragment, getString(R.string.events));
-        adapter.addFragment(ProfileDetailFragment.newInstance(userData), getString(R.string.detail));
+        adapter.addFragment(followedUserFragment, getString(R.string.following));
 
         viewPager.setOffscreenPageLimit(adapter.mFragmentList.size());
         viewPager.setAdapter(adapter);
@@ -115,6 +121,13 @@ public class ProfileFragment extends Fragment implements BookedRoomFragment.OnGe
             tabs.getTabAt(EVENT_SECTION).setText(getString(R.string.event_s, total));
         }
         ViewUtils.setTextView(eventCountTv, total);
+    }
+
+    @Override
+    public void OnGetFollowedUser(String total) {
+        if (tabs != null) {
+            tabs.getTabAt(FOLLOWING_SECTION).setText(getString(R.string.following_s, total));
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
