@@ -86,7 +86,8 @@ public class ProfileDetailFragment extends Fragment {
     }
 
     private void setCredit() {
-        ViewUtils.setTextView(creditCountTv, userData.credit.main_credit);
+        if (userData.credit != null)
+            ViewUtils.setTextView(creditCountTv, userData.credit.main_credit);
     }
 
     private void getProfile() {

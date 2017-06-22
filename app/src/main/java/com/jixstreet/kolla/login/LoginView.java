@@ -7,10 +7,12 @@ import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jixstreet.kolla.BuildConfig;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.MainActivity_;
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.intro.IntroView;
+import com.jixstreet.kolla.prefs.CPrefs;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -38,14 +40,17 @@ public class LoginView extends IntroView {
 
     private LoginJson loginJson;
     private FacebookLoginJson facebookLoginJson;
+    private Context context;
 
     public LoginView(Context context) {
         super(context);
+        this.context = context;
         init(context);
     }
 
     public LoginView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init(context);
     }
 
@@ -89,6 +94,10 @@ public class LoginView extends IntroView {
         FacebookLoginJson.Request request = new FacebookLoginJson.Request();
         request.email = object.optString("email");
         request.user_token = token;
+        request.device_token = CPrefs.read(context, CommonConstant.DEVICE_TOKEN_KEY, String.class);
+        request.device_platform = BuildConfig.PLATFORM_NAME;
+        request.device_version = BuildConfig.VERSION_NAME;
+
         facebookLoginJson.post(request, new FacebookLoginJson.OnFacebookLogin() {
             @Override
             public void onSuccess(FacebookLoginJson.Response response) {
@@ -136,6 +145,9 @@ public class LoginView extends IntroView {
             LoginJson.Request request = new LoginJson.Request();
             request.email = emailEt.getText().toString();
             request.password = passwordEt.getText().toString();
+            request.device_token = CPrefs.read(context, CommonConstant.DEVICE_TOKEN_KEY, String.class);
+            request.device_platform = BuildConfig.PLATFORM_NAME;
+            request.device_version = BuildConfig.VERSION_NAME;
 
             loginJson.post(request, onLogin);
         }

@@ -2,6 +2,9 @@ package com.jixstreet.kolla.fcm;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.jixstreet.kolla.CommonConstant;
+import com.jixstreet.kolla.KollaApplication;
+import com.jixstreet.kolla.prefs.CPrefs;
 import com.jixstreet.kolla.utility.Log;
 
 /**
@@ -19,6 +22,8 @@ public class FirebaseInstance extends FirebaseInstanceIdService {
 
         //Displaying token on logcat
         Log.d(TAG, "Refreshed token: " + refreshedToken);
+        CPrefs.write(KollaApplication.getContext(), CommonConstant.DEVICE_TOKEN_KEY,
+                refreshedToken, String.class);
     }
 
     private void sendRegistrationToServer(String token) {

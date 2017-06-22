@@ -1,6 +1,7 @@
 package com.jixstreet.kolla;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.appevents.AppEventsLogger;
@@ -14,6 +15,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class KollaApplication extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,7 +27,12 @@ public class KollaApplication extends Application {
             return;
         }
 
+        context = this;
         AppEventsLogger.activateApp(this);
         LeakCanary.install(this);
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

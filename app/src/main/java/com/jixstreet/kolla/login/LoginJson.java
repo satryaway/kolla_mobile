@@ -44,12 +44,18 @@ public class LoginJson extends ModelJson {
     public static class Request extends DefaultRequest {
         public String email;
         public String password;
+        public String device_token;
+        public String device_version;
+        public String device_platform;
 
         @Override
         public ArrayList<Pair<String, String>> getParams() {
             ArrayList<Pair<String, String>> params = new ArrayList<>();
             params.add(new Pair<>("email", email));
             params.add(new Pair<>("password", password));
+            params.add(new Pair<>("device_token", device_token));
+            params.add(new Pair<>("device_version", device_version));
+            params.add(new Pair<>("device_platform", device_platform));
             return params;
         }
     }
