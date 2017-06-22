@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.dialog.PopUpDialog;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.ImageUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -36,6 +37,9 @@ public class UserPopUpDialog extends LinearLayout implements PopUpDialog.Inflate
     @ViewById(R.id.company_tv)
     protected TextView companyTv;
 
+    @ViewById(R.id.follow_tv)
+    protected TextView followTv;
+
     private final Context context;
     private UserData userData;
     private OnUserPopupClickListener onUserPopupClickListener;
@@ -55,6 +59,7 @@ public class UserPopUpDialog extends LinearLayout implements PopUpDialog.Inflate
         ViewUtils.setTextView(nameTv, userData.name);
         ViewUtils.setTextView(jobTv, userData.job_title);
         ViewUtils.setTextView(companyTv, userData.company);
+        ViewUtils.setTextView(followTv, context.getString(userData.is_followed ? R.string.unfollow : R.string.follow));
     }
 
     @Click(R.id.view_profile_tv)
@@ -65,6 +70,10 @@ public class UserPopUpDialog extends LinearLayout implements PopUpDialog.Inflate
     @Click(R.id.follow_tv)
     protected void followUser() {
         onUserPopupClickListener.onFollow(userData);
+    }
+
+    public void setOnUserPopupClickListener(OnUserPopupClickListener onUserPopupClickListener) {
+        this.onUserPopupClickListener = onUserPopupClickListener;
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.event.EventListAdapter;
 import com.jixstreet.kolla.model.UserData;
 
 import java.util.ArrayList;
@@ -65,6 +66,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         }
     }
 
+    @Override
+    public void onViewDetachedFromWindow(UserViewHolder holder) {
+        holder.getView().clearAnimation();
+    }
 
     public void setOnUserSelectedListener(OnUserSelectedListener onUserSelectedListener) {
         this.onUserSelectedListener = onUserSelectedListener;

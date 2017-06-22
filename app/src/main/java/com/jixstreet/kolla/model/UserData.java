@@ -28,6 +28,8 @@ public class UserData {
     public String created_at;
     public String updated_at;
     public String deleted_at;
+    public boolean is_followed;
+
     public String full_name;
     public Balance credit;
 }

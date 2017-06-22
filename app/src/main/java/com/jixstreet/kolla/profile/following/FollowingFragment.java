@@ -9,13 +9,14 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
-import com.jixstreet.kolla.event.Event;
-import com.jixstreet.kolla.model.BookedEvent;
+import com.jixstreet.kolla.dialog.PopUpDialog;
 import com.jixstreet.kolla.model.FollowedUser;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.user.OnUserSelectedListener;
 import com.jixstreet.kolla.user.UserListAdapter;
+import com.jixstreet.kolla.user.UserPopUpDialog;
+import com.jixstreet.kolla.user.UserPopUpDialog_;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -34,7 +35,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_following)
 public class FollowingFragment extends Fragment implements OnUserSelectedListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, UserPopUpDialog.OnUserPopupClickListener {
 
     private static final String USER = "user";
 
@@ -52,6 +53,8 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
     private EndlessRecyclerViewScrollListener scrollListener;
     private UserListAdapter adapter;
     private FollowedUserJson followedUserJson;
+    private UserPopUpDialog userPopUpDialog;
+    private PopUpDialog popUpDialog;
 
     public static FollowingFragment newInstance(UserData userData) {
         Bundle args = new Bundle();
@@ -120,7 +123,7 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
 
     private List<UserData> getUsers(List<FollowedUser> data) {
         List<UserData> list = new ArrayList<>();
-        for (FollowedUser followedUser: data) {
+        for (FollowedUser followedUser : data) {
             list.add(followedUser.followed_user);
         }
 
@@ -137,15 +140,40 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
 
     @Override
     public void onClick(UserData userData) {
+        if (userPopUpDialog != null) userPopUpDialog.removeAllViews();
+
+        userPopUpDialog = UserPopUpDialog_.build(getActivity());
+        userPopUpDialog.setUserData(userData);
+        userPopUpDialog.setOnUserPopupClickListener(this);
+
+        popUpDialog = new PopUpDialog(userPopUpDialog);
+        popUpDialog.show();
     }
 
     private OnGetFollowedUserDone onGetFollowedUserDone;
 
-    public interface OnGetFollowedUserDone{
+    @Override
+    public void onViewProfile(UserData userData) {
+
+    }
+
+    @Override
+    public void onFollow(UserData userData) {
+
+    }
+
+    public interface OnGetFollowedUserDone {
         void OnGetFollowedUser(String total);
     }
 
     public void setOnGetFollowedUserDone(OnGetFollowedUserDone onGetFollowedUserDone) {
         this.onGetFollowedUserDone = onGetFollowedUserDone;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (popUpDialog != null)
+            popUpDialog.dismiss();
     }
 }
