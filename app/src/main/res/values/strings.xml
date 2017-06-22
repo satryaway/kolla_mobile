@@ -182,4 +182,8 @@
     <string name="view_profile">View Profile</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="booked_space">Booked Space</string>
+    <string name="booked_event">Booked Event</string>
+    <string name="booked_space_s">Booked Space (%s)</string>
+    <string name="booked_event_s">Booked Event (%s)</string>
 </resources>

@@ -13,6 +13,7 @@ import com.jixstreet.kolla.parent.ModelJson;
 
 public class UserData {
     public static String PrefKey = UserData.class.getName().concat("1");
+    public static String paramKey = UserData.class.getName().concat("2");
 
     public String id;
     public String name;

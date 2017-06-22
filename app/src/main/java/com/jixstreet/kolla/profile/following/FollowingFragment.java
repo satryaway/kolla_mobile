@@ -12,11 +12,14 @@ import com.jixstreet.kolla.R;
 import com.jixstreet.kolla.dialog.PopUpDialog;
 import com.jixstreet.kolla.model.FollowedUser;
 import com.jixstreet.kolla.model.UserData;
+import com.jixstreet.kolla.profile.ProfileActivity;
+import com.jixstreet.kolla.profile.ProfileActivity_;
 import com.jixstreet.kolla.tools.EndlessRecyclerViewScrollListener;
 import com.jixstreet.kolla.user.OnUserSelectedListener;
 import com.jixstreet.kolla.user.UserListAdapter;
 import com.jixstreet.kolla.user.UserPopUpDialog;
 import com.jixstreet.kolla.user.UserPopUpDialog_;
+import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
 import com.jixstreet.kolla.utility.ViewUtils;
@@ -38,7 +41,6 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
         SwipeRefreshLayout.OnRefreshListener, UserPopUpDialog.OnUserPopupClickListener {
 
     private static final String USER = "user";
-
 
     private static final int OFFSET = 10;
     private static final int STARTING_PAGE_INDEX = 1;
@@ -154,12 +156,14 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
 
     @Override
     public void onViewProfile(UserData userData) {
-
+        dismissDialog();
+        ActivityUtils.startActivityWParamAndWait(getActivity(), ProfileActivity_.class,
+                UserData.paramKey, userData, ProfileActivity.requestCode);
     }
 
     @Override
     public void onFollow(UserData userData) {
-
+        dismissDialog();
     }
 
     public interface OnGetFollowedUserDone {
@@ -170,10 +174,14 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
         this.onGetFollowedUserDone = onGetFollowedUserDone;
     }
 
+    private void dismissDialog() {
+        if (popUpDialog != null)
+            popUpDialog.dismiss();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (popUpDialog != null)
-            popUpDialog.dismiss();
+        dismissDialog();
     }
 }

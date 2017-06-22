@@ -2,10 +2,14 @@ package com.jixstreet.kolla.profile.detail;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.login.LoginJson;
 import com.jixstreet.kolla.model.UserData;
 import com.jixstreet.kolla.utility.CastUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -35,9 +39,16 @@ public class ProfileDetailFragment extends Fragment {
     @ViewById(R.id.company_tv)
     protected TextView companyTv;
 
+    @ViewById(R.id.action_tv)
+    protected TextView actionTv;
+
+    @ViewById(R.id.credit_wrapper)
+    protected LinearLayout creditWrapper;
+
     private static final String PROFILE = "profile";
     private UserData userData;
     private GetProfileJson getProfileJson;
+    private boolean isCurrentUser;
 
     public static ProfileDetailFragment newInstance(UserData userData) {
         Bundle args = new Bundle();
@@ -58,9 +69,20 @@ public class ProfileDetailFragment extends Fragment {
     }
 
     private void setValue() {
+        UserData currentUser = LoginJson.Response.getUserData(getActivity());
+        isCurrentUser = currentUser.id.equals(userData.id);
+
         ViewUtils.setTextView(emailTv, userData.email);
         ViewUtils.setTextView(phoneTv, userData.phone_no);
         ViewUtils.setTextView(companyTv, userData.company);
+
+        if (currentUser.id.equals(userData.id)) {
+            ViewUtils.setTextView(actionTv, getString(R.string.edit_profile));
+            ViewUtils.setVisibility(creditWrapper, View.VISIBLE);
+        } else {
+            ViewUtils.setVisibility(creditWrapper, View.GONE);
+            ViewUtils.setTextView(actionTv, getString(userData.is_followed ? R.string.unfollow : R.string.follow));
+        }
     }
 
     private void setCredit() {
