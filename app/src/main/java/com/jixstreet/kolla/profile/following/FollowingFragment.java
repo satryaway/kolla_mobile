@@ -163,7 +163,7 @@ public class FollowingFragment extends Fragment implements OnUserSelectedListene
 
     @Override
     public void onFollow(UserData userData) {
-        dismissDialog();
+        //dismissDialog();
     }
 
     public interface OnGetFollowedUserDone {

@@ -34,9 +34,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.jixstreet.kolla.CommonConstant;
 import com.jixstreet.kolla.R;
+import com.jixstreet.kolla.dialog.PopUpDialog;
 import com.jixstreet.kolla.friend.FriendThumbListAdapter;
 import com.jixstreet.kolla.friend.FriendThumbView;
 import com.jixstreet.kolla.model.UserData;
+import com.jixstreet.kolla.profile.ProfileActivity;
+import com.jixstreet.kolla.profile.ProfileActivity_;
+import com.jixstreet.kolla.user.UserPopUpDialog;
+import com.jixstreet.kolla.user.UserPopUpDialog_;
 import com.jixstreet.kolla.utility.ActivityUtils;
 import com.jixstreet.kolla.utility.DateUtils;
 import com.jixstreet.kolla.utility.DialogUtils;
@@ -55,7 +60,7 @@ import java.util.List;
 
 @EActivity(R.layout.activity_event_detail)
 public class EventDetailActivity extends AppCompatActivity
-        implements FriendThumbView.OnThumbClickListener {
+        implements FriendThumbView.OnThumbClickListener, UserPopUpDialog.OnUserPopupClickListener {
 
     public static int requestCode = ActivityUtils.getRequestCode(EventDetailActivity.class, "1");
 
@@ -123,6 +128,8 @@ public class EventDetailActivity extends AppCompatActivity
     private Event event;
     private EventDetailJson eventDetailJson;
     private GoogleMap googleMap;
+    private UserPopUpDialog userPopUpDialog;
+    private PopUpDialog popUpDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -337,6 +344,14 @@ public class EventDetailActivity extends AppCompatActivity
 
     @Override
     public void onClick(UserData friend) {
+        if (userPopUpDialog != null) userPopUpDialog.removeAllViews();
+
+        userPopUpDialog = UserPopUpDialog_.build(this);
+        userPopUpDialog.setUserData(friend);
+        userPopUpDialog.setOnUserPopupClickListener(this);
+
+        popUpDialog = new PopUpDialog(userPopUpDialog);
+        popUpDialog.show();
     }
 
     @Click(R.id.expand_iv)
@@ -388,4 +403,20 @@ public class EventDetailActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onViewProfile(UserData userData) {
+        dismissDialog();
+        ActivityUtils.startActivityWParamAndWait(this, ProfileActivity_.class,
+                UserData.paramKey, userData, ProfileActivity.requestCode);
+    }
+
+    @Override
+    public void onFollow(UserData userData) {
+
+    }
+
+    private void dismissDialog() {
+        if (popUpDialog != null)
+            popUpDialog.dismiss();
+    }
 }

@@ -65,6 +65,7 @@
                             android:id="@+id/space_count_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/default_number"
                             android:textSize="@dimen/massive_text"
                             android:textStyle="bold"
                             tools:text="10" />
@@ -89,6 +90,7 @@
                             android:id="@+id/event_count_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/default_number"
                             android:textSize="@dimen/massive_text"
                             android:textStyle="bold"
                             tools:text="1k" />

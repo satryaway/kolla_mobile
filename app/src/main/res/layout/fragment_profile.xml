@@ -67,6 +67,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/massive_text"
                             android:textStyle="bold"
+                            android:text="@string/default_number"
                             tools:text="10" />
 
                         <TextView
@@ -91,6 +92,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/massive_text"
                             android:textStyle="bold"
+                            android:text="@string/default_number"
                             tools:text="1k" />
 
                         <TextView

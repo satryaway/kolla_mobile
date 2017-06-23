@@ -186,4 +186,5 @@
     <string name="booked_event">Booked Event</string>
     <string name="booked_space_s">Booked Space (%s)</string>
     <string name="booked_event_s">Booked Event (%s)</string>
+    <string name="default_number">0</string>
 </resources>
